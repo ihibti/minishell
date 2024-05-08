@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/08 15:07:24 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/08 23:11:15 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 int	ft_occur(char *str, char c)
 {
-	int i = 0;
-	int count;
+	int	i;
+	int	count;
+
+	i = 0;
 	if (!str)
 		return (0);
-    while(str[i])
-    {
-        if (str[i] == c)
-            count++;
-        i++;
-    }
-    return (count);
+	while (str[i])
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
 }
 
+char	*quote_tok(void)
