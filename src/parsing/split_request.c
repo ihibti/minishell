@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/07 12:45:29 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/07 16:15:36 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@
 
 
 */
+int	ft_isspace(char c)
+{
+	if (c == ' ')
+		return (1);
+	if (c == '\t')
+		return (1);
+	if (c == 0)
+		return (-1);
+	return (0);
+}
 
 char	*ft_strlimdup(char *str, int lim)
 {
@@ -39,8 +49,27 @@ char	*ft_strlimdup(char *str, int lim)
 	return (ret);
 }
 
+char *req_limit(char *str)
+{
+    
+}
+
 t_cmds	*split_token(char *request)
 {
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (request[i])
+	{
+        
+		while (ft_isspace(request[i]) == 0)
+            i++;
+        if (!request[i])
+            break;
+        i++;
+	}
 }
 
 t_cmds	*ft_new_tcmd(char *str, int code)
