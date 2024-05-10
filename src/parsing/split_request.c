@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/10 17:14:01 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/10 18:38:59 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 
 
 */
+
+// fonction pour identifer les separateurs;
+// 1 pour un separateur 0 pour le reste
 int	ft_isspace(char c)
 {
 	if (c == ' ')
@@ -35,6 +38,8 @@ int	ft_isspace(char c)
 		return (-1);
 	return (0);
 }
+
+// fonction similaire a dup mais a une limite pour simplifier le parsing
 
 char	*ft_strlimdup(char *str, int lim)
 {
@@ -49,7 +54,10 @@ char	*ft_strlimdup(char *str, int lim)
 	return (ret);
 }
 
-// fonction principal
+// fonction principale qui va prendre le resulat de readline
+// et va commencer le lexing
+// retourne un liste de t_cmd
+// retourne null si erreur
 
 t_cmds	**split_token(char *request)
 {
@@ -57,14 +65,38 @@ t_cmds	**split_token(char *request)
 	int		j;
 	t_cmds	**ret;
 
-	ret = NULL;
+	i = 0;
+	j = 0;
+	ret = malloc(sizeof(t_cmds));
+	*ret = NULL;
 	while (request[i])
 	{
-        // j = new_tabt        
+		while (ft_isspace(request[i]) && request[i])
+			i++;
+		while (!ft_isspace(request[i + j]) && request[i + j])
+		{
+			if (request[i + j] == '\'' || request[i + j] == '"')
+			{
+				j = 1 + ft_pos_c(request + i + j + 1, request[i + j]);
+				break ;
+			}
+			j++;
+		}
+		ret = ft_last_tcmd(ft_strlimdup(request + i, j), 0, ret);
+		if (!ret)
+			return (NULL);
+		if (j > 0)
+		{
+			i += j + 1;
+			j = 0;
+		}
+		else
+			i++;
 	}
+	return (ret);
 }
 
-//fonction qui va creer un nouveau token avec le string et le code correspondant
+// fonction qui va creer un nouveau token avec le string et le code correspondant
 // si erreur retourn null
 
 t_cmds	*ft_new_tcmd(char *str, int code)
@@ -80,15 +112,15 @@ t_cmds	*ft_new_tcmd(char *str, int code)
 		return (free(new), NULL);
 	new->next = NULL;
 	new->prev = NULL;
+	return (new);
 }
-
 
 // fonction qui va prendre un char * et un int et qui va ajouter
 // a la fin de la liste le nouveau token correspondant
-//si erreur  ou pointeur vide retourne null;
+// si erreur  ou pointeur vide retourne null;
 // si liste vide va creer nouvelle
 
-t_cmds	*ft_last_tcmd(char *str, int code, t_cmds **list_cmd)
+t_cmds	**ft_last_tcmd(char *str, int code, t_cmds **list_cmd)
 {
 	t_cmds	*current;
 	t_cmds	*new;
@@ -110,5 +142,5 @@ t_cmds	*ft_last_tcmd(char *str, int code, t_cmds **list_cmd)
 		current = current->next;
 	current->next = new;
 	new->prev = current;
-    
+	return (list_cmd);
 }
