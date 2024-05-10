@@ -1,6 +1,7 @@
 NAME = minishell
 
-SRCS = src/main.c src/parsing/syntax.c 
+SRCS = src/main.c src/parsing/syntax.c src/parsing/split_request.c \
+	   src/utils.c 
 
 OBJS = $(SRCS:.c=.o)
 

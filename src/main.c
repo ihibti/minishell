@@ -6,13 +6,15 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/06 17:33:50 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/09 21:38:39 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../minishell.h"
 
-int main(int ac, char **av, char **env)
+int main(int ac, char **av)
 {
+    (void)ac;
+
     
 }

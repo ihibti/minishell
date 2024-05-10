@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/08 23:09:41 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:14:01 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,23 @@ char	*ft_strlimdup(char *str, int lim)
 	return (ret);
 }
 
-t_cmds	*split_token(char *request)
-{
-	int	i;
-	int	j;
+// fonction principal
 
-	i = 0;
-	j = 0;
-    
-        
+t_cmds	**split_token(char *request)
+{
+	int		i;
+	int		j;
+	t_cmds	**ret;
+
+	ret = NULL;
+	while (request[i])
+	{
+        // j = new_tabt        
+	}
 }
+
+//fonction qui va creer un nouveau token avec le string et le code correspondant
+// si erreur retourn null
 
 t_cmds	*ft_new_tcmd(char *str, int code)
 {
@@ -74,6 +81,34 @@ t_cmds	*ft_new_tcmd(char *str, int code)
 	new->next = NULL;
 	new->prev = NULL;
 }
-t_cmds	*ft_last_tcmd(char *str, int code)
+
+
+// fonction qui va prendre un char * et un int et qui va ajouter
+// a la fin de la liste le nouveau token correspondant
+//si erreur  ou pointeur vide retourne null;
+// si liste vide va creer nouvelle
+
+t_cmds	*ft_last_tcmd(char *str, int code, t_cmds **list_cmd)
 {
+	t_cmds	*current;
+	t_cmds	*new;
+
+	current = NULL;
+	new = NULL;
+	if (!list_cmd)
+		return (NULL);
+	if (!*list_cmd)
+	{
+		*list_cmd = ft_new_tcmd(str, code);
+		return (list_cmd);
+	}
+	new = ft_new_tcmd(str, code);
+	if (!new)
+		return (NULL);
+	current = *list_cmd;
+	while (current->next)
+		current = current->next;
+	current->next = new;
+	new->prev = current;
+    
 }
