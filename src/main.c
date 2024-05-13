@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/10 18:19:37 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:37:04 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	main(int ac, char **av)
 	current = *ret;
 	while (current)
 	{
-		printf("token code :%d\nchar : %s\n_________\n", current->code_id,
-			current->name);
+		printf("char :%s\n_________\n", current->name);
 		current = current->next;
 	}
 	return (0);

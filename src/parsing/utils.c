@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/10 18:35:53 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:09:50 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ char	*quote_tok(char *str, int *ind, char quote)
 
 // retourne la premiere occurence d un
 // char dans une string
-// -1 si erreur
+// -2 si erreur -1 si pas trouve
 int	ft_pos_c(char *str, char c)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (!str)
-		return (-1);
+		return (-2);
 	while (str[i])
 	{
 		if (str[i] == c)
@@ -70,4 +71,38 @@ int	ft_pos_c(char *str, char c)
 		i++;
 	}
 	return (-1);
+}
+
+void	pers_free(void *ptr)
+{
+	if (ptr)
+		free(ptr);
+}
+
+char	*end_quote(char *str, char c)
+{
+	int		i;
+	int		j;
+	int		count;
+	char	*ret;
+
+	ret = malloc(ft_strlen(str) + 1);
+	if (!str || !ret)
+		return (pers_free(ret), NULL);
+	i = 0;
+	j = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			count++;
+		ret[j++] = str[i];
+		if (count == 2)
+		{
+			ret[j] = 0;
+			return (ret);
+		}
+		i++;
+	}
+	return (pers_free(ret), NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/10 18:38:59 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:22:39 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*ft_strlimdup(char *str, int lim)
 {
 	char	*ret;
 
+	if (!str || !str[0])
+		return (NULL);
 	ret = ft_strdup(str);
 	if (!str)
 		return (NULL);
@@ -69,29 +71,35 @@ t_cmds	**split_token(char *request)
 	j = 0;
 	ret = malloc(sizeof(t_cmds));
 	*ret = NULL;
+	if (syn_err(request) == 1)
+		return (NULL);
 	while (request[i])
 	{
 		while (ft_isspace(request[i]) && request[i])
 			i++;
+		if (!request[i])
+			return (ret);
 		while (!ft_isspace(request[i + j]) && request[i + j])
 		{
 			if (request[i + j] == '\'' || request[i + j] == '"')
 			{
-				j = 1 + ft_pos_c(request + i + j + 1, request[i + j]);
+				ret = ft_last_tcmd(end_quote(request + i, request[i + j]), 0,
+						ret);
+				i += j + ft_pos_c(request + i + j + 1, request[i + j]) + 1;
+				j = 0;
 				break ;
 			}
 			j++;
 		}
-		ret = ft_last_tcmd(ft_strlimdup(request + i, j), 0, ret);
-		if (!ret)
-			return (NULL);
-		if (j > 0)
+		if (j > 0 && request[i])
 		{
-			i += j + 1;
+			ret = ft_last_tcmd(ft_strlimdup(request + i, j + 1), 0, ret);
+			i += j;
 			j = 0;
 		}
-		else
-			i++;
+		if (!ret)
+			return (NULL);
+		i++;
 	}
 	return (ret);
 }

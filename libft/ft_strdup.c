@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:34:09 by ihibti            #+#    #+#             */
-/*   Updated: 2023/11/17 15:45:11 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/10 23:34:51 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *str)
 	char	*ptr;
 
 	i = 0;
+	if (!str || !str[i])
+		return (NULL);
 	while (str[i])
 		i++;
 	ptr = malloc((i + 1) * sizeof(char));

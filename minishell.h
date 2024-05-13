@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/10 18:36:04 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/13 19:41:10 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+#define WORD 9
+# define PIPE_N 10
+# define REDIR_IN 11
+# define REDIR_OUT 12
+# define HEREDOC_IN 13
+# define REDIR_APP 14
+# define SIN_QUOTE 20
+# define DOUB_QUOTE 21
 
 typedef struct s_cmds
 {
@@ -50,4 +59,9 @@ t_cmds				**ft_last_tcmd(char *str, int code, t_cmds **list_cmd);
 int					non_print(char *str);
 t_cmds				**split_token(char *request);
 int					ft_pos_c(char *str, char c);
+char				*end_quote(char *str, char c);
+int					is_not_word(char *str);
+int					syn_err(char *str);
+int					open_quote(char *str);
+
 #endif
