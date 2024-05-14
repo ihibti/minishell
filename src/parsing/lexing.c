@@ -6,11 +6,11 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:03:59 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/13 19:42:45 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:12:14 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 // debut de la fonction qui va servir a attribuer
 // un code token a chaque t_cmd
@@ -20,12 +20,14 @@ int	code_attr(t_cmds **cmds)
 	t_cmds	*current;
 
 	if (!cmds)
-		return (0);
+		return (-1);
 	current = *cmds;
 	while (current)
 	{
 		current->code_id = code_lex(current->name);
+		current = current->next;
 	}
+	return (0);
 }
 
 int	code_lex(char *str)
@@ -35,11 +37,11 @@ int	code_lex(char *str)
 	i = 0;
 	if (!str)
 		return (-1);
-    if (type_quote(str))
-        return(WORD);
-    if (meta_type(str))
-        return (meta_type(str));
-    
+	if (type_quote(str))
+		return (WORD);
+	if (meta_type(str))
+		return (meta_type(str));
+	return (WORD);
 }
 
 // fonction qui retourne 1 si le mot est entierement

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/13 19:41:10 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/14 21:10:44 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-#define WORD 9
+# define WORD 9
 # define PIPE_N 10
 # define REDIR_IN 11
 # define REDIR_OUT 12
@@ -53,6 +53,7 @@ typedef struct s_ori
 }					t_ori;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
+int					code_attr(t_cmds **cmds);
 int					ft_occur(char *str, char c);
 char				*ft_strlimdup(char *str, int lim);
 t_cmds				**ft_last_tcmd(char *str, int code, t_cmds **list_cmd);
@@ -63,5 +64,9 @@ char				*end_quote(char *str, char c);
 int					is_not_word(char *str);
 int					syn_err(char *str);
 int					open_quote(char *str);
+int					code_lex(char *str);
+int					is_not_word(char *str);
+int					meta_type(char *str);
+int					type_quote(char *str);
 
 #endif
