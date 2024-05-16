@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/14 21:10:44 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/16 20:56:32 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,17 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 }					t_cmds;
 
-typedef struct s_env
+typedef struct s_envp
 {
-	char			*env;
-	struct s_env	*prev;
-	struct s_env	*next;
-
-}					t_env;
+	char			*tab;
+	// Tableau de str contenant le nom et la valeur de chaque variable d'environnement
+	struct s_envp	*next;
+}					t_envp;
 
 typedef struct s_ori
 {
 	t_cmds			*cmds;
-	t_env			*envs;
+	t_envp			*envs;
 	char			*request;
 }					t_ori;
 
