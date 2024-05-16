@@ -6,13 +6,13 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/14 21:18:55 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/15 17:57:52 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	main(int ac, char **av)
+int	main(int ac, char **av,char **env)
 {
 	t_cmds **ret;
 	t_cmds *current;
@@ -33,5 +33,6 @@ int	main(int ac, char **av)
 		printf("code : %d\n_________\n", current->code_id);
 		current = current->next;
 	}
+    
 	return (0);
 }
