@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/18 21:14:21 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:28:59 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	open_quote(char *str)
 		{
 			flag = 1;
 			quote = str[i];
-			while (str[i] != quote && str[i])
+			i++;
+			while ((str[i] != quote) && str[i])
 				i++;
 		}
 		if (!str[i])

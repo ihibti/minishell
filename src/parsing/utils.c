@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/20 14:02:03 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:47:52 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,29 @@ char	*end_quote(char *str, char c)
 		i++;
 	}
 	return (pers_free(ret), NULL);
+}
+
+int	go_last_lex(char *str, int i, int j)
+{
+	while (str[i + j] && !ft_isspace(str[i + j]))
+	{
+		if (str[i + j] == '\'' || str[i + j] == '"')
+		{
+			j = n_end_quote(str, i, j);
+			return (j);
+		}
+		j++;
+	}
+	return (j);
+}
+
+int	n_end_quote(char *str, int i, int j)
+{
+	char c;
+
+	c = str[i + j];
+	j++;
+	while (str[i + j] && str[i + j] != c)
+		j++;
+	return (j);
 }

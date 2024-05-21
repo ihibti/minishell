@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/20 20:00:16 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/21 21:04:59 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ int					expanding(t_cmds **cmds, t_envp **lst);
 int					nb_expand(t_cmds *cmd);
 int					exp_exception(char *str);
 int					replace_exp(t_cmds *cmd, t_envp **lst);
-char				*new_expanded(char *str, char *ptr, int i, t_envp *match);
+char				*new_expanded(char *str, char *ptr, t_envp *match);
 char				*nomatch(char *ptr, char *str);
+void				reset_sp_tok(int *i, int *j);
+int					skip_spcaes(int *i, char *request);
+int					n_end_quote(char *str, int i, int j);
+int					ft_isspace(char c);
+int					go_last_lex(char *str, int i, int j);
+void				init_0(int *i, int *j);
 #endif

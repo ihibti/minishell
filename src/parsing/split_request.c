@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/21 19:16:18 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:48:58 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,11 @@ t_cmds	**split_token(char *request)
 		return (NULL);
 	while (request[i])
 	{
-		while (ft_isspace(request[i]) && request[i])
-			i++;
-		if (!request[i])
+		if (skip_spcaes(&i, request) == -1)
 			return (ret);
-		while (!ft_isspace(request[i + j]) && request[i + j])
-		{
-			if (request[i + j] == '\'' || request[i + j] == '"')
-			{
-				ret = ft_last_tcmd(end_quote(request + i, request[i + j]), 0,
-						ret);
-				i += j + ft_pos_c(request + i + j + 1, request[i + j]) + 1;
-				j = 0;
-				break ;
-			}
-			j++;
-		}
-		if (j > 0 && request[i])
-		{
-			ret = ft_last_tcmd(ft_strlimdup(request + i, j + 1), 0, ret);
-			i += j;
-			j = 0;
-		}
+		j = go_last_lex(request, i, j);
+		ret = ft_last_tcmd(ft_strlimdup(request + i, j + 1), 0, ret);
+		reset_sp_tok(&i, &j);
 		if (!ret)
 			return (NULL);
 		i++;
@@ -110,6 +93,14 @@ void	reset_sp_tok(int *i, int *j)
 	*j = 0;
 }
 
+int	skip_spcaes(int *i, char *request)
+{
+	while (ft_isspace(request[*i]) && request[*i])
+		*i += 1;
+	if (!request[*i])
+		return (-1);
+	return (1);
+}
 // fonction qui va creer un nouveau token avec le string et le code correspondant
 // si erreur retourn null
 

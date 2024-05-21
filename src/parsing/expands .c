@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/21 18:24:52 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 00:55:46 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	expanding(t_cmds **cmds, t_envp **lst)
 			{
 				flag = 0;
 				replace_exp(current, lst);
+				if (!current->name)
+					return (-1);
 			}
 			current = current->next;
 		}
@@ -97,13 +99,9 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 	str = cmd->name;
 	while (str[i])
 	{
-		if (str[i] == '$')
-		{
-			cmd->name = new_expanded(str, str + i, i, env_match(str + i + 1,
-						lst));
-			printf("%s\n", cmd->name);
-			return (1);
-		}
+		if (str[i] == '$' && is_lim_exp(str[i + 1]) == 0)
+			return (cmd->name = new_expanded(str, str + i, env_match(str + i
+						+ 1, lst)), 1);
 		if (str[i] == '\'' && cmd->code_id != DOUB_QUOTE)
 		{
 			i++;
@@ -118,30 +116,43 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 	return (1);
 }
 
-char	*new_expanded(char *str, char *ptr, int i, t_envp *match)
+void	cp_exp_beg(char **str, char **ret, int *j)
+{
+	int		i;
+	char	*sstr;
+	char	*rret;
+
+	i = *j;
+	sstr = *str;
+	rret = *ret;
+	while (sstr[i] && sstr[i] != '$')
+	{
+		rret[i] = sstr[i];
+		i++;
+	}
+	*j = i;
+}
+
+char	*new_expanded(char *str, char *ptr, t_envp *match)
 {
 	char	*ret;
 	char	*cp;
 	int		j;
 	int		k;
 
-	j = 0;
-	k = 0;
+	init_0(&j, &k);
 	if (!str || !ptr)
 		return (NULL);
-	if (is_lim_exp(str[i + 1]) == 1)
-		return (str);
 	if (!match)
 		return (nomatch(ptr, str));
 	ret = malloc(ft_strlen(str) + ft_strlen(match->value) + 1);
-	while (str[j] && str[j] != '$')
-	{
-		ret[j] = str[j];
-		j++;
-	}
+	if (!ret)
+		return (NULL);
+	cp_exp_beg(&str, &ret, &j);
 	cp = match->value;
 	while (cp[k])
 		ret[j++] = cp[k++];
+	ptr++;
 	while (*ptr && is_lim_exp(*ptr) == 0)
 		ptr++;
 	while (*ptr)
@@ -160,6 +171,7 @@ char	*nomatch(char *ptr, char *str)
 
 	i = 0;
 	j = 0;
+	ptr++;
 	while (ptr[i] && !is_lim_exp(ptr[i]))
 		i++;
 	while (ptr[i])
