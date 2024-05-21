@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/14 21:16:56 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:16:18 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmds	**split_token(char *request)
 	j = 0;
 	ret = malloc(sizeof(t_cmds));
 	*ret = NULL;
-	if (syn_err(request) == 1)
+	if (syn_err(request) == 1 || !ret)
 		return (NULL);
 	while (request[i])
 	{
@@ -102,6 +102,12 @@ t_cmds	**split_token(char *request)
 		i++;
 	}
 	return (ret);
+}
+
+void	reset_sp_tok(int *i, int *j)
+{
+	*i += *j;
+	*j = 0;
 }
 
 // fonction qui va creer un nouveau token avec le string et le code correspondant

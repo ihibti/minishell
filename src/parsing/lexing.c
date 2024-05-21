@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:03:59 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/14 21:12:14 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/20 21:24:13 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	code_lex(char *str)
 	if (!str)
 		return (-1);
 	if (type_quote(str))
-		return (WORD);
+		return (type_quote(str));
 	if (meta_type(str))
 		return (meta_type(str));
 	return (WORD);
@@ -87,9 +87,9 @@ int	type_quote(char *str)
 {
 	if (!str)
 		return (-1);
-	if (str[0] == '\'')
+	if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'')
 		return (SIN_QUOTE);
-	if (str[0] == '"')
+	if (str[0] == '"' && str[ft_strlen(str) - 1] == '"')
 		return (DOUB_QUOTE);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/16 20:55:28 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/20 19:02:26 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ int	main(int ac, char **av, char **env)
 {
 	t_cmds **ret;
 	t_cmds *current;
-	int flag = -1;
 
 	(void)ac;
 	(void)av;
 	char *cpy;
 	cpy = readline("test");
 	ret = split_token(cpy);
-	flag = code_attr(ret);
-	if (!ret || flag == -1)
+	code_attr(ret);
+	if (!ret)
 		return (printf("porblemooo\n"), 1);
 	current = *ret;
 	while (current)
@@ -33,12 +32,18 @@ int	main(int ac, char **av, char **env)
 		printf("code : %d\n_________\n", current->code_id);
 		current = current->next;
 	}
-	flag = 0;
-	while (env[flag])
+
+	t_envp **lst;
+	lst = lst_env(env);
+    expanding(ret,lst);
+    current = *ret;
+    while (current)
 	{
-		printf("%s\n___________|\n", env[flag]);
-		flag++;
+		printf("char :%s\n", current->name);
+		printf("code : %d\n_________\n", current->code_id);
+		current = current->next;
 	}
+	
 
 	return (0);
 }

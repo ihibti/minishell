@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/13 19:29:02 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/18 21:14:21 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ int	syn_err(char *str)
 	int	i;
 
 	i = 0;
-	if (ft_occur(str, '"') % 2 != 0)
-		return (1);
-	if (ft_occur(str, '\'') % 2 != 0)
-		return (1);
 	if (non_print(str) == 1)
 		return (1);
 	if (open_quote(str) == 1)
