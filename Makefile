@@ -15,7 +15,7 @@ $(NAME): $(OBJ) libft/libft.a
 	@echo "\033[0;33m\nMaking[...]\n\n" 
 	@$(CC) $(CFLAG) -o $@ $^ $(LIBS) $(LDFLAG)
 	@echo "\033[0;32m\nREADY TO EXECUTE!\n"
-	@echo "\033[0;90m\n...created by chanypar\n"
+	@echo "\033[0;90m\n...created by chanypar & ihibti\n"
 
 libft/libft.a:
 	@make -C libft

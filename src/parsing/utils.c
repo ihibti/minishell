@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 16:34:28 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 20:00:00 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,11 @@ int	n_end_quote(char *str, int i, int j)
 
 void	free_tcmd(t_cmds **cmds)
 {
+	t_cmds	*current;
+	t_cmds	*tmp;
+
 	if (!cmds)
 		return ;
-	t_cmds *current;
-	t_cmds *tmp;
 	if (!*cmds)
 	{
 		free(cmds);

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:19:16 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/20 19:17:31 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 19:59:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ t_envp	**add_envplast(t_envp **ret, char *str)
 
 void	*free_envp(t_envp **lst)
 {
-	t_envp *current;
-	t_envp *tmp;
+	t_envp	*current;
+	t_envp	*tmp;
+
 	if (!lst)
 		return (NULL);
 	if (!*lst)
