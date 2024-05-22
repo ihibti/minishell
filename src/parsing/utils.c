@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 16:07:28 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:34:28 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	free_tcmd(t_cmds **cmds)
 	{
 		tmp = current->next;
 		free(current->name);
+		free(current);
 		current = tmp;
 	}
 	free(cmds);
