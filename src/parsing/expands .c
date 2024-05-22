@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 00:55:46 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:28:46 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 		if (str[i] == '$' && is_lim_exp(str[i + 1]) == 0)
 			return (cmd->name = new_expanded(str, str + i, env_match(str + i
 						+ 1, lst)), 1);
-		if (str[i] == '\'' && cmd->code_id != DOUB_QUOTE)
+		if (str[i] == '\'' && interpret(str, str + i) == 1)
 		{
 			i++;
 			while (str[i] && str[i] != '\'')
@@ -161,21 +161,24 @@ char	*new_expanded(char *str, char *ptr, t_envp *match)
 		ptr++;
 	}
 	ret[j] = 0;
+	free(str);
 	return (ret);
 }
 
 char	*nomatch(char *ptr, char *str)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	*new;
 
+	new = ptr;
 	i = 0;
 	j = 0;
 	ptr++;
 	while (ptr[i] && !is_lim_exp(ptr[i]))
 		i++;
 	while (ptr[i])
-		ptr[j++] = ptr[i++];
-	ptr[j] = 0;
+		new[j++] = ptr[i++];
+	new[j] = 0;
 	return (str);
 }

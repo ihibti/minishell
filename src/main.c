@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 13:12:52 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:08:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int ac, char **av, char **env)
 	t_cmds **ret;
 	t_cmds *current;
 	t_envp **lst;
+	char *visualiser;
 
 	(void)ac;
 	(void)av;
@@ -33,6 +34,7 @@ int	main(int ac, char **av, char **env)
 		current = *ret;
 		while (current)
 		{
+			visualiser = current->name;
 			printf("char :%s\n", current->name);
 			printf("code : %d\n_________\n", current->code_id);
 			current = current->next;
@@ -42,10 +44,13 @@ int	main(int ac, char **av, char **env)
 		current = *ret;
 		while (current)
 		{
+			visualiser = current->name;
 			printf("char :%s\n", current->name);
 			printf("code : %d\n_________\n", current->code_id);
 			current = current->next;
 		}
+		free_envp(lst);
+		free_tcmd(ret);
 	}
 
 	return (0);

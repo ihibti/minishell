@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:03:59 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/20 21:24:13 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 15:37:45 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,15 @@ int	is_not_word(char *str)
 // metacharactere -1 si erreur
 int	meta_type(char *str)
 {
-	if (ft_strncmp(str, "|", 1) == 0)
+	if (ft_strncmp(str, "|", 1) == 0 && ft_strlen(str) == 1)
 		return (PIPE_N);
-	if (ft_strncmp(str, "<", 1) == 0)
+	if (ft_strncmp(str, "<", 1) == 0 && ft_strlen(str) == 1)
 		return (REDIR_IN);
-	if (ft_strncmp(str, ">", 1) == 0)
+	if (ft_strncmp(str, ">", 1) == 0 && ft_strlen(str) == 1)
 		return (REDIR_OUT);
-	if (ft_strncmp(str, "<<", 1) == 0)
+	if (ft_strlen(str) == 2 && ft_strncmp(str, "<<", 2) == 0)
 		return (HEREDOC_IN);
-	if (ft_strncmp(str, ">>", 1) == 0)
+	if (ft_strlen(str) == 2 && ft_strncmp(str, ">>", 2) == 0)
 		return (REDIR_APP);
 	return (0);
 }

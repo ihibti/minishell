@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/21 19:47:52 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:07:28 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	go_last_lex(char *str, int i, int j)
 	{
 		if (str[i + j] == '\'' || str[i + j] == '"')
 		{
-			j = n_end_quote(str, i, j);
+			j = n_end_quote(str, i, j) + 1;
 			return (j);
 		}
 		j++;
@@ -123,11 +123,32 @@ int	go_last_lex(char *str, int i, int j)
 
 int	n_end_quote(char *str, int i, int j)
 {
-	char c;
+	char	c;
 
 	c = str[i + j];
 	j++;
 	while (str[i + j] && str[i + j] != c)
 		j++;
 	return (j);
+}
+
+void	free_tcmd(t_cmds **cmds)
+{
+	if (!cmds)
+		return ;
+	t_cmds *current;
+	t_cmds *tmp;
+	if (!*cmds)
+	{
+		free(cmds);
+		return ;
+	}
+	current = *cmds;
+	while (current)
+	{
+		tmp = current->next;
+		free(current->name);
+		current = tmp;
+	}
+	free(cmds);
 }

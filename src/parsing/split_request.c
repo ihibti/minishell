@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/21 19:48:58 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:13:01 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 
 
 */
-
 // fonction pour identifer les separateurs;
 // 1 pour un separateur 0 pour le reste
 int	ft_isspace(char c)
@@ -78,10 +77,12 @@ t_cmds	**split_token(char *request)
 		if (skip_spcaes(&i, request) == -1)
 			return (ret);
 		j = go_last_lex(request, i, j);
-		ret = ft_last_tcmd(ft_strlimdup(request + i, j + 1), 0, ret);
+		ret = ft_last_tcmd(ft_strlimdup(request + i, j), 0, ret);
 		reset_sp_tok(&i, &j);
 		if (!ret)
-			return (NULL);
+			return (free_tcmd(ret), NULL);
+		if (!request[i])
+			return (ret);
 		i++;
 	}
 	return (ret);
@@ -112,7 +113,7 @@ t_cmds	*ft_new_tcmd(char *str, int code)
 	if (!new)
 		return (NULL);
 	new->code_id = code;
-	new->name = ft_strdup(str);
+	new->name = str;
 	if (!(new->name))
 		return (free(new), NULL);
 	new->next = NULL;
@@ -147,5 +148,6 @@ t_cmds	**ft_last_tcmd(char *str, int code, t_cmds **list_cmd)
 		current = current->next;
 	current->next = new;
 	new->prev = current;
+	new->next = NULL;
 	return (list_cmd);
 }

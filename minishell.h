@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/21 21:04:59 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 16:07:41 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,6 @@ int					n_end_quote(char *str, int i, int j);
 int					ft_isspace(char c);
 int					go_last_lex(char *str, int i, int j);
 void				init_0(int *i, int *j);
+int					interpret(char *str, char *ptr);
+void				free_tcmd(t_cmds **cmds);
 #endif

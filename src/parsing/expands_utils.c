@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 00:39:46 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 14:45:45 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,18 @@ void	init_0(int *i, int *j)
 	*i = 0;
 	if (j)
 		*j = 0;
+}
+
+int	interpret(char *str, char *ptr)
+{
+	int i = 0;
+	int flag = 1;
+
+	while (str[i] && str + i != ptr)
+	{
+		if (str[i] == '"')
+			flag = -flag;
+		i++;
+	}
+	return (flag);
 }
