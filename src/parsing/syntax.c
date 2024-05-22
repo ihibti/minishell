@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/21 19:28:59 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/22 20:17:54 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,18 @@ int	non_print(char *str)
 		return (1);
 	while (str[i])
 	{
-		if (ft_isprint(str[i]) == 0)
+		if (ft_isalnum(str[i]) == 0)
+		{
+			if (str[i] == '_' || str[i] == '\'' || str[i] == '"')
+				return (0);
+			if (str[i] == '$' || str[i] == ' ' || str[i] == '?')
+				return (0);
+			if (str[i] == '<' || str[i] == '>' || str[i] == '|')
+				return (0);
+			if (str[i] == '-')
+				return (0);
 			return (1);
+		}
 		i++;
 	}
 	return (0);
