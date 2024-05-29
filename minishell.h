@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 16:07:41 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/28 15:41:56 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define SIN_QUOTE 20
 # define DOUB_QUOTE 21
 # define TOKEN_EX_STT 22
+
 
 typedef struct s_cmds
 {
@@ -90,4 +91,9 @@ int					go_last_lex(char *str, int i, int j);
 void				init_0(int *i, int *j);
 int					interpret(char *str, char *ptr);
 void				free_tcmd(t_cmds **cmds);
+int					replace_quote(t_cmds *t_cmds);
+t_cmds				**pptreatment(t_cmds **cmds);
+int					ft_cd(t_cmds *cmd, t_envp **lst);
+int					update_env(t_envp **lst, char *key, char *n_value);
+
 #endif

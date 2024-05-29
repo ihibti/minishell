@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2023/12/29 12:30:32 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/25 20:28:55 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ void				put_unsigned(unsigned int number, int *count);
 void				put_uint(uint64_t number, int *count);
 int					print_ptr(void *ptr);
 void				init_printf(int *i, int *len);
+int					ft_strcmp(const char *first, const char *second);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 45
 # endif
-
 
 char				*distrib(char *ret, char *reste, char *acquired);
 char				*re_alloc(char *ret, char *acquired);

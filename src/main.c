@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 16:08:09 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/25 20:38:12 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_cmds **ret;
-	t_cmds *current;
-	t_envp **lst;
-	char *visualiser;
+	t_cmds	**ret;
+	t_cmds	*current;
+	t_envp	**lst;
+	char	*visualiser;
+	char	*cpy;
 
 	(void)ac;
 	(void)av;
-	char *cpy;
 	while (1)
 	{
 		cpy = readline("minishell: ");
@@ -49,9 +49,19 @@ int	main(int ac, char **av, char **env)
 			printf("code : %d\n_________\n", current->code_id);
 			current = current->next;
 		}
+		ret = pptreatment(ret);
+		current = *ret;
+		while (current)
+		{
+			visualiser = current->name;
+			if (ft_strncmp(current->name, "cd", 2) == 0)
+				ft_cd(current, lst);
+			printf("char :%s\n", current->name);
+			printf("code : %d\n_________\n", current->code_id);
+			current = current->next;
+		}
 		free_envp(lst);
 		free_tcmd(ret);
 	}
-
 	return (0);
 }
