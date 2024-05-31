@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 16:07:41 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:23:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,9 @@ int					go_last_lex(char *str, int i, int j);
 void				init_0(int *i, int *j);
 int					interpret(char *str, char *ptr);
 void				free_tcmd(t_cmds **cmds);
+int					replace_quote(t_cmds *cmds);
+int					update_env(t_envp **lst, char *key, char *n_value);
+int					ft_cd(t_cmds *cmd, t_envp **lst);
+int					ft_echo(t_cmds *cmd);
+int					check_builtins(t_cmds **ret, t_envp **lst);
 #endif

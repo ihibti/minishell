@@ -5,7 +5,8 @@ LDFLAG = -lreadline -lncurses
 LIBS = -Llibft -lft
 
 SRC = src/parsing/env.c src/parsing/expands.c src/parsing/expands_utils.c src/parsing/utils.c\
-	src/parsing/lexing.c src/parsing/split_request.c src/parsing/syntax.c src/main.c 
+	src/parsing/lexing.c src/parsing/split_request.c src/parsing/syntax.c src/main.c src/parsing/post_parsing.c\
+	src/builtins/ft_cd.c  src/builtins/ft_echo.c src/builtins/built_utils.c src/builtins/check_builtins.c
 
 OBJ = $(SRC:.c=.o)
 
