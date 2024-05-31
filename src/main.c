@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/25 20:38:12 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/31 01:24:42 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ int	main(int ac, char **av, char **env)
 	{
 		cpy = readline("minishell: ");
 		if (!cpy || ft_strncmp(cpy, "q", 1) == 0)
-			break ;
+		{
+			free(cpy);
+			return (0);
+		}
 		ret = split_token(cpy);
+		free(cpy);
 		code_attr(ret);
 		if (!ret)
 			return (printf("porblemooo\n"), 1);

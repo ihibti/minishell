@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/28 15:41:56 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/30 20:13:47 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <errno.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -30,6 +31,9 @@
 # define DOUB_QUOTE 21
 # define TOKEN_EX_STT 22
 
+// besoin d ajouter une fonction simiaire a open;
+// mais qui va ajouter le file descriptor a une liste de tous les fd a close
+//
 
 typedef struct s_cmds
 {
@@ -46,6 +50,7 @@ typedef struct s_envp
 	// Tableau de str contenant le nom et la valeur de chaque variable d'environnement
 	struct s_envp	*next;
 	struct s_envp	*prev;
+	int				unset;
 }					t_envp;
 
 typedef struct s_ori
