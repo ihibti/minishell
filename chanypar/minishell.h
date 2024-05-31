@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/31 15:23:01 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:56:13 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ typedef struct s_ori
 	char			*request;
 }					t_ori;
 
+typedef struct s_file
+{
+	int					fd;
+	char				file_name[30];
+	struct s_file		*next;
+	struct s_file		*prev;
+}					t_file;
+
 t_cmds				*ft_new_tcmd(char *str, int code);
 int					code_attr(t_cmds **cmds);
 int					ft_occur(char *str, char c);
@@ -91,6 +99,7 @@ int					go_last_lex(char *str, int i, int j);
 void				init_0(int *i, int *j);
 int					interpret(char *str, char *ptr);
 void				free_tcmd(t_cmds **cmds);
+t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_cd(t_cmds *cmd, t_envp **lst);

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 20:06:52 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/24 16:19:16 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	exp_exception(char *str)
 			count++;
 		if (str[i] == '\'')
 		{
+			i++;
 			while (str[i] != '\'' && str[i])
 				i++;
 			if (!str[i])

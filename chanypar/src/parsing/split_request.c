@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 16:13:01 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/05/29 16:29:38 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_isspace(char c)
 {
 	if (c == ' ')
 		return (1);
-	if (c == '\t')
+	if (c == '\t' || c == '\n')
 		return (1);
 	if (c == 0)
 		return (-1);
@@ -83,6 +83,8 @@ t_cmds	**split_token(char *request)
 			return (free_tcmd(ret), NULL);
 		if (!request[i])
 			return (ret);
+		if (!ft_isspace(request[i]))
+			i--;
 		i++;
 	}
 	return (ret);

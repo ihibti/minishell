@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/31 15:25:32 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/05/31 16:35:01 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_echo(t_cmds *cmd)
 		flag = 0;
 	while (current)
 	{
-		printf("%s", current->name);
+		printf("%s\n", current->name);
 		current = current->next;
 	}
 	if (flag == 1)

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/31 15:23:55 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:13:33 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,18 @@ void	history(char *str)
 			printf("%d: %s\n", i + 1, his_list[i]->line);
 	}
 }
-char	*join_string(char *str, t_cmds **ret)
+char	*join_string(char *str, t_cmds **ret, int flag)
 {
 	char	*temp;
 
 	temp = NULL;
-	temp = ft_strjoin(str, " ");
-	free(str);
-	str = ft_strdup(temp);
-	free(temp);
+	if (flag)
+	{
+		temp = ft_strjoin(str, " ");
+		free(str);
+		str = ft_strdup(temp);
+		free(temp);
+	}
 	temp = ft_strjoin(str,(*ret)->name);
 	free(str);
 	str = ft_strdup(temp);
@@ -62,6 +65,7 @@ void	print_terminal(t_cmds **ret)
 	t_cmds	*current;
 	char *str;
 	int	i;
+	int flag;
 	int	len;
 
 	i = 0;
@@ -73,7 +77,8 @@ void	print_terminal(t_cmds **ret)
 		if (!i)
 			ft_strlcpy(str, (*ret)->name, len + 1);
 		else
-			str = join_string(str, ret);
+			str = join_string(str, ret, flag);
+		flag = len;
 		(*ret) = (*ret)->next;
 		i++;
 	}
@@ -85,8 +90,9 @@ void	print_terminal(t_cmds **ret)
 int	main(int ac, char **av, char **env)
 {
 	t_cmds **ret;
-	// t_cmds *current;
+	t_cmds *current;
 	t_envp **lst;
+	t_file **file;
 	char	*cwd;
 	char	*usr;
 	char	shell_prompt[100];
@@ -118,17 +124,17 @@ int	main(int ac, char **av, char **env)
 		code_attr(ret);
 		if (!ret)
 			return (printf("porblemooo\n"), 1);
-		// current = *ret;
+		current = *ret;
 		// while (current)
 		// {
 		// 	printf("char :%s\n", current->name);
 		// 	printf("code : %d\n_________\n", current->code_id);
 		// 	current = current->next;
 		// }
-		check_builtins(ret, lst);
 		lst = lst_env(env);
 		expanding(ret, lst);
-		// current = *ret;
+		ret = pptreatment(ret);
+		current = *ret;
 		// while (current)
 		// {	
 		// 	printf("char :%s\n", current->name);
@@ -136,7 +142,8 @@ int	main(int ac, char **av, char **env)
 		// 	current = current->next;
 		// }
 		free(cwd);
-		print_terminal(ret);
+		if (!check_builtins(ret, lst))
+			print_terminal(ret);
 		cwd = getcwd(NULL, 1024); // au cas ou le cwd a change
 		snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
 		free_envp(lst);
