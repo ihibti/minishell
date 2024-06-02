@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/31 17:56:13 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:16:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <fcntl.h>
 # include <unistd.h>
 
 # define WORD 9
@@ -105,4 +106,6 @@ int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_cd(t_cmds *cmd, t_envp **lst);
 int					ft_echo(t_cmds *cmd);
 int					check_builtins(t_cmds **ret, t_envp **lst);
+int					builtins_checker(t_cmds *current);
+t_cmds				*find_redirec(t_cmds **ret);
 #endif

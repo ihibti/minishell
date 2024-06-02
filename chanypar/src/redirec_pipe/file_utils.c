@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/05/31 18:03:37 by chanypar         ###   ########.fr       */
+/*   Created: 2024/06/01 21:23:58 by chanypar          #+#    #+#             */
+/*   Updated: 2024/06/01 21:24:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,6 @@ void	ft_del_tfile(t_file **file, int fd)
 			(*file)->next->prev = (*file)->prev;
 	}
 }
-
-int	redirec_main(t_cmds **ret, t_file **file)
-{
-	
-
-	return (0);
-}
-
 
 int	f_open(char *str, t_file **file)
 {
