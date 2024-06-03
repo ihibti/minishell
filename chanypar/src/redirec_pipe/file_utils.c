@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:23:58 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/01 21:24:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:21:15 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_del_tfile(t_file **file, int fd)
 int	f_open(char *str, t_file **file)
 {
 	int	fd;
-	fd = open(str);
+	fd = open(str,);
 	if (fd != -1)
 		ft_new_tfile(file, str, fd);
 	return (fd);

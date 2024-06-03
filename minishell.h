@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/30 20:13:47 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/03 15:04:56 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ typedef struct s_envp
 
 typedef struct s_ori
 {
-	t_cmds			*cmds;
-	t_envp			*envs;
-	char			*request;
+	t_cmds			**cmds;
+	t_envp			**envs;
 }					t_ori;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
@@ -76,6 +75,7 @@ int					code_lex(char *str);
 int					is_not_word(char *str);
 int					meta_type(char *str);
 int					type_quote(char *str);
+int					type_cmd(t_cmds *cmd);
 int					ft_tablen(char **env);
 t_envp				**add_envplast(t_envp **ret, char *str);
 void				*free_envp(t_envp **lst);
