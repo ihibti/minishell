@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/02 20:25:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:51:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ int	operation_redir_in(t_cmds *current, t_cmds **ret, t_envp **lst)
 	if (!file)
 		return (-1);
 	fd = fileno(file);
-	dup2(fd, STDOUT_FILENO);
-	execute_command(command, current->next, lst);
-	dup2(stdout_save, STDOUT_FILENO);
+	if (dup2(fd, STDOUT_FILENO) == -1)
+		return (-1);
+	execute_command(command, current->prev, lst);
+	if (dup2(stdout_save, STDOUT_FILENO) == -1)
+		return (-1);
 	fclose(file);
 }
 
@@ -42,7 +44,7 @@ int	operation_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst)
 	int		fd;
 	int		command;
 	int		stdin_save;
-	char	*content;
+	// char	*content;
 
 	command = 0;
 	command = builtins_checker(current);
@@ -51,15 +53,19 @@ int	operation_redir_out(t_cmds *current, t_cmds **ret, t_envp **lst)
 	if (!current->next && (current->next->code_id >= 10
 			&& current->next->code_id <= 14))
 		return (-1);
-	stdin_save = dup(0);
+	stdin_save = dup(STDIN_FILENO);
 	fd = open(current->next->name, O_RDONLY);
 	if (!fd)
 		return (-1);
-	content = read_file(fd);
-	dup2(fd, 0);
-	execute_command(command, current->next, lst);
-	dup2(stdin_save, 0);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (-1);
 	close(fd);
+	// content = read_file(STDIN_FILENO); 
+	free(current->next->name);
+	current->next->name = content;
+	execute_command(command, current->prev, lst);
+	if (dup2(stdin_save, STDIN_FILENO) == -1)
+		return (-1);
 }
 
 int	redirec_main(t_cmds **ret, t_file **file, t_envp **lst)

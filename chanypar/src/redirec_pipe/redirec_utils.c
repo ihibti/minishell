@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/02 18:40:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:12:51 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,16 @@ char	*read_file(int fd)
 		flag = 1;
 	}
 	return (content);
+}
+
+put_content_in_list(char *content, t_cmds *current)
+{
+	t_cmds	*temp;
+
+	temp = current;
+	temp = temp->next;
+	temp->name = content;
+	
 }
 
 void	execute_command(int i, t_cmds *cmds, t_envp **lst)
