@@ -6,19 +6,18 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/03 18:40:34 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/04 20:31:49 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_export(t_cmds *cmds, t_cmds **env,t_ori *ori)
+int	ft_export(t_cmds *cmds, t_cmds **env, t_ori *ori)
 {
 	if (!env)
 		return (1);
-    if (!cmds)
-        return(print_export(env),0);
-    
+	if (!cmds)
+		return (print_export(env), 0);
 }
 
 void	print_export(t_envp *envp)
@@ -35,3 +34,24 @@ void	print_export(t_envp *envp)
 		envp = envp->next;
 	}
 }
+// petit probleme car la fonction de base ne se
+//comporte pas comme ailleurs dans le lexing 
+// a voir 
+// int	syn_export(char *str)
+// {
+// 	if (!str)
+// 		return (NULL);
+// 	int i = 0;
+// 	while (ft_isspace(str[i]))
+// 		i++;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '=')
+// 			break ;
+// 		i++;
+// 	}
+// 	if (str[i++] != '=')
+// 		return (1);
+// 	while (str[i])
+    
+// }

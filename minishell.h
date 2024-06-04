@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/03 15:04:56 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/03 18:46:50 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_ori
 {
 	t_cmds			**cmds;
 	t_envp			**envs;
+	char			*request;
 }					t_ori;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
