@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/05 17:20:07 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/05 21:05:00 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,9 @@ int					replace_quote(t_cmds *t_cmds);
 t_cmds				**pptreatment(t_cmds **cmds);
 int					ft_cd(t_cmds *cmd, t_envp **lst);
 int					update_env(t_envp **lst, char *key, char *n_value);
+int					tok_acc(char *str);
+int					export_error(char *str);
+int					ft_export(t_cmds *cmds, t_envp **env);
+void				print_export(t_envp *envp);
 
 #endif

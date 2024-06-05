@@ -6,18 +6,26 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/04 20:31:49 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/05 21:05:52 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_export(t_cmds *cmds, t_cmds **env, t_ori *ori)
+int	ft_export(t_cmds *cmds, t_envp **env)
 {
+	char	*str;
+
 	if (!env)
 		return (1);
 	if (!cmds)
-		return (print_export(env), 0);
+		return (print_export(*env), 0);
+	str = cmds->name;
+	if (!str || !*str || export_error(str))
+		return (printf("mkshell export bad assignment\n"), 1);
+	if (!add_envplast(env, str))
+		return (-1);
+	return (0);
 }
 
 void	print_export(t_envp *envp)
@@ -34,9 +42,18 @@ void	print_export(t_envp *envp)
 		envp = envp->next;
 	}
 }
+
+int	export_error(char *str)
+{
+	if (ft_occur(str, ' ') != 0)
+		return (1);
+	if (ft_occur(str, '=') != 1)
+		return (1);
+	return (0);
+}
 // petit probleme car la fonction de base ne se
-//comporte pas comme ailleurs dans le lexing 
-// a voir 
+// comporte pas comme ailleurs dans le lexing
+// a voir
 // int	syn_export(char *str)
 // {
 // 	if (!str)
@@ -53,5 +70,5 @@ void	print_export(t_envp *envp)
 // 	if (str[i++] != '=')
 // 		return (1);
 // 	while (str[i])
-    
+
 // }
