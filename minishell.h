@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/03 18:46:50 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/05 17:20:07 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int					meta_type(char *str);
 int					type_quote(char *str);
 int					type_cmd(t_cmds *cmd);
 int					ft_tablen(char **env);
+int					is_token(char *str);
 t_envp				**add_envplast(t_envp **ret, char *str);
 void				*free_envp(t_envp **lst);
 t_envp				**lst_env(char **env);
