@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/31 17:13:33 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/13 11:33:48 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,18 @@ void	history(char *str)
 
 	i = -1;
 	add_history(str);
+	his_list = NULL;
 	his_list = history_list();
+	// int length = history_length;
+	// for(int i = 0; i < length; i++)
+	// 	his_list[i] = history_get(i + history_base);
 	if (ft_strcmp(str, "history") == 0)
 	{
 		while (his_list[++i])
 			printf("%d: %s\n", i + 1, his_list[i]->line);
 	}
 }
+
 char	*join_string(char *str, t_cmds **ret, int flag)
 {
 	char	*temp;
@@ -52,15 +57,14 @@ char	*join_string(char *str, t_cmds **ret, int flag)
 		str = ft_strdup(temp);
 		free(temp);
 	}
-	temp = ft_strjoin(str,(*ret)->name);
+	temp = ft_strjoin(str, (*ret)->name);
 	free(str);
 	str = ft_strdup(temp);
 	free(temp);
 	return (str);
 }
 
-
-void	print_terminal(t_cmds **ret)
+int	print_terminal(t_cmds **ret)
 {
 	t_cmds	*current;
 	char *str;
@@ -70,6 +74,8 @@ void	print_terminal(t_cmds **ret)
 
 	i = 0;
 	str = (char *)malloc(500);
+	if (!str)
+		return (-1);
 	current = *ret;
 	while(*ret)
 	{
@@ -85,12 +91,13 @@ void	print_terminal(t_cmds **ret)
 	*ret = current;
 	printf("%s\n", str);
 	free(str);
+	return (0);
 }
 
 int	main(int ac, char **av, char **env)
 {
 	t_cmds **ret;
-	t_cmds *current;
+	// t_cmds *current;
 	t_envp **lst;
 	t_file **file;
 	char	*cwd;
@@ -101,6 +108,10 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 
+	// (void)current;
+	file =  malloc(sizeof(t_file));
+	if (!file)
+		return (-1);
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	using_history();
@@ -118,13 +129,18 @@ int	main(int ac, char **av, char **env)
 			free(cpy);
 			break ;
 		}
+		while (!*cpy)
+		{
+			free(cpy);
+			cpy = readline(shell_prompt);	
+		}
 		ret = split_token(cpy);
 		history(cpy);
 		free(cpy);
 		code_attr(ret);
 		if (!ret)
 			return (printf("porblemooo\n"), 1);
-		current = *ret;
+		// current = *ret;
 		// while (current)
 		// {
 		// 	printf("char :%s\n", current->name);
@@ -134,7 +150,7 @@ int	main(int ac, char **av, char **env)
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		current = *ret;
+		// current = *ret;
 		// while (current)
 		// {	
 		// 	printf("char :%s\n", current->name);
@@ -142,8 +158,9 @@ int	main(int ac, char **av, char **env)
 		// 	current = current->next;
 		// }
 		free(cwd);
-		if (!check_builtins(ret, lst))
-			print_terminal(ret);
+		pipe_main(ret, lst, file);
+		// if (!check_builtins(ret, lst))
+		// 	print_terminal(ret);
 		cwd = getcwd(NULL, 1024); // au cas ou le cwd a change
 		snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
 		free_envp(lst);

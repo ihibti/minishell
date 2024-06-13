@@ -6,20 +6,52 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:25:44 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/03 11:12:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:19:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_cmds	*find_redirec(t_cmds **ret)
+int	parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst, t_file **file)
 {
-	t_cmds	*current;
+	if (current->code_id == 11)
+	{
+		if (oper_redir_in(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	else if (current->code_id == 12)
+	{
+		if (oper_redir_out(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	else if (current->code_id == 13)
+	{
+		if (oper_heredoc_in(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	else if (current->code_id == 14)
+	{
+		if (oper_redir_app(current, ret, lst, file) == -1)
+			return (-1);
+	}
+	return (0);
+}
+
+t_cmds	*find_name(t_cmds *current, char name)
+{
 	t_cmds	*null;
 
-	current = *ret;
-	while (current->next && (current->code_id >= 11 && current->code_id <= 14))
-		current = current->next;
+	if (name == 'r')
+	{
+		while (current->next && (current->code_id != 10)
+			&& (!(current->code_id >= 11 && current->code_id <= 14)))
+			current = current->next;
+	}
+	else
+	{
+		while (current->next && current->code_id != 10)
+			current = current->next;
+	}
 	if (!current->next)
 	{
 		null = malloc(sizeof(t_cmds));
@@ -35,10 +67,10 @@ t_cmds	*find_redirec(t_cmds **ret)
 int	builtins_checker(t_cmds *current)
 {
 	char	list_butilins[7][7];
-	int	i;
+	int		i;
 
-	if (!current->prev)
-		retrun (-1);
+	if (!current)
+		return (-1);
 	ft_strlcpy(list_butilins[0], "echo", 5);
 	ft_strlcpy(list_butilins[1], "cd", 3);
 	ft_strlcpy(list_butilins[2], "pwd", 4);
@@ -47,63 +79,41 @@ int	builtins_checker(t_cmds *current)
 	ft_strlcpy(list_butilins[5], "env", 4);
 	ft_strlcpy(list_butilins[6], "exit", 5);
 	i = 0;
-	while (ft_strcmp(current->prev->name, list_butilins[i]))
+	while (i < 7 && ft_strcmp(current->name, list_butilins[i]))
 		i++;
-	if (!(ft_strcmp(current->prev->name, list_butilins[i])))
+	if (!(ft_strcmp(current->name, list_butilins[i])))
 		return (i);
 	i = 0;
-	if (!current->prev->prev)
+	if (!current->prev)
 		return (-1);
-	while (ft_strcmp(current->prev->prev->name, list_butilins[i]))
+	while (i < 7 && ft_strcmp(current->prev->name, list_butilins[i]))
 		i++;
-	if (!(ft_strcmp(current->prev->prev->name, list_butilins[i])))
+	if (!(ft_strcmp(current->prev->name, list_butilins[i])))
 		return (i);
 	return (-1);
 }
 
-char	*read_file(int fd)
+int	execute_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 {
-	int		flag;
-	char	*temp;
-	char	*content;
 
-	flag = 0;
-	content = NULL;
-	temp = NULL;
-	while (temp && flag != 0)
-	{
-		temp = get_next_line(fd);
-		if (temp)
-			content = ft_strjoin(content, temp);
-		flag = 1;
-	}
-	return (content);
-}
-
-put_content_in_list(char *content, t_cmds *current)
-{
-	t_cmds	*temp;
-
-	temp = current;
-	temp = temp->next;
-	temp->name = content;
-	
-}
-
-void	execute_command(int i, t_cmds *cmds, t_envp **lst)
-{
+	(void)ret;
+	if (cmds->code_id != 9)
+		cmds = cmds->prev;
+	if (ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
+		cmds = cmds->prev;
 	if (i == 0)
 		ft_echo(cmds);
 	if (i == 1)
 		ft_cd(cmds, lst);
 	if (i == 2)
-		// pwd
+		ft_pwd(cmds, lst);
 	if (i == 3)
-		// export
+		ft_export(cmds, lst);
 	if (i == 4)
-		// unset
-	if (i == 5)
-		// env
-	if (i == 6)
-		// exit
+		ft_unset(lst);
+	// if (i == 5)
+	// 	// env
+	// if (i == 6)
+	// 	// exit
+	return (0);
 }
