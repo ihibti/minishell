@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/13 16:24:21 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:21:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define SIN_QUOTE 20
 # define DOUB_QUOTE 21
 # define TOKEN_EX_STT 22
+
+# define TEMP ".temp_heredoc.txt"
 
 typedef struct s_cmds
 {
@@ -138,7 +140,7 @@ int					f_close(int fd, t_file **file);
 int					f_close2(int fd, t_file **file, FILE *f);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
-int					read_heredoc(char *end_str, t_file **file);
+int					read_heredoc(char *end_str, t_file **file, int flag);
 int					exec_heredoc(t_file **file, int flag);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 int					*set_posit(t_cmds **ret, int num);

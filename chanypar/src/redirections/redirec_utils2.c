@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 16:38:59 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 17:01:31 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* if CTRL + C, just appear new prompt*/
 
-int	read_heredoc(char *end_str, t_file **file)
+int	read_heredoc(char *end_str, t_file **file, int flag)
 {
 	FILE	*temp;
 	int		fd;
@@ -23,13 +23,14 @@ int	read_heredoc(char *end_str, t_file **file)
 
 	i = ft_strlen(end_str);
 	end_str[i] = '\n';
-	temp = f_open2(".temp_heredoc.txt", file, 13);
+	temp = f_open2(TEMP, file, flag);
 	if (!temp)
 		return (-1);
 	fd = fileno(temp);
+	ft_strlcpy(buffer, "\0", 1);
 	while (1)
 	{
-		printf("\' ");
+		printf("-> ");
 		fgets(buffer, 1024, stdin);
 		if (ft_strncmp(buffer, end_str, i + 1) == 0)
 			break ;
@@ -46,7 +47,7 @@ int	exec_heredoc(t_file **file, int flag)
 	int		stdin_save;
 	int		fd;
 
-	temp = f_open2(".temp_heredoc.txt", file, 13);
+	temp = f_open2(TEMP, file, 13);
 	if (!temp)
 		return (-1);
 	fd = fileno(temp);
@@ -56,11 +57,14 @@ int	exec_heredoc(t_file **file, int flag)
 		stdin_save = dup(STDIN_FILENO);
 	if (dup2(fd, STDIN_FILENO) == -1)
 		return (-1);
+	(*file)->f = temp;
 	return (stdin_save);
 }
+
 int	exec(char *command, char **argv)
 {
 	int	pid;
+	// int	i;
 
 	pid = fork();
 	if (pid < 0)
@@ -68,9 +72,17 @@ int	exec(char *command, char **argv)
 	if (pid == 0)
 	{
 		execve(command, argv, NULL);
-		return (-1);
+		exit(-1);
 	}
-	wait(NULL);
+	else
+	{
+		wait(NULL);
+		free(command);
+		// i = 0;
+		// while (argv[i])
+		// 	free(argv[i++]);
+		free(argv);
+	}
 	return (0);
 }
 int exec_command(t_cmds *cmds)
@@ -81,22 +93,20 @@ int exec_command(t_cmds *cmds)
 
 	argv = NULL;
 	command = ft_strjoin("/bin/", cmds->name);
-	if (cmds->next && cmds->next->code_id == 9)
-	{
-		argv = malloc(100);
-		if (!argv)
-			return (-1);
-		i = 0;
-	}
-	else
-		i = -1;
-	while (i >= 0 && cmds && cmds->code_id == 9)
+	argv = malloc(100);
+	if (!argv)
+		return (-1);
+	i = 0;
+	while (cmds && cmds->code_id == 9)
 	{
 		argv[i++] = cmds->name;
+		if (!cmds->next || cmds->next->code_id != 9)
+			break;
 		cmds = cmds->next;
 	}
-
-	exec(command, argv);
+	argv[i] = NULL;
+	if (exec(command, argv) == -1)
+		return (-1);
 	return (0);
 }
 

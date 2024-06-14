@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:17 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/13 11:21:51 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:46:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,24 @@ int	ft_new_tfile(t_file **file, char file_name[], int fd)
 	t_file *new;
 	static int	isfirst;
 
-	if (!isfirst)
-	{
-		isfirst = 1;
-		// file =  malloc(sizeof(t_file));
-		// if (!file)
-		// 	return (-1);
-	}
 	new = malloc(sizeof(t_file));
 	if (!new)
 		return (-1);
 	new->file_name = file_name;
 	new->fd = fd;
-	new->prev = *(file);
-	if (isfirst)
+	new->f = NULL;
+	if (!isfirst)
+		new->prev = NULL;
+	else
+		new->prev = *(file);
+	if (!isfirst)
 		(*file) = new;
 	else
 		(*file)->next = new;
 	new->next = NULL;
-	if (!isfirst)
+	if (isfirst)
 		(*file) = (*file)->next;
+	isfirst++;
 	return (0);
 }
 
@@ -44,7 +42,7 @@ void	ft_del_tfile(t_file **file, int fd)
 {
 	t_file *current;
 
-	current = (*file);
+	current = *(file);
 	while ((*file)->fd != fd)
 		(*file) = (*file)->next;
 	if ((*file)->prev)
