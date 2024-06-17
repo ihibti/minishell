@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/16 22:36:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:22:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_envp
 	// Tableau de str contenant le nom et la valeur de chaque variable d'environnement
 	struct s_envp	*next;
 	struct s_envp	*prev;
+	int				unset;
 }					t_envp;
 
 typedef struct s_ori
@@ -99,6 +100,8 @@ int					is_not_word(char *str);
 int					meta_type(char *str);
 int					type_quote(char *str);
 int					ft_tablen(char **env);
+int					is_token(char *str);
+int					tok_acc(char *str);
 t_envp				**add_envplast(t_envp **ret, char *str);
 void				*free_envp(t_envp **lst);
 t_envp				**lst_env(char **env);
