@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/14 14:21:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/16 22:36:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,12 @@ typedef struct s_pipe
 {
 	struct s_file	**file;
 	struct s_cmds	**ret;
+	struct s_cmds	**ret_save;
 	struct s_envp	**lst;
 	struct s_cmds	*current;
+	int				num_pipes;
+	int				**fds;
+	int				*pids;
 }						t_pipe;
 
 
@@ -138,12 +142,16 @@ int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);
 int					f_close2(int fd, t_file **file, FILE *f);
+int					close_file(t_file **file);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
 int					read_heredoc(char *end_str, t_file **file, int flag);
 int					exec_heredoc(t_file **file, int flag);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 int					*set_posit(t_cmds **ret, int num);
-void				set_pipe(t_cmds **ret, t_envp **list, t_file **file, t_pipe *pipe);
+int					count_pipes(t_cmds **ret);
+void				set_pipe(t_cmds **ret, t_envp **list,
+						t_file **file, t_pipe *pipe);
+int					pipe_main2(t_cmds **ret, t_envp **list, t_file **file);
 
 #endif
