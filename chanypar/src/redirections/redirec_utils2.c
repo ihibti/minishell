@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 13:25:48 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:48:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	exec_heredoc(t_file **file, int flag)
 	return (stdin_save);
 }
 
-int	exec(char *command, char **argv)
+int	exec(char *command, char **argv, t_cmds **ret)
 {
 	int	pid;
-	// int	i;
+	int	status;
 
 	pid = fork();
 	if (pid < 0)
@@ -73,20 +73,19 @@ int	exec(char *command, char **argv)
 	if (pid == 0)
 	{
 		execve(command, argv, NULL);
-		exit(-1);
+		strerror(errno);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
-		wait(NULL);
+		waitpid(pid, &status, 0);
+		(*ret)->status->code = WEXITSTATUS(status);
 		free(command);
-		// i = 0;
-		// while (argv[i])
-		// 	free(argv[i++]);
 		free(argv);
 	}
 	return (0);
 }
-int exec_command(t_cmds *cmds)
+int exec_command(t_cmds *cmds, t_cmds **ret)
 {
 	char	*command;
 	char	**argv;
@@ -106,31 +105,36 @@ int exec_command(t_cmds *cmds)
 		cmds = cmds->next;
 	}
 	argv[i] = NULL;
-	if (exec(command, argv) == -1)
+	if (exec(command, argv, ret) == -1)
 		return (-1);
 	return (0);
 }
 
 int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 {
-	(void)ret;
+	t_status *status;
+
+	status = (*ret)->status;
 	if (cmds->prev && cmds->code_id != 9)
 		cmds = cmds->prev;
 	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
 		cmds = cmds->prev;
+	printf("ok2\n");
 	if (i == 0)
-		ft_echo(cmds);
+		status->code = ft_echo(cmds, ret);
 	else if (i == 1)
-		ft_cd(cmds, lst);
+		status->code = ft_cd(cmds, lst);
 	else if (i == 2)
-		ft_pwd(cmds, lst);
+		status->code = ft_pwd(cmds, lst);
 	else if (i == 3)
-		ft_export(cmds, lst);
+		status->code = ft_export(cmds, lst);
 	else if (i == 4)
-		ft_unset(lst);
+		status->code = ft_unset(lst);
+	else if (i == 6)
+		status->code = ft_exit(ret);
 	else
 	{
-		if (exec_command(cmds) == -1)
+		if (exec_command(cmds, ret) == -1)
 			return (-1);
 	}
 	return (0);
@@ -138,5 +142,3 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 
 	// if (i == 5)
 	// 	// env
-	// if (i == 6)
-	// 	// exit

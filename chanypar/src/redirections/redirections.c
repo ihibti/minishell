@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 00:10:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/17 17:45:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	redirec_main(t_pipe *pipe)
 	current = find_name(current, 'r');
 	if (!current->name)
 	{
+		printf("ok!\n");
 		free(current);
 		current = *(ret);
 		i = builtins_checker(current);
