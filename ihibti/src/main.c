@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 11:08:38 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:15:25 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	g_exit_code;
+int		g_exit_code = 0;
 
 void	sigint_handler(int sig)
 {
@@ -23,7 +23,6 @@ void	sigint_handler(int sig)
 	(void)sig;
 	cwd = getcwd(NULL, 1024);
 	usr = getenv("USER");
-
 	snprintf(shell_prompt, sizeof(shell_prompt), "%s:%s $ ", usr, cwd);
 	printf("\n%s", shell_prompt);
 }
@@ -54,19 +53,18 @@ void	set_param(int ac, char **av, t_file ***file, t_status **status)
 	(void)av;
 	*file = malloc(sizeof(t_file));
 	if (!*file)
-		exit (-1);
+		exit(-1);
 	*status = malloc(sizeof(t_status));
 	if (!*status)
 	{
 		free(*file);
-		exit (-1);
+		exit(-1);
 	}
 	(*status)->isexit = 0;
 	using_history();
 	g_exit_code = 0;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
-
 }
 
 char	*ft_readline(t_file **file)
