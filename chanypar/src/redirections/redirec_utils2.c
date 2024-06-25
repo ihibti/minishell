@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 17:48:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:58:08 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	if (pid == 0)
 	{
 		execve(command, argv, NULL);
-		strerror(errno);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -119,7 +118,6 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 		cmds = cmds->prev;
 	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
 		cmds = cmds->prev;
-	printf("ok2\n");
 	if (i == 0)
 		status->code = ft_echo(cmds, ret);
 	else if (i == 1)
@@ -130,8 +128,6 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 		status->code = ft_export(cmds, lst);
 	else if (i == 4)
 		status->code = ft_unset(lst);
-	else if (i == 6)
-		status->code = ft_exit(ret);
 	else
 	{
 		if (exec_command(cmds, ret) == -1)
@@ -142,3 +138,5 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 
 	// if (i == 5)
 	// 	// env
+	// if (i == 6)
+	// 	// exit

@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errno_message.c                                    :+:      :+:    :+:   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/17 14:31:45 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/17 14:40:20 by chanypar         ###   ########.fr       */
+/*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
+/*   Updated: 2024/06/25 10:54:32 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-int	errno_message(int i)
+void	check_exit_code(t_status *status, int exit_code)
 {
-	return (-1);
+	if (exit_code == 0)
+		return ;
+	if (status->isexit)
+		exit(exit_code);
 }
+

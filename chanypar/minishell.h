@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/17 17:47:56 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:52:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ typedef struct s_pipe
 
 typedef struct s_status
 {
-	char	error_m[100];
+	// char	error_m[100];
 	int		code;
+	int		isexit;
 }					t_status;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
@@ -136,7 +137,6 @@ int					ft_echo(t_cmds *cmd, t_cmds **ret);
 int					ft_pwd(t_cmds *cmd, t_envp **lst);
 int					ft_unset(t_envp **lst);
 int					ft_export(t_cmds *cmds, t_envp **env);
-int					ft_exit(t_cmds **ret);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);
 t_cmds				*find_name(t_cmds *current, char name);
@@ -145,10 +145,14 @@ int					parsing_command(int i,
 int					redirec_main(t_pipe *pipe);
 int					parsing_redir(t_cmds *current,
 						t_cmds **ret, t_envp **lst, t_file **file);
-int					oper_redir_in(t_cmds *current, t_file **file, int flag);
-int					oper_redir_out(t_cmds *current, t_file **file, int flag);
-int					oper_heredoc_in(t_cmds *current, t_file **file, int flag);
-int					oper_redir_app(t_cmds *current, t_file **file, int flag);
+int					oper_redir_in(t_cmds *current, t_file **file,
+						int stdin_save, t_status *stat);
+int					oper_redir_out(t_cmds *current, t_file **file,
+						int stdout_save, t_status *stat);
+int					oper_heredoc_in(t_cmds *current, t_file **file,
+						int stdin_save, t_status *stat);
+int					oper_redir_app(t_cmds *current, t_file **file,
+						int stdout_save, t_status *stat);
 int					f_open(char *str, t_file **file);
 FILE				*f_open2(char *str, t_file **file, int redir);
 int					f_close(int fd, t_file **file);
@@ -165,5 +169,6 @@ int					set_command(t_cmds **ret,
 void				set_pipe(t_cmds **ret, t_envp **list,
 						t_file **file, t_pipe *pipe);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
+void				check_exit_code(t_status *status, int exit_code);
 
 #endif
