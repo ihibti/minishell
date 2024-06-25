@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/24 16:19:16 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/25 14:02:30 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	exp_exception(char *str)
 		return (-1);
 	while (str[i])
 	{
-		if (str[i] == '$' && !is_lim_exp(str[i + 1]))
+		if (str[i] == '$' && (!is_lim_exp(str[i + 1]) || str[i + 1] == '?'))
 			count++;
 		if (str[i] == '\'')
 		{
@@ -100,7 +100,7 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 	str = cmd->name;
 	while (str[i])
 	{
-		if (str[i] == '$' && is_lim_exp(str[i + 1]) == 0)
+		if (str[i] == '$' && (is_lim_exp(str[i + 1]) || str[i + 1] == '?') == 0)
 			return (cmd->name = new_expanded(str, str + i, env_match(str + i
 						+ 1, lst)), 1);
 		if (str[i] == '\'' && interpret(str, str + i) == 1)
@@ -172,6 +172,8 @@ char	*nomatch(char *ptr, char *str)
 	new = ptr;
 	i = 0;
 	j = 0;
+	if (ptr[1] == '?')
+		return (rep_ex_sig(str, ptr));
 	ptr++;
 	while (ptr[i] && !is_lim_exp(ptr[i]))
 		i++;
@@ -179,4 +181,32 @@ char	*nomatch(char *ptr, char *str)
 		new[j++] = ptr[i++];
 	new[j] = 0;
 	return (str);
+}
+
+char	*rep_ex_sig(char *str, char *ptr)
+{
+	char	*sig;
+	char	*ret;
+	int		i;
+	char	*frs;
+
+	i = 0;
+	frs = str;
+	sig = ft_itoa(g_exit_code);
+	if (!sig)
+		return (NULL);
+	ret = malloc(ft_strlen(sig) + ft_strlen(str) + 1);
+	if (!ret)
+		return (free(sig), NULL);
+	while (str != ptr)
+		ret[i++] = *str++;
+	str += 2;
+	while (*sig)
+		ret[i++] = *sig++;
+	while (*str)
+		ret[i++] = *str++;
+	ret[i] = 0;
+	free(frs);
+	free(sig);
+	return (ret);
 }
