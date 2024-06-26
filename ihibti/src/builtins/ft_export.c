@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/10 15:01:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:04:00 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_export(t_cmds *cmds, t_envp **env)
 		return (print_export(*env), 0);
 	str = cmds->name;
 	if (!str || !*str || export_error(str))
-		return (printf("mkshell export bad assignment\n"), 1);
+		return (printf("mkshell export bad assignment\n"), 0);
 	if (!add_envplast(env, str))
 		return (-1);
 	return (0);

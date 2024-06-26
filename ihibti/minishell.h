@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 13:52:26 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 16:16:32 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_cd(t_cmds *cmd, t_envp **lst);
 int					ft_echo(t_cmds *cmd, t_cmds **ret);
 int					ft_pwd(t_cmds *cmd, t_envp **lst);
-int					ft_unset(t_envp **lst);
+int					ft_unset(t_envp **lst, t_cmds *cmd);
 int					ft_export(t_cmds *cmds, t_envp **env);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);

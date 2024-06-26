@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 15:44:35 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:54:55 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ char	*rep_ex_sig(char *str, char *ptr)
 	j = 0;
 	i = 0;
 	frs = str;
-	sigar = ft_itoa(88);
+	sigar = ft_itoa(g_exit_code);
 	if (!sigar)
 		return (NULL);
 	ret = malloc(ft_strlen(sigar) + ft_strlen(str) + 1);
