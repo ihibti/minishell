@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 09:33:16 by ihibti            #+#    #+#             */
-/*   Updated: 2023/11/20 15:23:08 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:32:47 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ret_ptr(int n)
 {
 	char	*ret;
 
-	ret = malloc((n + 1) * sizeof(char));
+	ret = malloc(n + 1);
 	if (!ret)
 		return (NULL);
 	return (ret);

@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAG = -g -Wall -Wextra -Werror
+CFLAG = -g 
 LDFLAG = -lreadline -lncurses
 LIBS = -Llibft -lft
 
@@ -10,7 +10,7 @@ SRC = src/parsing/env.c src/parsing/expands.c src/parsing/expands_utils.c src/pa
 	src/builtins/ft_pwd.c src/builtins/ft_unset.c src/builtins/built_utils.c src/builtins/check_builtins.c\
 	src/redirections/redirections.c src/redirections/redirec_utils.c src/redirections/redirec_utils2.c\
 	src/redirections/redirec_utils3.c src/redirections/file_utils.c src/redirections/file_utils2.c\
-	src/pipe/pipe_utils.c src/pipe/pipe_minishell.c
+	src/pipe/pipe_utils.c src/pipe/pipe_minishell.c src/builtins/ft_env.c
 
 OBJ = $(SRC:.c=.o)
 

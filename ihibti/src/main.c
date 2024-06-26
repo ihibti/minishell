@@ -6,13 +6,13 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 14:15:25 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:51:16 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		g_exit_code = 0;
+int		g_exit_code;
 
 void	sigint_handler(int sig)
 {
@@ -103,6 +103,7 @@ int	main(int ac, char **av, char **env)
 	t_file		**file;
 	t_status	*status;
 	char		*string;
+	t_cmds		*pr_cm;
 
 	file = NULL;
 	set_param(ac, av, &file, &status);

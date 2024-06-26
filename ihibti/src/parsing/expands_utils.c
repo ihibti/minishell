@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/22 21:44:36 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:20:06 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ t_envp	*env_match(char *str, t_envp **lst)
 
 	i = 0;
 	if (!str || !str[0] || !lst)
+		return (NULL);
+	if (str[i] == '?')
 		return (NULL);
 	while (str[i] && is_lim_exp(str[i]) == 0)
 		i++;

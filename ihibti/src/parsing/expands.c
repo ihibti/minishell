@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 14:09:46 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:44:35 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 	str = cmd->name;
 	while (str[i])
 	{
-		if (str[i] == '$' && (is_lim_exp(str[i + 1]) || str[i + 1] == '?') == 0)
+		if (str[i] == '$' && ((is_lim_exp(str[i + 1]) == 0) || (str[i
+					+ 1] == '?')))
 			return (cmd->name = new_expanded(str, str + i, env_match(str + i
 						+ 1, lst)), 1);
 		if (str[i] == '\'' && interpret(str, str + i) == 1)
@@ -185,28 +186,29 @@ char	*nomatch(char *ptr, char *str)
 
 char	*rep_ex_sig(char *str, char *ptr)
 {
-	char	*sig;
+	char	*sigar;
 	char	*ret;
 	int		i;
+	int		j;
 	char	*frs;
 
+	j = 0;
 	i = 0;
 	frs = str;
-	sig = ft_itoa(0);
-	if (!sig)
+	sigar = ft_itoa(88);
+	if (!sigar)
 		return (NULL);
-	ret = malloc(ft_strlen(sig) + ft_strlen(str) + 1);
+	ret = malloc(ft_strlen(sigar) + ft_strlen(str) + 1);
 	if (!ret)
-		return (free(sig), NULL);
-	while (str != ptr)
-		ret[i++] = *str++;
-	str += 2;
-	while (*sig)
-		ret[i++] = *sig++;
-	while (*str)
-		ret[i++] = *str++;
+		return (free(sigar), NULL);
+	while (&str[j] != ptr)
+		ret[i++] = str[j++];
+	ptr += 2;
+	j = 0;
+	while (sigar[j])
+		ret[i++] = sigar[j++];
+	while (*ptr)
+		ret[i++] = *ptr++;
 	ret[i] = 0;
-	free(frs);
-	free(sig);
-	return (ret);
+	return (free(sigar), free(str), ret);
 }
