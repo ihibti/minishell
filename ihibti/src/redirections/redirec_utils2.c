@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:55:03 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 10:58:08 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:38:33 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ int	exec(char *command, char **argv, t_cmds **ret)
 	}
 	return (0);
 }
-int exec_command(t_cmds *cmds, t_cmds **ret)
+int	exec_command(t_cmds *cmds, t_cmds **ret)
 {
 	char	*command;
 	char	**argv;
-	int		i;	
+	int		i;
 
 	argv = NULL;
 	command = ft_strjoin("/bin/", cmds->name);
@@ -111,12 +111,13 @@ int exec_command(t_cmds *cmds, t_cmds **ret)
 
 int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 {
-	t_status *status;
+	t_status	*status;
 
 	status = (*ret)->status;
 	if (cmds->prev && cmds->code_id != 9)
 		cmds = cmds->prev;
-	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name, "echo") != 0)
+	if (cmds->prev && ft_strcmp(cmds->name, "cd") != 0 && ft_strcmp(cmds->name,
+			"echo") != 0)
 		cmds = cmds->prev;
 	if (i == 0)
 		status->code = ft_echo(cmds, ret);
@@ -127,7 +128,7 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 	else if (i == 3)
 		status->code = ft_export(cmds, lst);
 	else if (i == 4)
-		status->code = ft_unset(lst);
+		status->code = ft_unset(lst, cmds);
 	else
 	{
 		if (exec_command(cmds, ret) == -1)
@@ -136,7 +137,7 @@ int	parsing_command(int i, t_cmds *cmds, t_envp **lst, t_cmds **ret)
 	return (0);
 }
 
-	// if (i == 5)
-	// 	// env
-	// if (i == 6)
-	// 	// exit
+// if (i == 5)
+// 	// env
+// if (i == 6)
+// 	// exit
