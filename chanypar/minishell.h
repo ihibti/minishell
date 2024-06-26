@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/25 10:52:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:32:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,20 @@
 
 typedef struct s_cmds
 {
+	int				flag;
 	int				code_id;
 	char			*name;
 	struct s_cmds	*prev;
 	struct s_cmds	*next;
 	struct s_status	*status;
-	
+	struct s_file	**file;
 }					t_cmds;
 
 typedef struct s_envp
 {
 	char			*name;
 	char			*value;
-	// Tableau de str contenant le nom et la valeur de chaque variable d'environnement
+
 	struct s_envp	*next;
 	struct s_envp	*prev;
 	int				unset;
@@ -86,8 +87,6 @@ typedef struct s_pipe
 
 typedef struct s_status
 {
-	// char	error_m[100];
-	int		code;
 	int		isexit;
 }					t_status;
 
@@ -105,6 +104,7 @@ int					syn_err(char *str);
 int					open_quote(char *str);
 int					code_lex(char *str);
 int					is_not_word(char *str);
+char				*rep_ex_sig(char *str, char *ptr);
 int					meta_type(char *str);
 int					type_quote(char *str);
 int					ft_tablen(char **env);
@@ -135,14 +135,16 @@ int					update_env(t_envp **lst, char *key, char *n_value);
 int					ft_cd(t_cmds *cmd, t_envp **lst);
 int					ft_echo(t_cmds *cmd, t_cmds **ret);
 int					ft_pwd(t_cmds *cmd, t_envp **lst);
-int					ft_unset(t_envp **lst);
+int					ft_unset(t_envp **lst, t_cmds *cmd);
 int					ft_export(t_cmds *cmds, t_envp **env);
+int					ft_exit(t_cmds **ret);
+int					ft_env(t_envp **lst);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);
 t_cmds				*find_name(t_cmds *current, char name);
 int					parsing_command(int i,
 						t_cmds *cmds, t_envp **lst, t_cmds **ret);
-int					redirec_main(t_pipe *pipe);
+int					redirec_main(t_pipe *pipe, int flag);
 int					parsing_redir(t_cmds *current,
 						t_cmds **ret, t_envp **lst, t_file **file);
 int					oper_redir_in(t_cmds *current, t_file **file,
@@ -170,5 +172,13 @@ void				set_pipe(t_cmds **ret, t_envp **list,
 						t_file **file, t_pipe *pipe);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 void				check_exit_code(t_status *status, int exit_code);
+int					check_flag(int flag, int res);
+void				set_redir_parsing_param(int cpy_stdin_out[]);
+int					convert_code(int num);
+int					ch_err(int num, int cpy_stdin_out[]);
+int					reset_stdin_out(int copy_stdin_out[]);
+int					check_exec(char *command, int status);
+void				sigint_handler(int sig);
+int					exec_command(t_cmds *cmds, t_cmds **ret);
 
 #endif

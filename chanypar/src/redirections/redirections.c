@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 16:49:28 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/25 10:53:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:09:03 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ int	oper_redir_in(t_cmds *current,
 	fd = f_open(current->next->name, file);
 	if (fd == -1)
 	{
-		printf("no such file or directory: %s\n", current->next->name);
+		ft_putstr_fd("minishell: ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("no such file or directory: ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("Permission denied: ", 2);
+		ft_putstr_fd(current->next->name, 2);
+		ft_putstr_fd("\n", 2);
 		return (-1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
@@ -42,7 +48,16 @@ int	oper_redir_out(t_cmds *current,
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 12);
 	if (!f)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("no such file or directory: ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("Permission denied: ", 2);
+		ft_putstr_fd(current->next->name, 2);
+		ft_putstr_fd("\n", 2);
 		return (-1);
+	}
 	(*file)->f = f;
 	fd = fileno(f);
 	if (fd == -1)
@@ -84,7 +99,16 @@ int	oper_redir_app(t_cmds *current,
 		stdout_save = dup(STDOUT_FILENO);
 	f = f_open2(current->next->name, file, 14);
 	if (!f)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		if (errno == ENOENT)
+			ft_putstr_fd("no such file or directory: ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("Permission denied: ", 2);
+		ft_putstr_fd(current->next->name, 2);
+		ft_putstr_fd("\n", 2);
 		return (-1);
+	}
 	fd = fileno(f);
 	if (fd == -1)
 		return (-1);
@@ -93,7 +117,7 @@ int	oper_redir_app(t_cmds *current,
 	return (stdout_save);
 }
 
-int	redirec_main(t_pipe *pipe)
+int	redirec_main(t_pipe *pipe, int flag)
 {
 	t_cmds	*current;
 	t_cmds	**ret;
@@ -106,6 +130,7 @@ int	redirec_main(t_pipe *pipe)
 	file = pipe->file;
 	lst = pipe->lst;
 	current = *(ret);
+	(*ret)->flag = flag;
 	current = find_name(current, 'r');
 	if (!current->name)
 	{
@@ -115,8 +140,6 @@ int	redirec_main(t_pipe *pipe)
 		return (parsing_command(i, current, lst, ret));
 	}
 	i = 0;
-	if (parsing_redir(current, ret, lst, file) == -1)
-		return (-1);
-	return (0);
+	return (parsing_redir(current, ret, lst, file));
 }
 
