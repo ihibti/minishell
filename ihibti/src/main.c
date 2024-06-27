@@ -6,13 +6,13 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 15:51:16 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 21:04:19 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		g_exit_code;
+int		g_exit_code = 0;
 
 void	sigint_handler(int sig)
 {

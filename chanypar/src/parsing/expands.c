@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expands.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 20:25:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:55:37 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	g_exit_code;
 /*
 creer une fonction qui a la ide d utils
 va lire dans les double quotes et les words si il faut
