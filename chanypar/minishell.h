@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 20:32:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:41:26 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <errno.h>
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <sys/wait.h>
-# include <stdio.h>
 # include <signal.h>
+# include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
+# include <sys/wait.h>
 # include <unistd.h>
-# include <errno.h>
+# include <termcap.h>
 
 # define WORD 9
 # define PIPE_N 10
@@ -66,11 +67,11 @@ typedef struct s_ori
 
 typedef struct s_file
 {
-	int					fd;
-	FILE				*f;
-	char				*file_name;
-	struct s_file		*next;
-	struct s_file		*prev;
+	int				fd;
+	FILE			*f;
+	char			*file_name;
+	struct s_file	*next;
+	struct s_file	*prev;
 }					t_file;
 
 typedef struct s_pipe
@@ -87,7 +88,7 @@ typedef struct s_pipe
 
 typedef struct s_status
 {
-	int		isexit;
+	int				isexit;
 }					t_status;
 
 t_cmds				*ft_new_tcmd(char *str, int code);
@@ -142,11 +143,11 @@ int					ft_env(t_envp **lst);
 int					check_builtins(t_cmds **ret, t_envp **lst);
 int					builtins_checker(t_cmds *current);
 t_cmds				*find_name(t_cmds *current, char name);
-int					parsing_command(int i,
-						t_cmds *cmds, t_envp **lst, t_cmds **ret);
+int					parsing_command(int i, t_cmds *cmds, t_envp **lst,
+						t_cmds **ret);
 int					redirec_main(t_pipe *pipe, int flag);
-int					parsing_redir(t_cmds *current,
-						t_cmds **ret, t_envp **lst, t_file **file);
+int					parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst,
+						t_file **file);
 int					oper_redir_in(t_cmds *current, t_file **file,
 						int stdin_save, t_status *stat);
 int					oper_redir_out(t_cmds *current, t_file **file,
@@ -162,14 +163,15 @@ int					f_close2(int fd, t_file **file, FILE *f);
 int					close_file(t_file **file);
 int					ft_new_tfile(t_file **file, char file_name[], int fd);
 void				ft_del_tfile(t_file **file, int fd);
+int					time_w(void);
 int					read_heredoc(char *end_str, t_file **file, int flag);
 int					exec_heredoc(t_file **file, int flag);
 int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
-int					set_command(t_cmds **ret,
-						t_cmds ***new_ret, int i, int num);
-void				set_pipe(t_cmds **ret, t_envp **list,
-						t_file **file, t_pipe *pipe);
+int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
+						int num);
+void				set_pipe(t_cmds **ret, t_envp **list, t_file **file,
+						t_pipe *pipe);
 int					pipe_main(t_cmds **ret, t_envp **list, t_file **file);
 void				check_exit_code(t_status *status, int exit_code);
 int					check_flag(int flag, int res);
@@ -180,5 +182,7 @@ int					reset_stdin_out(int copy_stdin_out[]);
 int					check_exec(char *command, int status);
 void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
+
+extern int g_exit_code;
 
 #endif

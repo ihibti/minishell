@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 20:55:37 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/26 21:50:51 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,8 @@ char	*rep_ex_sig(char *str, char *ptr)
 	char	*ret;
 	int		i;
 	int		j;
-	// char	*frs;
 
+	// char	*frs;
 	j = 0;
 	i = 0;
 	// frs = str;
