@@ -6,18 +6,16 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:39:20 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 17:27:57 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:41:03 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	freeonetcmd(t_cmds *cmd, t_cmds **cmds)
+void	freeonetcmd(t_cmds *cmd)
 {
 	if (!cmd)
 		return ;
-	if (!cmd->prev)
-		*cmds = cmd->next;
 	if (cmd->prev)
 		cmd->prev->next = cmd->next;
 	if (cmd->next)
@@ -30,7 +28,6 @@ void	freeonetcmd(t_cmds *cmd, t_cmds **cmds)
 t_cmds	**pptreatment(t_cmds **cmds)
 {
 	t_cmds	*current;
-	t_cmds	*freeptr;
 	char	*str;
 
 	if (!cmds)
@@ -41,13 +38,8 @@ t_cmds	**pptreatment(t_cmds **cmds)
 		replace_quote(current);
 		str = current->name;
 		if (str[0] == 0)
-		{
-			freeptr = current;
-			current = current->next;
-			freeonetcmd(freeptr, cmds);
-		}
-		else
-			current = current->next;
+			freeonetcmd(current);
+		current = current->next;
 	}
 	return (cmds);
 }

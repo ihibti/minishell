@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 16:46:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:24:29 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ void	sigint_handler(int sig)
 	char	shell_prompt[100];
 
 	(void)sig;
-	cwd = getcwd(NULL, 1024);
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
-	printf("\n%s", shell_prompt);
+	if (g_exit_code != -2)
+	{
+		cwd = getcwd(NULL, 1024);
+		snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
+		printf("\n%s", shell_prompt);
+	}
+	else
+		printf("\n");
 }
 
 void	history(char *str)
@@ -115,7 +120,7 @@ int	main(int ac, char **av, char **env)
 		g_exit_code = convert_code(pipe_main(ret, lst, file));
 		free_envp(lst);
 		free_tcmd(ret);
-		check_exit_code(status, g_exit_code);
+		check_exit_code(status, g_exit_code, lst);
 		free(string);
 	}
 	return (0);
