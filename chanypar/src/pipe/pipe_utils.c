@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:45:06 by chanypar          #+#    #+#             */
-/*   Updated: 2024/06/26 18:38:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:51:36 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	*set_posit(t_cmds **ret, int num)
 	t_cmds	*current;
 
 	posit = malloc((num + 2) * sizeof(int *));
-	if (!posit)
-		return (NULL);
 	posit[0] = 0;
 	i = 0;
 	times = 0;
@@ -42,12 +40,10 @@ int	*set_posit(t_cmds **ret, int num)
 	return (posit);
 }
 
-void	set_pipe(t_cmds **ret, t_envp **list, t_file **file, t_pipe *pipe)
+void	set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe)
 {
 	pipe->ret = ret;
-	pipe->ret_save = ret;
 	pipe->lst = list;
-	pipe->file = file;
 	pipe->current = *(ret);
 }
 
@@ -59,12 +55,12 @@ t_cmds	*make_list(t_cmds *current)
 	if (!new)
 		return (NULL);
 	new->code_id = current->code_id;
-	new->name = current->name;
-	new->file = current->file;
+	new->name = ft_strdup(current->name);
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
 }
+
 int	set_command(t_cmds **ret, t_cmds ***new_ret, int i, int num)
 {
 	t_cmds		*current_ret;
@@ -104,7 +100,7 @@ int	count_pipes(t_cmds **ret)
 	while (current->next)
 	{
 		current = find_name(current, 'p');
-		if (!current->code_id)
+		if (!current)
 		{
 			free(current);
 			return (i);

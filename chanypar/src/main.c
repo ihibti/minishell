@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 16:46:50 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/02 13:17:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ void	sigint_handler(int sig)
 	char	shell_prompt[100];
 
 	(void)sig;
-	cwd = getcwd(NULL, 1024);
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
-	printf("\n%s", shell_prompt);
+	if (g_exit_code != -2)
+	{
+		cwd = getcwd(NULL, 1024);
+		snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
+		printf("\n%s", shell_prompt);
+	}
+	else
+		printf("\n");
 }
 
 void	history(char *str)
@@ -45,17 +50,14 @@ void	history(char *str)
 	}
 }
 
-void	set_param(int ac, char **av, t_file ***file, t_status **status)
+void	set_param(int ac, char **av, t_status **status)
 {
 	(void)ac;
 	(void)av;
-	(void)file;
 	*status = malloc(sizeof(t_status));
 	if (!*status)
-	{
-		free(*file);
+
 		exit(-1);
-	}
 	(*status)->isexit = 0;
 	using_history();
 	g_exit_code = 0;
@@ -63,7 +65,7 @@ void	set_param(int ac, char **av, t_file ***file, t_status **status)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-char	*ft_readline(t_file **file)
+char	*ft_readline(void)
 {
 	char	*cpy;
 	char	*cwd;
@@ -85,7 +87,6 @@ char	*ft_readline(t_file **file)
 	{
 		rl_clear_history();
 		free(cpy);
-		free(file);
 		exit(0);
 	}
 	history(cpy);
@@ -96,27 +97,24 @@ int	main(int ac, char **av, char **env)
 {
 	t_cmds		**ret;
 	t_envp		**lst;
-	t_file		**file;
 	t_status	*status;
 	char		*string;
 
-	file = NULL;
-	set_param(ac, av, &file, &status);
+	set_param(ac, av, &status);
 	while (1)
 	{
-		string = ft_readline(file);
+		string = ft_readline();
 		ret = split_token(string);
+		if (!ret)
+			ft_free_all(ret, lst, status, 1);
 		code_attr(ret);
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
 		(*ret)->status = status;
-		(*ret)->file = file;
-		g_exit_code = convert_code(pipe_main(ret, lst, file));
-		free_envp(lst);
-		free_tcmd(ret);
-		check_exit_code(status, g_exit_code);
-		free(string);
+		g_exit_code = convert_code(pipe_main(ret, lst));
+		ft_free_all(ret, lst, status, 0);
+		check_exit_code(status, g_exit_code, string);
 	}
 	return (0);
 }
