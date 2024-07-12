@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 16:16:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:48:04 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,23 +89,29 @@ int	open_quote(char *str)
 	return (flag);
 }
 
+void	adv_quote(char *ptr, int *i, char c)
+{
+	int	k;
+
+	k = *i;
+	if (!ptr)
+		return ;
+	while (ptr[k] && ptr[k] != c)
+		k++;
+	*i = k;
+}
+
 int	tok_acc(char *str)
 {
-	int		i;
-	int		j;
-	char	quote;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '"')
-		{
-			quote = str[i];
-			i++;
-			while ((str[i] != quote) && str[i])
-				i++;
-		}
+			adv_quote(str, &i, str[i]);
 		if (is_token(str + i) == 1)
 		{
 			while (str[i] && is_token(str + i))
