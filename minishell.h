@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/05 21:05:00 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/17 18:04:20 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ int					tok_acc(char *str);
 int					export_error(char *str);
 int					ft_export(t_cmds *cmds, t_envp **env);
 void				print_export(t_envp *envp);
+int					expanding_hd(char *str, t_envp **envp);
 
 #endif
