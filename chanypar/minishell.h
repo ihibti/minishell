@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/04 22:24:54 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/17 17:05:50 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/stat.h>
-# include <sys/types.h>
 # include <sys/wait.h>
-# include <termcap.h>
 # include <unistd.h>
+# include <termcap.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 # define WORD 9
 # define PIPE_N 10
@@ -48,6 +48,7 @@ typedef struct s_cmds
 	struct s_cmds	*next;
 	struct s_status	*status;
 	struct s_file	**file;
+	char			**env;
 }					t_cmds;
 
 typedef struct s_envp
@@ -173,27 +174,21 @@ int					*set_posit(t_cmds **ret, int num);
 int					count_pipes(t_cmds **ret);
 int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
 						int num);
-void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe);
-int					pipe_main(t_cmds **ret, t_envp **list);
-void	check_exit_code(t_status *status,
-						int exit_code,
-						char *string);
+void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe, char **env);
+int					pipe_main(t_cmds **ret, t_envp **list, char **env);
+void				check_exit_code(t_status *status,
+						int exit_code, char *string);
 int					check_flag(int flag, int res);
 void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
-int					check_exec(char *command, int status, char *check);
+int					check_exec(char *command, int status, char *check, int o_status);
 void				sigint_handler(int sig);
 int					exec_command(t_cmds *cmds, t_cmds **ret);
-void	ft_free_all(t_cmds **ret,
-					t_envp **lst,
-					t_status *status,
-					int flag);
-int					go_last_lex(char *str, int i, int j);
-int					is_token(char *str);
-int					n_end_quote(char *str, int i, int j);
-void				free_tcmd(t_cmds **cmds);
-extern int			g_exit_code;
+void				ft_free_all(t_cmds **ret,
+						t_envp **lst, t_status *status, int flag);
+char				*put_path(t_cmds *c, t_cmds **ret);
+extern int	g_exit_code;
 
 #endif

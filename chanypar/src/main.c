@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 13:17:49 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:37:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,10 @@ int		g_exit_code = 0;
 void	sigint_handler(int sig)
 {
 	char	*cwd;
-	char	shell_prompt[100];
 
 	(void)sig;
 	if (g_exit_code != -2)
-	{
-		cwd = getcwd(NULL, 1024);
-		snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
-		printf("\n%s", shell_prompt);
-	}
+		printf("\n%s", "MINI:");
 	else
 		printf("\n");
 }
@@ -56,37 +51,31 @@ void	set_param(int ac, char **av, t_status **status)
 	(void)av;
 	*status = malloc(sizeof(t_status));
 	if (!*status)
-
 		exit(-1);
 	(*status)->isexit = 0;
 	using_history();
 	g_exit_code = 0;
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
 }
 
-char	*ft_readline(void)
+char	*ft_readline(t_status *status)
 {
 	char	*cpy;
-	char	*cwd;
-	char	shell_prompt[100];
 
-	cwd = getcwd(NULL, 1024);
-	if (!cwd)
-		return (NULL);
-	snprintf(shell_prompt, sizeof(shell_prompt), "%s $ ", cwd);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 	cpy = NULL;
-	cpy = readline(shell_prompt);
+	cpy = readline("MINI:");
 	while (cpy && !*cpy)
 	{
 		free(cpy);
-		cpy = readline(shell_prompt);
+		cpy = readline("MINI:");
 	}
-	free(cwd);
 	if (!cpy)
 	{
 		rl_clear_history();
 		free(cpy);
+		free(status);
 		exit(0);
 	}
 	history(cpy);
@@ -103,7 +92,7 @@ int	main(int ac, char **av, char **env)
 	set_param(ac, av, &status);
 	while (1)
 	{
-		string = ft_readline();
+		string = ft_readline(status);
 		ret = split_token(string);
 		if (!ret)
 			ft_free_all(ret, lst, status, 1);
@@ -111,8 +100,10 @@ int	main(int ac, char **av, char **env)
 		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		(*ret)->status = status;
-		g_exit_code = convert_code(pipe_main(ret, lst));
+		if (*ret)
+			(*ret)->status = status;
+		if (ret && *(ret))
+			g_exit_code = convert_code(pipe_main(ret, lst, env));
 		ft_free_all(ret, lst, status, 0);
 		check_exit_code(status, g_exit_code, string);
 	}
