@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 22:39:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:21:18 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ typedef struct s_envp
 	int				unset;
 }					t_envp;
 
+typedef struct s_pipe
+{
+	int				num_pipes;
+	int				**fds;
+	int				*pids;
+}					t_pipe;
+
 // typedef struct s_ori
 // {
 // 	t_cmds			*cmds;
@@ -77,12 +84,13 @@ int     oper_redir_in(t_cmd *c, int stdin_save);
 int     oper_redir_out(t_cmd *c, int stdout_save);
 int     oper_heredoc_in(t_cmd *c, int stdin_save, t_envp **lst);
 int	    oper_redir_app(t_cmd *c, int stdout_save);
-int	    redirec_main(t_cmd	**argument, t_envp **lst);
+int	    redirec_main(t_cmd	*command, t_envp **lst);
 int	    parsing_command(t_cmd *c, t_envp **lst);
 int	    execute_parsing(t_cmd *c, int std_s[], t_envp **lst);
 int	    close_file(t_redir *redirections);
 int	    reset_stdin_out(int copy_stdin_out[]);
-
+int     pipe_main(t_cmd	**commands, t_envp **list);
+int     count_pipes(t_cmd **commands);
 
 extern int			g_exit_code;
 

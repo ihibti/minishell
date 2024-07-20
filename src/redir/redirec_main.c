@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 22:45:20 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:21:04 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,23 @@ int	oper_redir_app(t_cmd *c, int stdout_save)
 	return (stdout_save);
 }
 
-int	redirec_main(t_cmd	**argument, t_envp **lst)
+int	redirec_main(t_cmd	*command, t_envp **lst)
 {
-	t_cmd		*c;
 	int			return_value;
 	int			cpy_stdin_out[2];
 
-	c = (*argument);
-	if (!c->redirections)
-		return (parsing_command(c, lst));
+	if (!command->redirections)
+		return (parsing_command(command, lst));
 	cpy_stdin_out[0] = 0;
 	cpy_stdin_out[1] = 0;
-	while (c && c->redirections)
+	while (command && command->redirections)
 	{
-		if (execute_parsing(c, cpy_stdin_out, lst) == -1)
-			return (close_file(c->redirections));
-		c->redirections = c->redirections->next;
+		if (execute_parsing(command, cpy_stdin_out, lst) == -1)
+			return (close_file(command->redirections));
+		command->redirections = command->redirections->next;
 	}
-	return_value = parsing_command(c, lst);
-	if (close_file(c->redirections) == -1)
+	return_value = parsing_command(command, lst);
+	if (close_file(command->redirections) == -1)
 		return (1);
 	if (reset_stdin_out(cpy_stdin_out) == -1)
 		return (-1);
