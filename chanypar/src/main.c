@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:41:16 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:08:46 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int ac, char **av, char **env)
 		string = ft_readline(status);
 		ret = split_token(string);
 		free_ret_nul(string);
-		if (!ret)
+		if (!ret || !init_state(*ret))
 		{
 			free_tcmd(ret);
 			continue ;

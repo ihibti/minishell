@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:35:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:07:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,10 @@ typedef struct s_exptr
 	int				num;
 }					t_exptr;
 
+bool				init_state(t_cmds *token);
+bool				word_state(t_cmds *token);
+bool				redir_state(t_cmds *token);
+bool				pipe_state(t_cmds *token);
 t_cmds				*ft_new_tcmd(char *str, int code);
 int					code_attr(t_cmds **cmds);
 int					ft_occur(char *str, char c);
