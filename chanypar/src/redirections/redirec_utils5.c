@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 15:28:49 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 13:37:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,14 @@ int	read_heredoc(char *end_str, t_file **file, int flag, t_envp **env)
 
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
-	temp = f_open2(TEMP, file, flag);
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
+	{
+		temp = f_open2(TEMP, file, flag);
 		put_heredoc(env, end_str, file, temp);
+	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
