@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirec_utils5.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 13:37:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:42:46 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	put_heredoc(t_envp **env, char *end_str, t_file **file, FILE *temp)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		buffer = NULL;
 		buffer = readline(">");
 		if (!buffer)
 		{
@@ -41,8 +40,11 @@ int	put_heredoc(t_envp **env, char *end_str, t_file **file, FILE *temp)
 			exit(f_close2(fileno(temp), file, temp));
 		}
 		buffer = expanding_hd(buffer, env);
-		if (ft_strncmp(buffer, end_str, ft_strlen(end_str)) == 0)
+		if (ft_strcmp(buffer, end_str) == 0)
+		{
+			free(buffer);
 			break ;
+		}
 		if (print_buff(buffer, fileno(temp)) == -1)
 			exit(-1);
 	}
