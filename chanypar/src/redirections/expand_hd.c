@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 18:03:08 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/17 19:28:20 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 13:54:27 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,34 @@ int	nb_expand_hd(char *str)
 	return (0);
 }
 
-int	replace_exp_hd(char **stri, t_envp **lst)
+char	*replace_exp_hd(char **stri, t_envp **lst)
 {
-	int	i;
+	int		i;
+	char	*str;
 
 	i = 0;
-    char *str;
-    str = *stri;
+	str = *stri;
 	if (!str || !lst)
-		return (-1);
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '$' && ((is_lim_exp(str[i + 1]) == 0) || (str[i
 					+ 1] == '?')))
-			return (*stri = new_expanded(str, str + i, env_match(str + i + 1,
-						lst)), 1);
+			return (new_expanded(str, str + i, env_match(str + i + 1, lst)));
 		i++;
 	}
-	return (1);
+	return (str);
 }
 
-int	expanding_hd(char *str, t_envp **envp)
+char	*expanding_hd(char *str, t_envp **envp)
 {
-	int	flag;
-
 	while (nb_expand_hd(str) > 0)
 	{
-		replace_exp_hd(&str, envp);
+		str = replace_exp_hd(&str, envp);
 		if (!str)
-			return (-1);
+			return (NULL);
 	}
-	return (1);
+	return (str);
 }
 
 char	*free_ret_nul(char *str)

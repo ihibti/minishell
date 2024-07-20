@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/17 19:25:14 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 13:58:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	put_heredoc(t_envp **env, char *end_str, t_file **file, FILE *temp)
 			ft_putstr_fd("')\n", 2);
 			exit(f_close2(fileno(temp), file, temp));
 		}
-		expanding_hd(buffer, env);
+		buffer = expanding_hd(buffer, env);
 		if (ft_strncmp(buffer, end_str, ft_strlen(end_str)) == 0)
 			break ;
 		if (print_buff(buffer, fileno(temp)) == -1)
