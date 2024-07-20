@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:39:20 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/27 17:27:57 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:16:30 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ t_cmds	**pptreatment(t_cmds **cmds)
 			freeonetcmd(freeptr, cmds);
 		}
 		else
+		{
+			if (current->code_id == SIN_QUOTE || current->code_id == DOUB_QUOTE)
+				current->code_id = WORD;
 			current = current->next;
+		}
 	}
 	return (cmds);
 }

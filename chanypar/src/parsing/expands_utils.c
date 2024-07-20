@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expands_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 15:49:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:25:03 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_envp	*env_match(char *str, t_envp **lst)
 	t_envp	*current;
 
 	i = 0;
-	if (!str || !str[0] || !lst)
+	if (!str || !str[0] || !lst || !*lst)
 		return (NULL);
 	if (str[i] == '?')
 		return (NULL);

@@ -3,25 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/16 18:13:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:37:51 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_exit_code(t_status *status, int exit_code, char *string)
+void	check_exit_code(t_status *status, int exit_code,t_envp **lst)
 {
 	if (exit_code == 0 && status->isexit == 0)
 		return ;
 	if (status->isexit)
 	{
 		free(status);
+        free_envp(lst);
+        free(lst);
 		exit(exit_code);
 	}
-	free(string);
 }
 
 int	check_flag(int flag, int res)
@@ -50,5 +51,5 @@ int	time_w(void)
 
 	req.tv_sec = 100 / 1000000;
 	req.tv_nsec = (100 % 1000000) * 1000;
-	return (nanosleep (&req, NULL));
+	return (nanosleep(&req, NULL));
 }

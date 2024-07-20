@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/17 16:37:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:41:16 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,18 @@ int	main(int ac, char **av, char **env)
 	char		*string;
 
 	set_param(ac, av, &status);
+	lst = lst_env(env);
 	while (1)
 	{
 		string = ft_readline(status);
 		ret = split_token(string);
+		free_ret_nul(string);
 		if (!ret)
-			ft_free_all(ret, lst, status, 1);
+		{
+			free_tcmd(ret);
+			continue ;
+		}
 		code_attr(ret);
-		lst = lst_env(env);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
 		if (*ret)
@@ -105,7 +109,7 @@ int	main(int ac, char **av, char **env)
 		if (ret && *(ret))
 			g_exit_code = convert_code(pipe_main(ret, lst, env));
 		ft_free_all(ret, lst, status, 0);
-		check_exit_code(status, g_exit_code, string);
+		check_exit_code(status, g_exit_code, lst);
 	}
 	return (0);
 }

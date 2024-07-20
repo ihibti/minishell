@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/05/31 01:24:25 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:18:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmds	**split_token(char *request)
 	ret = malloc(sizeof(t_cmds));
 	*ret = NULL;
 	if (syn_err(request) == 1 || !ret)
-		return (free(ret), free(request), NULL);
+		return (free(ret), NULL);
 	while (request[i])
 	{
 		if (skip_spcaes(&i, request) == -1)

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 14:18:50 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:35:19 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe,
 						char **env);
 int					pipe_main(t_cmds **ret, t_envp **list, char **env);
 void				check_exit_code(t_status *status, int exit_code,
-						char *string);
+						t_envp **lst);
 int					check_flag(int flag, int res);
 void				set_redir_parsing_param(int cpy_stdin_out[]);
 int					convert_code(int num);
