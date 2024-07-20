@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 13:54:09 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:18:50 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,9 @@ int					exec_command(t_cmds *cmds, t_cmds **ret);
 void				ft_free_all(t_cmds **ret, t_envp **lst, t_status *status,
 						int flag);
 char				*put_path(t_cmds *c, t_cmds **ret);
-char					*expanding_hd(char *str, t_envp **envp);
+char				*expanding_hd(char *str, t_envp **envp);
 char				*free_ret_nul(char *str);
+void				cp_exp_beg(char **str, char **ret, int *j);
 
 extern int			g_exit_code;
 

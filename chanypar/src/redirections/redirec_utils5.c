@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:22 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 13:58:09 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:46:31 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	print_buff(char *buffer, int filenum)
 		return (-1);
 	ft_putstr_fd(buffer, filenum);
 	ft_putchar_fd('\n', filenum);
-	free(buffer);
+	if (buffer)
+		free(buffer);
 	return (0);
 }
 int	put_heredoc(t_envp **env, char *end_str, t_file **file, FILE *temp)
@@ -28,6 +29,7 @@ int	put_heredoc(t_envp **env, char *end_str, t_file **file, FILE *temp)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
+		buffer = NULL;
 		buffer = readline(">");
 		if (!buffer)
 		{

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 13:51:13 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:15:20 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	nb_expand(t_cmds *cmd)
 	return (exp_exception(cmd->name));
 }
 
+
 int	exp_exception(char *str)
 {
 	int	i;
@@ -88,7 +89,7 @@ int	replace_exp(t_cmds *cmd, t_envp **lst)
 	while (str[i])
 	{
 		if (str[i] == '$' && ((is_lim_exp(str[i + 1]) == 0) || (str[i
-					+ 1] == '?')))
+						+ 1] == '?')))
 			return (cmd->name = new_expanded(str, str + i, env_match(str + i
 						+ 1, lst)), 1);
 		if (str[i] == '\'' && interpret(str, str + i) == 1)
@@ -147,6 +148,7 @@ char	*new_expanded(char *str, char *ptr, t_envp *match)
 	while (*ptr)
 		ret[j++] = *(ptr)++;
 	ret[j] = 0;
+	free(str);
 	return (ret);
 }
 
