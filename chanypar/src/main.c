@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 21:08:46 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/28 16:27:00 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ char	*ft_readline(t_status *status)
 int	main(int ac, char **av, char **env)
 {
 	t_cmds		**ret;
+	t_pars		**parsee;
 	t_envp		**lst;
 	t_status	*status;
 	char		*string;
+	t_pars		*test;
 
 	set_param(ac, av, &status);
 	lst = lst_env(env);
@@ -96,14 +98,19 @@ int	main(int ac, char **av, char **env)
 		string = ft_readline(status);
 		ret = split_token(string);
 		free_ret_nul(string);
-		if (!ret || !init_state(*ret))
-		{
-			free_tcmd(ret);
-			continue ;
-		}
+		// if (!ret || !init_state(*ret))
+		// {
+		// 	free_tcmd(ret);
+		// 	continue ;
+		// }
 		code_attr(ret);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
+		// if (!init_state(*ret))
+		// 	continue ;
+		parsee = parser(ret);
+		test = *parsee;
+		printf("%s\n", test->arguments[0]);
 		if (*ret)
 			(*ret)->status = status;
 		if (ret && *(ret))

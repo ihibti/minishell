@@ -6,34 +6,11 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:03:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 21:24:18 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/28 16:28:12 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-typedef enum s_type_redir
-{
-	REDIR_IN_S,
-	REDIR_OUT_S,
-	REDIR_OUT_D,
-	HEREDOC,
-}					e_type_redir;
-
-typedef struct s_redir
-{
-	e_type_redir	type;
-	char			*filename;
-	struct s_redir	*next;
-}					t_redir;
-
-typedef struct s_pars
-{
-	char			*command;
-	char			**arguments;
-	t_redir			*redirections;
-	struct s_pars	*next;
-}					t_pars;
 
 t_redir	*new_redir(e_type_redir type, char *filename)
 {
@@ -46,21 +23,41 @@ t_redir	*new_redir(e_type_redir type, char *filename)
 	return (res);
 }
 
-t_pars	*parser(t_cmds *cmds)
+static void	pars_0(t_pars *new)
 {
-	t_cmds	*current;
-	t_pars	*ret;
-
-	ret = malloc(sizeof(t_pars));
-	if (!ret)
-		return (NULL);
-    while(cmds)
-    {
-        
-    }
+	if (!new)
+		return ;
+	new->arguments = 0;
+	new->command = 0;
+	new->next = 0;
+	new->redirections = 0;
 }
 
+t_pars	**parser(t_cmds **cmds)
+{
+	t_cmds	*current;
+	t_pars	*new;
+	t_pars	**ret;
 
+	*ret = NULL;
+	current = *cmds;
+	while (current)
+	{
+		new = malloc(sizeof(t_pars));
+		if (!new)
+			return (NULL);
+		pars_0(new);
+		while (current && current->code_id != PIPE_N)
+		{
+			keep_pars(new, current);
+			current = current->next;
+		}
+		add_last_par(ret, new);
+		if (current)
+			current = current->next;
+	}
+	return (0);
+}
 
 void	add_last_par(t_pars **pars, t_pars *new)
 {
@@ -77,4 +74,85 @@ void	add_last_par(t_pars **pars, t_pars *new)
 	while (current->next)
 		current = current->next;
 	current->next = new;
+}
+
+int	keep_pars(t_pars *new, t_cmds *cmd)
+{
+	if (cmd->code_id == WORD)
+	{
+		return (add_arg(new, cmd->name));
+	}
+	else if (cmd->code_id == REDIR_IN)
+		return (add_last_redir(new_redir(REDIR_IN_S,
+					ft_strdup(cmd->next->name)), new));
+	else if (cmd->code_id == HEREDOC_IN)
+		return (add_last_redir(new_redir(HEREDOC, ft_strdup(cmd->next->name)),
+				new));
+	else if (cmd->code_id == REDIR_OUT)
+		return (add_last_redir(new_redir(REDIR_OUT_S,
+					ft_strdup(cmd->next->name)), new));
+	else if (cmd->code_id == REDIR_APP)
+		return (add_last_redir(new_redir(REDIR_OUT_D,
+					ft_strdup(cmd->next->name)), new));
+	return (0);
+}
+
+char	**freee_error(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (!tab)
+		return (NULL);
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	return (NULL);
+}
+
+int	add_arg(t_pars *pars, char *new)
+{
+	char	**ret;
+	int		i;
+
+	i = 0;
+	while (pars->arguments && pars->arguments[i])
+		i++;
+	ret = malloc(sizeof(char *) * (i + 2));
+	if (!ret)
+		return (1);
+	i = 0;
+	while (pars->arguments && pars->arguments[i])
+	{
+		ret[i] = ft_strdup(pars->arguments[i]);
+		if (!ret[i])
+			return (freee_error(ret), 1);
+		i++;
+	}
+	ret[i++] = ft_strdup(new);
+	ret[i] = 0;
+	freee_error(pars->arguments);
+	pars->arguments = ret;
+	return (0);
+}
+
+int	add_last_redir(t_redir *new, t_pars *pars)
+{
+	t_redir	*current;
+
+	if (!pars || !new)
+		return (1);
+	if (!pars->redirections)
+		pars->redirections = new;
+	else
+	{
+		current = pars->redirections;
+		while (current->next)
+			current = current->next;
+		current->next = new;
+	}
+	return (0);
 }

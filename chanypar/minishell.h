@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 21:07:09 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/28 16:18:45 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,34 @@ typedef struct s_exptr
 	int				num;
 }					t_exptr;
 
+typedef enum s_type_redir
+{
+	REDIR_IN_S,
+	REDIR_OUT_S,
+	REDIR_OUT_D,
+	HEREDOC,
+}					e_type_redir;
+
+typedef struct s_redir
+{
+	e_type_redir	type;
+	char			*filename;
+	struct s_redir	*next;
+}					t_redir;
+
+typedef struct s_pars
+{
+	char			*command;
+	char			**arguments;
+	t_redir			*redirections;
+	struct s_pars	*next;
+}					t_pars;
+
+int					keep_pars(t_pars *new, t_cmds *cmd);
+t_pars				**parser(t_cmds **cmds);
+int					add_last_redir(t_redir *new, t_pars *pars);
+void				add_last_par(t_pars **pars, t_pars *new);
+int					add_arg(t_pars *pars, char *new);
 bool				init_state(t_cmds *token);
 bool				word_state(t_cmds *token);
 bool				redir_state(t_cmds *token);
