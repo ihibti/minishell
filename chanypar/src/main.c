@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/29 16:51:05 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/29 17:05:15 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,23 +103,13 @@ int	main(int ac, char **av, char **env)
 		code_attr(ret);
 		expanding(ret, lst);
 		ret = pptreatment(ret);
-		parsee = parser(ret);
-		test = *parsee;
-		while (test)
+		if (!init_state(*ret))
 		{
-			i = 0;
-			printf("args:\n");
-			while (test->arguments[i])
-				printf("%s\n", test->arguments[i++]);
-			redir = test->redirections;
-			printf("redir\n");
-			while (redir)
-			{
-				printf("%s\n", redir->filename);
-				redir = redir->next;
-			}
-			test = test->next;
+            printf("error\n");
+			free_tcmd(ret);
+			continue ;
 		}
+		parsee = parser(ret);
 		// if (*ret)
 		// 	(*ret)->status = status;
 		// if (ret && *(ret))
