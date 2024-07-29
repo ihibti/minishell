@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:03:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/29 15:28:35 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/29 17:02:22 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ t_pars	**parser(t_cmds **cmds)
 	t_cmds	*current;
 	t_pars	*new;
 	t_pars	**ret;
+	char	*visu;
 
+	ret = malloc(sizeof(t_pars));
 	*ret = NULL;
 	current = *cmds;
 	while (current)
@@ -47,15 +49,19 @@ t_pars	**parser(t_cmds **cmds)
 		if (!new)
 			return (NULL);
 		pars_0(new);
+		visu = current->name;
 		while (current && current->code_id != PIPE_N)
 		{
 			if (keep_pars(new, current))
 				return (NULL);
 			if (current->code_id != WORD)
 				current = current->next;
+			visu = current->name;
 			current = current->next;
 		}
 		add_last_par(ret, new);
+		if (current)
+			visu = current->name;
 		if (current)
 			current = current->next;
 		new = NULL;
@@ -82,6 +88,10 @@ void	add_last_par(t_pars **pars, t_pars *new)
 
 int	keep_pars(t_pars *new, t_cmds *cmd)
 {
+	// if (cmd->next)
+	//     printf("prealable : %s   %s\n", cmd->name, cmd->next->name);
+	// else
+	//     printf("prealable :    %s\n", cmd->name);
 	if (cmd->code_id == WORD)
 		return (add_arg(new, cmd->name));
 	else if (cmd->code_id == REDIR_IN)
@@ -134,6 +144,7 @@ int	add_arg(t_pars *pars, char *new)
 	ret[i] = 0;
 	freee_error(pars->arguments);
 	pars->arguments = ret;
+	pars->command = ret[0];
 	return (0);
 }
 
