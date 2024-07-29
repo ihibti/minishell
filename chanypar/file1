@@ -1,0 +1,13 @@
+total 160
+-rw-r--r-- 1 ihibti 2023_paris      0 Jul 29 14:53  !Ç
+drwxr-xr-x 5 ihibti 2023_paris    175 Jul 29 14:53 .
+drwxr-xr-x 9 ihibti 2023_paris    154 Jul 28 15:57 ..
+-rw-r--r-- 1 ihibti 2023_paris     26 Jul 17 18:02 .gitignore
+-rw-r--r-- 1 ihibti 2023_paris    127 Jul 17 18:02 .ignore_readline_leaks.supp
+drwxr-xr-x 2 ihibti 2023_paris     75 Jul 17 18:02 .vscode
+-rw-r--r-- 1 ihibti 2023_paris   1562 Jul 28 16:11 Makefile
+-rw-r--r-- 1 ihibti 2023_paris      0 Jul 29 14:53 file1
+drwxr-xr-x 2 ihibti 2023_paris   4096 Jul 29 14:52 libft
+-rwxr-xr-x 1 ihibti 2023_paris 138056 Jul 29 14:52 minishell
+-rw-r--r-- 1 ihibti 2023_paris   7264 Jul 28 16:18 minishell.h
+drwxr-xr-x 6 ihibti 2023_paris    137 Jul 29 14:52 src

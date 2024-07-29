@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/28 16:27:00 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/29 15:30:20 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	main(int ac, char **av, char **env)
 	t_status	*status;
 	char		*string;
 	t_pars		*test;
+	t_redir		*redir;
+	int			i;
 
 	set_param(ac, av, &status);
 	lst = lst_env(env);
@@ -110,13 +112,27 @@ int	main(int ac, char **av, char **env)
 		// 	continue ;
 		parsee = parser(ret);
 		test = *parsee;
-		printf("%s\n", test->arguments[0]);
-		if (*ret)
-			(*ret)->status = status;
-		if (ret && *(ret))
-			g_exit_code = convert_code(pipe_main(ret, lst, env));
-		ft_free_all(ret, lst, status, 0);
-		check_exit_code(status, g_exit_code, lst);
+		while (test)
+		{
+			i = 0;
+			printf("args:\n");
+			while (test->arguments[i])
+				printf("%s\n", test->arguments[i++]);
+			redir = test->redirections;
+			printf("redir\n");
+			while (redir)
+			{
+				printf("%s\n", redir->filename);
+				redir = redir->next;
+			}
+			test = test->next;
+		}
+		// if (*ret)
+		// 	(*ret)->status = status;
+		// if (ret && *(ret))
+		// 	g_exit_code = convert_code(pipe_main(ret, lst, env));
+		// ft_free_all(ret, lst, status, 0);
+		// check_exit_code(status, g_exit_code, lst);
 	}
 	return (0);
 }

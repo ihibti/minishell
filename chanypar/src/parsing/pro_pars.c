@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:03:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/28 16:28:12 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/29 15:28:35 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_redir	*new_redir(e_type_redir type, char *filename)
 
 	res = malloc(sizeof(t_redir));
 	res->type = type;
-	res->filename = filename;
+	res->filename = ft_strdup(filename);
 	res->next = NULL;
 	return (res);
 }
@@ -27,10 +27,10 @@ static void	pars_0(t_pars *new)
 {
 	if (!new)
 		return ;
-	new->arguments = 0;
-	new->command = 0;
-	new->next = 0;
-	new->redirections = 0;
+	new->arguments = NULL;
+	new->command = NULL;
+	new->next = NULL;
+	new->redirections = NULL;
 }
 
 t_pars	**parser(t_cmds **cmds)
@@ -49,14 +49,18 @@ t_pars	**parser(t_cmds **cmds)
 		pars_0(new);
 		while (current && current->code_id != PIPE_N)
 		{
-			keep_pars(new, current);
+			if (keep_pars(new, current))
+				return (NULL);
+			if (current->code_id != WORD)
+				current = current->next;
 			current = current->next;
 		}
 		add_last_par(ret, new);
 		if (current)
 			current = current->next;
+		new = NULL;
 	}
-	return (0);
+	return (ret);
 }
 
 void	add_last_par(t_pars **pars, t_pars *new)
@@ -79,21 +83,15 @@ void	add_last_par(t_pars **pars, t_pars *new)
 int	keep_pars(t_pars *new, t_cmds *cmd)
 {
 	if (cmd->code_id == WORD)
-	{
 		return (add_arg(new, cmd->name));
-	}
 	else if (cmd->code_id == REDIR_IN)
-		return (add_last_redir(new_redir(REDIR_IN_S,
-					ft_strdup(cmd->next->name)), new));
+		return (add_last_redir(new_redir(REDIR_IN_S, cmd->next->name), new));
 	else if (cmd->code_id == HEREDOC_IN)
-		return (add_last_redir(new_redir(HEREDOC, ft_strdup(cmd->next->name)),
-				new));
+		return (add_last_redir(new_redir(HEREDOC, cmd->next->name), new));
 	else if (cmd->code_id == REDIR_OUT)
-		return (add_last_redir(new_redir(REDIR_OUT_S,
-					ft_strdup(cmd->next->name)), new));
+		return (add_last_redir(new_redir(REDIR_OUT_S, cmd->next->name), new));
 	else if (cmd->code_id == REDIR_APP)
-		return (add_last_redir(new_redir(REDIR_OUT_D,
-					ft_strdup(cmd->next->name)), new));
+		return (add_last_redir(new_redir(REDIR_OUT_D, cmd->next->name), new));
 	return (0);
 }
 
