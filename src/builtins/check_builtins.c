@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*   check_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 23:13:46 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/29 20:20:36 by chanypar         ###   ########.fr       */
+/*   Created: 2024/06/10 15:40:37 by chanypar          #+#    #+#             */
+/*   Updated: 2024/07/16 18:17:20 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	count_pipes(t_pars **commands)
+int	check_builtins(t_cmds **ret, t_envp **lst)
 {
-	int		i;
-	t_pars	*current;
-
-	i = 0;
-	current = (*commands);
-	while (current->next)
+	if (!ft_strcmp((*ret)->name, "cd"))
+		ft_cd(*ret, lst);
+	else if (!ft_strcmp((*ret)->name, "echo"))
 	{
-		current = current->next;
-		i++;
+		ft_echo(*ret, ret);
+		return (1);
 	}
-	return (i);
+	return (0);
 }

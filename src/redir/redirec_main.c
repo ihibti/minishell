@@ -6,13 +6,13 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 23:21:04 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:15:19 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	oper_redir_in(t_cmd *c, int stdin_save)
+int	oper_redir_in(t_pars *c, int stdin_save)
 {
 	if (!stdin_save)
 		stdin_save = dup(STDIN_FILENO);
@@ -33,7 +33,7 @@ int	oper_redir_in(t_cmd *c, int stdin_save)
 	return (stdin_save);
 }
 
-int	oper_redir_out(t_cmd *c, int stdout_save)
+int	oper_redir_out(t_pars *c, int stdout_save)
 {
 	if (!stdout_save)
 		stdout_save = dup(STDOUT_FILENO);
@@ -57,7 +57,7 @@ int	oper_redir_out(t_cmd *c, int stdout_save)
 	return (stdout_save);
 }
 
-int	oper_heredoc_in(t_cmd *c, int stdin_save, t_envp **lst)
+int	oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst)
 {
 	int	flag;
 
@@ -74,7 +74,7 @@ int	oper_heredoc_in(t_cmd *c, int stdin_save, t_envp **lst)
 	return (exec_heredoc(stdin_save));
 }
 
-int	oper_redir_app(t_cmd *c, int stdout_save)
+int	oper_redir_app(t_pars *c, int stdout_save)
 {
 	(void)stat;
 	if (!stdout_save)
@@ -99,7 +99,7 @@ int	oper_redir_app(t_cmd *c, int stdout_save)
 	return (stdout_save);
 }
 
-int	redirec_main(t_cmd	*command, t_envp **lst)
+int	redirec_main(t_pars	*command, t_envp **lst)
 {
 	int			return_value;
 	int			cpy_stdin_out[2];

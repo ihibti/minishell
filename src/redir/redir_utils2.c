@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 22:45:14 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:20:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,14 @@ int	reset_stdin_out(int copy_stdin_out[])
 		}
 	}
 	return (0);
+}
+
+int	ch_err(int num, int cpy_stdin_out[])
+{
+	if (num == -1)
+	{
+		reset_stdin_out(cpy_stdin_out);
+		return (-1);
+	}
+	return (num);
 }

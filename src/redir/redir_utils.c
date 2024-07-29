@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 22:45:00 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:15:57 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ int	exec_heredoc(int flag)
 }
 
 
-int	execute_parsing(t_cmd *c, int std_s[], t_envp **lst)
+int	execute_parsing(t_pars *c, int std_s[], t_envp **lst)
 {
 	if (c->redirections->type == REDIR_IN_S)
 		std_s[0] = ch_err(oper_redir_in(c, std_s[0]), std_s);
 	else if (c->redirections->type == REDIR_OUT_S)
 		std_s[1] = ch_err(oper_redir_out(c, std_s[1]), std_s);
 	else if (c->redirections->type == HEREDOC)
-		std_s[0] = ch_err(oper_heredoc_in(c, std_s[0], lst), std_s, lst);
+		std_s[0] = ch_err(oper_heredoc_in(c, std_s[0], lst), std_s);
 	else if (c->redirections->type == REDIR_IN_S)
 		std_s[1] = ch_err(oper_redir_app(c, std_s[1]), std_s);
 	if (std_s[0] == -1 || std_s[1] == -1)

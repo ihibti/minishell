@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*   built_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/20 23:13:46 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/29 20:20:36 by chanypar         ###   ########.fr       */
+/*   Created: 2024/05/25 20:21:39 by ihibti            #+#    #+#             */
+/*   Updated: 2024/07/16 20:26:58 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	count_pipes(t_pars **commands)
+int	update_env(t_envp **lst, char *key, char *n_value)
 {
-	int		i;
-	t_pars	*current;
+	t_envp	*current;
 
-	i = 0;
-	current = (*commands);
-	while (current->next)
+	if (!lst || !key)
+		return (-1);
+	current = *lst;
+	while (current)
 	{
+		if (!ft_strcmp(key, current->name))
+		{
+			free(current->value);
+			current->value = ft_strdup(n_value);
+			return (0);
+		}
 		current = current->next;
-		i++;
 	}
-	return (i);
+	return (0);
 }

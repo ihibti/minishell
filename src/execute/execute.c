@@ -6,14 +6,14 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2024/07/20 22:45:27 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/29 20:21:15 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-int	exec(char *command, t_cmd *c)
+int	exec(char *command, t_pars *c)
 {
 	int	pid;
 	int	status;
@@ -94,7 +94,7 @@ char	*put_path(char *command, t_envp **lst)
 	return (path);
 }
 
-int	exec_command(t_cmd *c, t_envp **lst)
+int	exec_command(t_pars *c, t_envp **lst)
 {
 	char	*command;
 	int		i;	
@@ -107,7 +107,7 @@ int	exec_command(t_cmd *c, t_envp **lst)
 	return (exec(command, c));
 }
 
-int	parsing_command(t_cmd *c, t_envp **lst)
+int	parsing_command(t_pars *c, t_envp **lst)
 {
 	if (ft_strcmp(c->command, "echo") == 0)
 		return (ft_echo(c));

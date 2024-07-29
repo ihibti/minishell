@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
+/*   Updated: 2024/07/20 17:37:51 by ihibti           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+void	check_exit_code(t_status *status, int exit_code,t_envp **lst)
+{
+	if (exit_code == 0 && status->isexit == 0)
+		return ;
+	if (status->isexit)
+	{
+		free(status);
+        free_envp(lst);
+        free(lst);
+		exit(exit_code);
+	}
+}
+
+int	check_flag(int flag, int res)
+{
+	if (!flag)
+		return (res);
+	return (flag);
+}
+
+void	set_redir_parsing_param(int cpy_stdin_out[])
+{
+	cpy_stdin_out[0] = 0;
+	cpy_stdin_out[1] = 0;
+}
+
+int	convert_code(int num)
+{
+	if (num == 255 || num == -1)
+		return (1);
+	return (num);
+}
+
+int	time_w(void)
+{
+	struct timespec	req;
+
+	req.tv_sec = 100 / 1000000;
+	req.tv_nsec = (100 % 1000000) * 1000;
+	return (nanosleep(&req, NULL));
+}
