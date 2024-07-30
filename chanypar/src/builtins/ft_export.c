@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/16 18:18:15 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:35:19 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,24 @@ void	print_export(t_envp *envp)
 	}
 }
 
-int	ft_export(t_cmds *cmds, t_envp **env)
+int	ft_export(t_pars *pars, t_envp **env)
 {
-	char	*str;
+	char	**str;
+	int		i;
 
-	if (!env)
+	i = 1;
+	if (!env || !pars)
 		return (1);
-	if (!cmds->next)
+	str = pars->arguments;
+	if (!str[i])
 		return (print_export(*env), 0);
-	str = cmds->next->name;
-	if (!str || !*str || export_error(str) || cmds->next->next)
-		return (ft_putstr_fd("mkshell export bad assignment\n", 2), 1);
-	if (!add_envplast(env, str))
-		return (-1);
+	while (str[i])
+	{
+		if (!str[i] || !str[i][0] || export_error(str[i]))
+			return (ft_putstr_fd("mkshell export bad assignment\n", 2), 1);
+		if (!add_envplast(env, str[i]))
+			return (-1);
+		i++;
+	}
 	return (0);
 }

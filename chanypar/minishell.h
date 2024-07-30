@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/28 16:18:45 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:35:39 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ typedef struct s_pars
 	struct s_pars	*next;
 }					t_pars;
 
+void				free_one_env(t_envp *env, t_envp **lst);
 int					keep_pars(t_pars *new, t_cmds *cmd);
 t_pars				**parser(t_cmds **cmds);
 int					add_last_redir(t_redir *new, t_pars *pars);
@@ -176,11 +177,11 @@ void				free_tcmd(t_cmds **cmds);
 t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
-int					ft_cd(t_cmds *cmd, t_envp **lst);
+int					ft_cd(t_pars *pars, t_envp **lst);
 int					ft_echo(t_cmds *cmd, t_cmds **ret);
-int					ft_pwd(t_cmds *cmd, t_envp **lst);
-int					ft_unset(t_envp **lst, t_cmds *cmd);
-int					ft_export(t_cmds *cmds, t_envp **env);
+int					ft_pwd(void);
+int					ft_unset(t_envp **lst, t_pars *pars);
+int					ft_export(t_pars *pars, t_envp **env);
 int					ft_exit(t_cmds **ret);
 int					ft_env(t_envp **lst);
 int					check_builtins(t_cmds **ret, t_envp **lst);
