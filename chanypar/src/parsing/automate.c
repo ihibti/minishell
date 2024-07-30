@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:07:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 21:17:52 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:40:02 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	init_state(t_cmds *token)
 	else if (token->code_id != WORD && token->code_id != PIPE_N)
 		return (redir_state(token->next));
 	else
-		return (printf("syntax error near unexpected token '|'") , false);
+		return (printf("syntax error near unexpected token '|'\n") , false);
 }
 
 bool	word_state(t_cmds *token)
@@ -44,7 +44,7 @@ bool	redir_state(t_cmds *token)
 		return (word_state(token->next));
 	else
     
-		return (false);
+		return (printf("syntax error near redirection\n"),false);
 }
 
 bool	pipe_state(t_cmds *token)
@@ -56,5 +56,5 @@ bool	pipe_state(t_cmds *token)
 	if (token->code_id != WORD && token->code_id != PIPE_N)
 		return (redir_state(token->next));
 	else
-		return (false);
+		return (printf("syntax error near pipe\n"),false);
 }

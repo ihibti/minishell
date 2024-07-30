@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/30 16:35:39 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/07/30 16:52:13 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ typedef struct s_envp
 
 typedef struct s_ori
 {
-	t_cmds			*cmds;
-	t_envp			*envs;
+	t_cmds			**cmds;
+	t_envp			**envs;
+	t_pars			**parsee;
 	char			*request;
 }					t_ori;
 
