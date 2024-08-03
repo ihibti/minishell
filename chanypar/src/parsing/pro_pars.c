@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:03:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/29 17:02:22 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 16:15:30 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,27 @@ t_pars	**parser(t_cmds **cmds)
 	t_cmds	*current;
 	t_pars	*new;
 	t_pars	**ret;
-	char	*visu;
 
 	ret = malloc(sizeof(t_pars));
+	if (!ret)
+		return (NULL);
 	*ret = NULL;
 	current = *cmds;
 	while (current)
 	{
 		new = malloc(sizeof(t_pars));
 		if (!new)
-			return (NULL);
+			return (free_pars_ls(ret), NULL);
 		pars_0(new);
-		visu = current->name;
 		while (current && current->code_id != PIPE_N)
 		{
 			if (keep_pars(new, current))
-				return (NULL);
+				return (free_pars_ls(ret), NULL);
 			if (current->code_id != WORD)
 				current = current->next;
-			visu = current->name;
 			current = current->next;
 		}
 		add_last_par(ret, new);
-		if (current)
-			visu = current->name;
 		if (current)
 			current = current->next;
 		new = NULL;

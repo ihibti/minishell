@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 15:04:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:20:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,38 +82,45 @@ char	*ft_readline(t_status *status)
 	return (cpy);
 }
 
+int	all_toge(t_ori *ori)
+{
+	ori->cmds = split_token(ori->request);
+	if (!ori->cmds)
+		return (free_ori(ori), 1);
+	code_attr(ori->cmds);
+	expanding(ori->cmds, ori->envs);
+	if (!ori->cmds)
+		return (free_ori(ori), 1);
+	ori->cmds = pptreatment(ori->cmds);
+	if (!*ori->cmds)
+		return (free_tcmd(ori->cmds), ori->parsee = NULL, 0);
+	if (!init_state(*(ori->cmds)))
+	{
+		free_tcmd(ori->cmds);
+		ori->parsee = NULL;
+		return (0);
+	}
+	ori->parsee = parser(ori->cmds);
+	return (0);
+}
+
 int	main(int ac, char **av, char **env)
 {
-	t_cmds		**ret;
-	t_pars		**parsee;
-	t_envp		**lst;
 	t_status	*status;
-	char		*string;
-	t_pars		*test;
-	t_redir		*redir;
+	t_ori		ori;
 	int			i;
 
 	set_param(ac, av, &status);
-	lst = lst_env(env);
+	ori.envs = lst_env(env);
 	while (1)
 	{
-		string = ft_readline(status);
-		ret = split_token(string);
-		free_ret_nul(string);
-		code_attr(ret);
-		expanding(ret, lst);
-		ret = pptreatment(ret);
-		if (!init_state(*ret))
+		ori.request = ft_readline(status);
+		if (all_toge(&ori))
+			return (free_ori(&ori), 1);
+		if (ori.parsee)
 		{
-			printf("error\n");
-			free_tcmd(ret);
-			continue ;
-		}
-		parsee = parser(ret);
-		if (*parsee)
-		{
-			g_exit_code = convert_code(pipe_main(parsee, lst));
-			check_exit_code(parsee, g_exit_code, lst);
+			g_exit_code = convert_code(pipe_main(ori.parsee, ori.envs));
+			check_exit_code(ori.parsee, g_exit_code, ori.envs);
 		}
 	}
 	return (0);

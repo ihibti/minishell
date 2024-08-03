@@ -10,7 +10,7 @@ SRC = src/parsing/env.c src/parsing/expands.c src/parsing/expands_utils.c src/pa
 	src/builtins/ft_pwd.c src/builtins/ft_unset.c src/builtins/ft_exit.c src/builtins/built_utils.c\
 	src/redir/redirec_main.c src/redir/redir_utils.c src/redir/redir_utils2.c src/redir/expand_hd.c\
 	src/main.c src/main_utils.c src/execute/execute.c src/execute/execute_utils.c\
-	src/pipe/pipe_utils.c src/pipe/pipe_main.c src/parsing/pro_pars.c
+	src/pipe/pipe_utils.c src/pipe/pipe_main.c src/parsing/pro_pars.c src/parsing/all_toge.c
 
 OBJ = $(SRC:.c=.o)
 
