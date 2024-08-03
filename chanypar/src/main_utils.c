@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 11:54:47 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 12:24:38 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	check_exit_code(t_pars **commands, int exit_code,t_envp **lst)
 {
 	int	is_exit;
 
+	if (!*commands)
+		return;
 	is_exit = ft_strcmp((*commands)->command, "exit");
 	if (exit_code == 0 && is_exit)
 		return ;
