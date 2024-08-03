@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 11:55:39 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:27:55 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@
 // 		i = 1;
 // 	}
 // }
+// int	check_option(t_pars *cmd)
+// {
+// 	t_pars	*temp;
+// 	int		i;
+
+// 	i = 0;
+// 	temp = cmd;
+// 	while (temp->arguments[i])
+// 	{
+// 		if (!ft_strcmp(temp->arguments[i++], "-n"))
+// 			return (1);
+// 	}
+// 	return (0);
+// }
 
 int	ft_echo(t_pars *cmd)
 {
@@ -59,18 +73,20 @@ int	ft_echo(t_pars *cmd)
 	if (!cmd)
 		return (1);
 	i = 1;
-	if (cmd->next && cmd->next->arguments && ft_strcmp(cmd->next->arguments[i], "-n") == 0)
+	if (cmd->arguments && cmd->arguments[1]
+		&& !ft_strcmp(cmd->arguments[1], "-n"))
 	{
 		flag = 0;
-		cmd = cmd->next;
+		i++;
 	}
 	else
 		flag = 1;
 	while (cmd && cmd->arguments && cmd->arguments[i])
 	{
-		printf("%s", cmd->arguments[i++]);
-		if (cmd->arguments[i])
+		printf("%s", cmd->arguments[i]);
+		if (cmd->arguments[i] && cmd->arguments[i + 1])
 			printf(" ");
+		i++;
 	}
 	if (flag == 1)
 		printf("\n");

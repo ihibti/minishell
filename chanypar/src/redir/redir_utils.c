@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 11:46:29 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:00:35 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	print_buff(char *buffer, int filenum)
 	free(buffer);
 	return (0);
 }
+
 int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 {
 	char	*buffer;
@@ -32,10 +33,10 @@ int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 		if (!buffer)
 		{
 			ft_putchar_fd('\n', 1);
-			ft_putstr_fd("MINI:  warning: here-document delimited by end-of-file (wanted `",
-				2);
+			ft_putstr_fd("MINI: warning: ", 2);
+			ft_putstr_fd("heredoc delimited by end-of-file (wanted `end')", 2);
 			ft_putstr_fd(end_str, 2);
-			ft_putstr_fd("')\n", 2);
+			ft_putstr_fd("\n", 2);
 			exit(fclose(temp));
 		}
 		buffer = expanding_hd(buffer, env);
@@ -93,7 +94,6 @@ int	exec_heredoc(int flag)
 	return (stdin_save);
 }
 
-
 int	execute_parsing(t_pars *c, int std_s[], t_envp **lst)
 {
 	if (c->redirections->type == REDIR_IN_S)
@@ -102,7 +102,7 @@ int	execute_parsing(t_pars *c, int std_s[], t_envp **lst)
 		std_s[1] = ch_err(oper_redir_out(c, std_s[1]), std_s);
 	else if (c->redirections->type == HEREDOC)
 		std_s[0] = ch_err(oper_heredoc_in(c, std_s[0], lst), std_s);
-	else if (c->redirections->type == REDIR_IN_S)
+	else if (c->redirections->type == REDIR_OUT_D)
 		std_s[1] = ch_err(oper_redir_app(c, std_s[1]), std_s);
 	if (std_s[0] == -1 || std_s[1] == -1)
 		return (-1);

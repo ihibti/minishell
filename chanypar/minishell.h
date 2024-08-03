@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 12:04:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:08:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,18 @@ typedef enum s_type_redir
 typedef struct s_redir
 {
     e_type_redir    type;
-    char            *filename;
-    int             fd;
-    FILE*           f;
-    struct s_redir  *next;
+    char			*filename;
+    int				fd;
+    FILE*			f;
+    struct s_redir	*next;
 }   t_redir;
 
 typedef struct s_pars
 {
-    char            *command;
-    char            **arguments;
-    t_redir         *redirections;
-    struct s_pars    *next;
+    char					*command;
+    char					**arguments;
+    t_redir					*redirections;
+    struct s_pars			*next;
 }   t_pars;
 
 typedef struct s_envp
@@ -171,16 +171,16 @@ void				free_tcmd(t_cmds **cmds);
 t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
-int	ft_cd(t_pars *pars, t_envp **lst);
-int	ft_echo(t_pars *cmd);
-int	ft_env(t_envp **lst);
-int	ft_exit(t_pars *cmd);
-int	ft_export(t_pars *pars, t_envp **env);
-int	ft_pwd(void);
-int	ft_unset(t_envp **lst, t_pars *pars);
+int					ft_cd(t_pars *pars, t_envp **lst);
+int					ft_echo(t_pars *cmd);
 int					ft_env(t_envp **lst);
-int					check_builtins(t_cmds **ret, t_envp **lst);
-void				check_exit_code(t_pars **commands, int exit_code,t_envp **lst);
+int					ft_exit(t_pars *cmd);
+int					ft_export(t_pars *pars, t_envp **env);
+int					ft_pwd(void);
+int					ft_unset(t_envp **lst, t_pars *pars);
+int					ft_env(t_envp **lst);
+void				check_exit_code(t_pars **commands,
+						int exit_code,t_envp **lst);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
@@ -189,21 +189,22 @@ char				*expanding_hd(char *str, t_envp **envp);
 char				*free_ret_nul(char *str);
 void				cp_exp_beg(char **str, char **ret, int *j);
 
-int     parsing_command(t_pars *c, t_envp **lst);
-int     check_exec_status(char *command, int status, char *check, int o_status);
-int     oper_redir_in(t_pars *c, int stdin_save);
-int     oper_redir_out(t_pars *c, int stdout_save);
-int     oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
-int     read_heredoc(char *end_str, char *flag, t_envp **lst);
-int     exec_heredoc(int flag);
-int	    oper_redir_app(t_pars *c, int stdout_save);
-int	    redirec_main(t_pars	*command, t_envp **lst);
-int	    parsing_command(t_pars *c, t_envp **lst);
-int	    execute_parsing(t_pars *c, int std_s[], t_envp **lst);
-int	    close_file(t_redir *redirections);
-int	    reset_stdin_out(int copy_stdin_out[]);
-int     pipe_main(t_pars	**commands, t_envp **list);
-int     count_pipes(t_pars **commands);
+int					parsing_command(t_pars *c, t_envp **lst);
+int					check_exec_status(char *command,
+						int status, char *check, int o_status);
+int					oper_redir_in(t_pars *c, int stdin_save);
+int					oper_redir_out(t_pars *c, int stdout_save);
+int					oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
+int					read_heredoc(char *end_str, char *flag, t_envp **lst);
+int					exec_heredoc(int flag);
+int					oper_redir_app(t_pars *c, int stdout_save);
+int					redirec_main(t_pars	*command, t_envp **lst);
+int					parsing_command(t_pars *c, t_envp **lst);
+int					execute_parsing(t_pars *c, int std_s[], t_envp **lst);
+int					close_file(t_redir *redirections);
+int					reset_stdin_out(int copy_stdin_out[]);
+int					pipe_main(t_pars	**commands, t_envp **list);
+int					count_pipes(t_pars **commands);
 
 extern int			g_exit_code;
 

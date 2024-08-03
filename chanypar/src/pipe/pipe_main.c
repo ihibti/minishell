@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 11:47:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:02:54 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	pipe_main(t_pars	**commands, t_envp **lst)
 {
 	t_pipe		pipe;
 	int			i;
-
 
 	pipe.num_pipes = count_pipes(commands);
 	if (!pipe.num_pipes)

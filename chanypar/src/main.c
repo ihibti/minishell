@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 11:41:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:04:09 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,16 @@ int	main(int ac, char **av, char **env)
 		ret = pptreatment(ret);
 		if (!init_state(*ret))
 		{
-            printf("error\n");
+			printf("error\n");
 			free_tcmd(ret);
 			continue ;
 		}
 		parsee = parser(ret);
-		if (parsee)
+		if (*parsee)
+		{
 			g_exit_code = convert_code(pipe_main(parsee, lst));
-		// ft_free_all(ret, lst, status, 0);
-		check_exit_code(parsee, g_exit_code, lst);
+			check_exit_code(parsee, g_exit_code, lst);
+		}
 	}
 	return (0);
 }

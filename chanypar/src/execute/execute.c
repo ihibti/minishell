@@ -6,12 +6,11 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 11:44:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 15:21:47 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 int	exec(char *command, t_pars *c)
 {
@@ -32,7 +31,10 @@ int	exec(char *command, t_pars *c)
 	else
 	{
 		waitpid(pid, &status, 0);
-		status = check_exec_status(command, WEXITSTATUS(status), c->command, status);
+		if (!ft_strcmp(c->command, "cat"))
+			return (status);
+		status = check_exec_status(command,
+				WEXITSTATUS(status), c->command, status);
 		free(command);
 		return (status);
 	}
@@ -103,27 +105,28 @@ int	exec_command(t_pars *c, t_envp **lst)
 	while (c->arguments[i])
 		i++;
 	command = put_path(c->command, lst);
-	// demander mettre NULL a la fin du argv au moment du parsing
 	return (exec(command, c));
 }
 
 int	parsing_command(t_pars *c, t_envp **lst)
 {
-	if (ft_strcmp(c->command, "echo") == 0)
+	if (c->command && ft_strcmp(c->command, "echo") == 0)
 		return (ft_echo(c));
-	else if (ft_strcmp(c->command, "cd") == 0)
+	else if (c->command && ft_strcmp(c->command, "cd") == 0)
 		return (ft_cd(c, lst));
-	else if (ft_strcmp(c->command, "pwd") == 0)
+	else if (c->command && ft_strcmp(c->command, "pwd") == 0)
 		return (ft_pwd());
-	else if (ft_strcmp(c->command, "export") == 0)
+	else if (c->command && ft_strcmp(c->command, "export") == 0)
 		return (ft_export(c, lst));
-	else if (ft_strcmp(c->command, "unset") == 0)
+	else if (c->command && ft_strcmp(c->command, "unset") == 0)
 		return (ft_unset(lst, c));
-	else if (ft_strcmp(c->command, "env") == 0)
+	else if (c->command && ft_strcmp(c->command, "env") == 0)
 		return (ft_env(lst));
-	else if (ft_strcmp(c->command, "exit") == 0)
+	else if (c->command && ft_strcmp(c->command, "exit") == 0)
 		return (ft_exit(c));
-	else
+	else if (c->command)
 		return (exec_command(c, lst));
+	else
+		return (0);
 	return (0);
 }
