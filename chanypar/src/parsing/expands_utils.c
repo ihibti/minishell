@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:25:03 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 16:26:36 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,12 @@ int	interpret(char *str, char *ptr)
 		i++;
 	}
 	return (flag);
+}
+
+void	init_1(int *i, int *j, t_cmds **ret)
+{
+	*i = 0;
+	if (j)
+		*j = 0;
+	ret = malloc(sizeof(t_cmds *));
 }

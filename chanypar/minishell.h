@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 16:14:10 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 16:26:46 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ int					count_pipes(t_pars **commands);
 int					free_ori(t_ori *ori);
 char				**freee_error(char **tab);
 void				free_pars_ls(t_pars **parsee);
+void				init_1(int *i, int *j, t_cmds **ret);
 
 extern int			g_exit_code;
 

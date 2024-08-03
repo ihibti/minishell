@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 16:20:09 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 16:27:55 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	all_toge(t_ori *ori)
 	ori->cmds = split_token(ori->request);
 	if (!ori->cmds)
 		return (free_ori(ori), 1);
+	if (!*(ori->cmds))
+		return (free_tcmd(ori->cmds), 0);
 	code_attr(ori->cmds);
 	expanding(ori->cmds, ori->envs);
 	if (!ori->cmds)
