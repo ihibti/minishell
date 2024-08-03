@@ -6,30 +6,28 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/16 18:17:06 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/03 11:53:13 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_arg(t_cmds *current)
+int	check_arg(char *arg)
 {
 	int		i;
 
 	i = 0;
-	if (ft_isalpha(current->next->name[0]))
+	if (ft_atoi(arg) != -1)
 	{
 		ft_putstr_fd("exit: numeric argument required\n", 2);
 		return (2);
 	}
-	current = current->next;
-	while (current->name[i]
-		&& ((current->name[i] >= '0' && current->name[i] <= '9')
-			|| (current->name[0] == '+' || current->name[0] == '-')))
+	while (arg[i] && ((arg[i] >= '0' && arg[i] <= '9')
+			|| (arg[0] == '+' || arg[0] == '-')))
 		i++;
-	if (!current->name[i])
+	if (!arg[i])
 	{
-		i = ft_atoi(current->name);
+		i = ft_atoi(arg);
 		if (i < 0)
 			i = 256 + i;
 		else if (i > 256)
@@ -38,24 +36,23 @@ int	check_arg(t_cmds *current)
 	return (i);
 }
 
-int	ft_exit(t_cmds **ret)
+int	ft_exit(t_pars *cmd)
 {
-	t_cmds		*current;
 	int			rv;
 
-	current = *(ret);
-	(*ret)->status->isexit = 1;
 	rv = 0;
-	if (current->next && !current->next->next)
+	if (cmd->arguments && cmd->arguments[0] && !cmd->arguments[1])
+		return (0);
+	else if (cmd->arguments && cmd->arguments[0] && cmd->arguments[1])
 	{
-		rv = check_arg(current);
+		if (cmd->arguments[2])
+		{
+			ft_putstr_fd("exit: too many arguments", 2);
+			return (-1);
+		}
+		rv = check_arg(cmd->arguments[0]);
 		if (rv)
 			return (rv);
-	}
-	else if (current->next && current->next->next)
-	{
-		ft_putstr_fd("exit: too many arguments", 2);
-		return (-1);
 	}
 	return (0);
 }

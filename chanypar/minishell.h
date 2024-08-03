@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/06 17:20:33 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/30 16:52:13 by ihibti           ###   ########.fr       */
+/*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
+/*   Updated: 2024/08/03 12:04:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <termcap.h>
 # include <unistd.h>
 
+# define TEMP ".temp_heredoc.txt"
 # define WORD 9
 # define PIPE_N 10
 # define REDIR_IN 11
@@ -36,8 +37,6 @@
 # define SIN_QUOTE 20
 # define DOUB_QUOTE 21
 # define TOKEN_EX_STT 22
-
-# define TEMP ".temp_heredoc.txt"
 
 typedef struct s_cmds
 {
@@ -51,24 +50,6 @@ typedef struct s_cmds
 	char			**env;
 }					t_cmds;
 
-typedef struct s_envp
-{
-	char			*name;
-	char			*value;
-
-	struct s_envp	*next;
-	struct s_envp	*prev;
-	int				unset;
-}					t_envp;
-
-typedef struct s_ori
-{
-	t_cmds			**cmds;
-	t_envp			**envs;
-	t_pars			**parsee;
-	char			*request;
-}					t_ori;
-
 typedef struct s_file
 {
 	int				fd;
@@ -77,19 +58,6 @@ typedef struct s_file
 	struct s_file	*next;
 	struct s_file	*prev;
 }					t_file;
-
-typedef struct s_pipe
-{
-	struct s_file	**file;
-	struct s_cmds	**ret;
-	struct s_cmds	**ret_save;
-	struct s_cmds	**new_ret;
-	struct s_envp	**lst;
-	struct s_cmds	*current;
-	int				num_pipes;
-	int				**fds;
-	int				*pids;
-}					t_pipe;
 
 typedef struct s_status
 {
@@ -105,28 +73,53 @@ typedef struct s_exptr
 
 typedef enum s_type_redir
 {
-	REDIR_IN_S,
-	REDIR_OUT_S,
-	REDIR_OUT_D,
-	HEREDOC,
-}					e_type_redir;
+    REDIR_IN_S,
+    REDIR_OUT_S,
+    HEREDOC,
+    REDIR_OUT_D,
+}   e_type_redir;
 
 typedef struct s_redir
 {
-	e_type_redir	type;
-	char			*filename;
-	struct s_redir	*next;
-}					t_redir;
+    e_type_redir    type;
+    char            *filename;
+    int             fd;
+    FILE*           f;
+    struct s_redir  *next;
+}   t_redir;
 
 typedef struct s_pars
 {
-	char			*command;
-	char			**arguments;
-	t_redir			*redirections;
-	struct s_pars	*next;
-}					t_pars;
+    char            *command;
+    char            **arguments;
+    t_redir         *redirections;
+    struct s_pars    *next;
+}   t_pars;
 
-void				free_one_env(t_envp *env, t_envp **lst);
+typedef struct s_envp
+{
+	char			*name;
+	char			*value;
+
+	struct s_envp	*next;
+	struct s_envp	*prev;
+	int				unset;
+}					t_envp;
+
+typedef struct s_pipe
+{
+	int				num_pipes;
+	int				**fds;
+	int				*pids;
+}					t_pipe;
+
+typedef struct s_ori
+{
+	t_cmds			*cmds;
+	t_envp			*envs;
+	char			*request;
+}					t_ori;
+
 int					keep_pars(t_pars *new, t_cmds *cmd);
 t_pars				**parser(t_cmds **cmds);
 int					add_last_redir(t_redir *new, t_pars *pars);
@@ -178,64 +171,39 @@ void				free_tcmd(t_cmds **cmds);
 t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
-int					ft_cd(t_pars *pars, t_envp **lst);
-int					ft_echo(t_cmds *cmd, t_cmds **ret);
-int					ft_pwd(void);
-int					ft_unset(t_envp **lst, t_pars *pars);
-int					ft_export(t_pars *pars, t_envp **env);
-int					ft_exit(t_cmds **ret);
+int	ft_cd(t_pars *pars, t_envp **lst);
+int	ft_echo(t_pars *cmd);
+int	ft_env(t_envp **lst);
+int	ft_exit(t_pars *cmd);
+int	ft_export(t_pars *pars, t_envp **env);
+int	ft_pwd(void);
+int	ft_unset(t_envp **lst, t_pars *pars);
 int					ft_env(t_envp **lst);
 int					check_builtins(t_cmds **ret, t_envp **lst);
-int					builtins_checker(t_cmds *current);
-t_cmds				*find_name(t_cmds *current, char name);
-int					parsing_command(int i, t_cmds *cmds, t_envp **lst,
-						t_cmds **ret);
-int					redirec_main(t_pipe *pipe, int flag);
-int					parsing_redir(t_cmds *current, t_cmds **ret, t_envp **lst,
-						t_file **file);
-int					oper_redir_in(t_cmds *current, t_file **file,
-						int stdin_save, t_status *stat);
-int					oper_redir_out(t_cmds *current, t_file **file,
-						int stdout_save, t_status *stat);
-int					oper_heredoc_in(t_cmds *current, t_file **file,
-						t_exptr *temp, t_status *stat);
-int					oper_redir_app(t_cmds *current, t_file **file,
-						int stdout_save, t_status *stat);
-int					f_open(char *str, t_file **file);
-FILE				*f_open2(char *str, t_file **file, int redir);
-int					f_close(int fd, t_file **file);
-int					f_close2(int fd, t_file **file, FILE *f);
-int					close_file(t_file **file, int rv);
-int					ft_new_tfile(t_file **file, char file_name[], int fd);
-void				ft_del_tfile(t_file **file, int fd);
-int					time_w(void);
-int					read_heredoc(char *end_str, t_file **file, int flag,
-						t_envp **env);
-int					exec_heredoc(t_file **file, int flag);
-int					*set_posit(t_cmds **ret, int num);
-int					count_pipes(t_cmds **ret);
-int					set_command(t_cmds **ret, t_cmds ***new_ret, int i,
-						int num);
-void				set_pipe(t_cmds **ret, t_envp **list, t_pipe *pipe,
-						char **env);
-int					pipe_main(t_cmds **ret, t_envp **list, char **env);
-void				check_exit_code(t_status *status, int exit_code,
-						t_envp **lst);
-int					check_flag(int flag, int res);
-void				set_redir_parsing_param(int cpy_stdin_out[]);
+void				check_exit_code(t_pars **commands, int exit_code,t_envp **lst);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
-int					check_exec(char *command, int status, char *check,
-						int o_status);
 void				sigint_handler(int sig);
-int					exec_command(t_cmds *cmds, t_cmds **ret);
-void				ft_free_all(t_cmds **ret, t_envp **lst, t_status *status,
-						int flag);
-char				*put_path(t_cmds *c, t_cmds **ret);
 char				*expanding_hd(char *str, t_envp **envp);
 char				*free_ret_nul(char *str);
 void				cp_exp_beg(char **str, char **ret, int *j);
+
+int     parsing_command(t_pars *c, t_envp **lst);
+int     check_exec_status(char *command, int status, char *check, int o_status);
+int     oper_redir_in(t_pars *c, int stdin_save);
+int     oper_redir_out(t_pars *c, int stdout_save);
+int     oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
+int     read_heredoc(char *end_str, char *flag, t_envp **lst);
+int     exec_heredoc(int flag);
+int	    oper_redir_app(t_pars *c, int stdout_save);
+int	    redirec_main(t_pars	*command, t_envp **lst);
+int	    parsing_command(t_pars *c, t_envp **lst);
+int	    execute_parsing(t_pars *c, int std_s[], t_envp **lst);
+int	    close_file(t_redir *redirections);
+int	    reset_stdin_out(int copy_stdin_out[]);
+int     pipe_main(t_pars	**commands, t_envp **list);
+int     count_pipes(t_pars **commands);
 
 extern int			g_exit_code;
 

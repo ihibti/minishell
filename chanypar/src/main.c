@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/29 17:06:56 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 11:41:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,10 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		parsee = parser(ret);
-		// if (*ret)
-		// 	(*ret)->status = status;
-		// if (ret && *(ret))
-		// 	g_exit_code = convert_code(pipe_main(ret, lst, env));
+		if (parsee)
+			g_exit_code = convert_code(pipe_main(parsee, lst));
 		// ft_free_all(ret, lst, status, 0);
-		// check_exit_code(status, g_exit_code, lst);
+		check_exit_code(parsee, g_exit_code, lst);
 	}
 	return (0);
 }

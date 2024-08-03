@@ -3,75 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:13:38 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 11:55:39 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_file_name(char *name, t_cmds **ret)
-{
-	t_file	*file;
+// int	check_file_name(char *name, t_pars *cmd)
+// {
+// 	t_file	*file;
 
-	file = (*(*ret)->file);
-	while (file)
-	{
-		if (ft_strcmp(name, file->file_name) == 0)
-			return (1);
-		file = file->prev;
-	}
-	return (0);
-}
+// 	file = (*(*ret)->file);
+// 	while (file)
+// 	{
+// 		if (ft_strcmp(name, file->file_name) == 0)
+// 			return (1);
+// 		file = file->prev;
+// 	}
+// 	return (0);
+// }
 
-void	execute(t_cmds *current, t_cmds **ret)
-{
-	int	i;
+// void	execute(t_pars *cmd)
+// {
+// 	int	i;
 
-	i = 0;
-	while (current && (current->code_id == 9 || (current->code_id >= 20
-				&& current->code_id != 22) || current->code_id == 11
-			|| current->code_id == 12))
-	{
-		while (current && (current->code_id == 11 || current->code_id == 12))
-		{
-			current = current->next;
-			if (check_file_name(current->name, ret))
-				current = current->next;
-		}
-		if (!current)
-			break ;
-		if (current && current->code_id == 9 && i)
-			printf(" ");
-		printf("%s", current->name);
-		current = current->next;
-		i = 1;
-	}
-}
+// 	i = 0;
+// 	while (cmd && cmd->redirections
+// 			&& (cmd->redirections->type == REDIR_IN_S
+// 			|| cmd->redirections->type == REDIR_OUT_S))
+// 	{
+// 		while (cmd->redirections && cmd->arguments[i])
+// 		{
+// 			if (check_file_name(cmd->arguments[i], cmd))
+// 				i++;
+// 			cmd->redirections = cmd->redirections->next;
+// 		}
+// 		if (!cmd)
+// 			break ;
+// 		if (cmd && cmd->code_id == 9 && i)
+// 			printf(" ");
+// 		printf("%s", cmd->name);
+// 		cmd = cmd->next;
+// 		i = 1;
+// 	}
+// }
 
-int	ft_echo(t_cmds *cmd, t_cmds **ret)
+int	ft_echo(t_pars *cmd)
 {
 	int		flag;
-	t_cmds	*current;
+	int		i;
 
 	if (!cmd)
 		return (1);
-	current = cmd->next;
-	if (current && ft_strcmp(current->name, "-n") == 0)
+	i = 1;
+	if (cmd->next && cmd->next->arguments && ft_strcmp(cmd->next->arguments[i], "-n") == 0)
 	{
 		flag = 0;
-		current = current->next;
+		cmd = cmd->next;
 	}
 	else
 		flag = 1;
-	while (current && current->code_id == WORD)
+	while (cmd && cmd->arguments && cmd->arguments[i])
 	{
-		printf("%s", current->name);
-		if (current->next && current->next->code_id == WORD)
+		printf("%s", cmd->arguments[i++]);
+		if (cmd->arguments[i])
 			printf(" ");
-		current = current->next;
 	}
 	if (flag == 1)
 		printf("\n");
