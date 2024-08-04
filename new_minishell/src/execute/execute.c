@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:56:02 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 19:34:22 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:31:02 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,13 @@ char	*put_path(char *command, t_envp **lst)
 int	exec_command(t_pars *c, t_envp **lst)
 {
 	char	*command;
+	t_envp	*temp;
 
+	temp = *lst;
 	command = put_path(c->command, lst);
 	if (!command)
 		command = ft_strdup(c->command);
+	*lst = temp;
 	return (exec(command, c));
 }
 

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 19:57:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:32:06 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	check_exit_code(t_pars **commands, int exit_code, t_envp **lst, t_ori *ori)
 		return ;
 	if (!is_exit)
 	{
-		*lst = free_envp(lst);
+		free_envp(lst);
 		free(lst);
 		free_tori(ori);
 		exit(exit_code);
