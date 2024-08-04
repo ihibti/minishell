@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 18:44:44 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:07:38 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,17 @@ int	main(int ac, char **av, char **env)
 		ori.request = ft_readline(status);
 		if (all_toge(&ori))
 			return (free_ori(&ori), 1);
+		if (!ori.parsee)
+			continue ;
 		if (ori.parsee)
 		{
 			g_exit_code = convert_code(pipe_main(ori.parsee, ori.envs));
 			check_exit_code(ori.parsee, g_exit_code, ori.envs);
 		}
-		free_ori(&ori);
+		free_tcmd(ori.cmds);
+		free_pars_ls(ori.parsee);
+		if (ori.request)
+			free(ori.request);
 	}
 	return (0);
 }

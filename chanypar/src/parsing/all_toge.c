@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 18:59:14 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:06:32 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	all_toge(t_ori *ori)
 	if (!ori->cmds)
 		return (free_ori(ori), 1);
 	if (!*(ori->cmds))
-		return (free_tcmd(ori->cmds), 0);
+		return (free_tcmd(ori->cmds), printf("syntax error\n"), 0);
 	code_attr(ori->cmds);
 	expanding(ori->cmds, ori->envs);
 	if (!ori->cmds)
