@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:15:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/30 16:35:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:59:09 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,18 @@ int	bad_id(char *str)
 		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '='
 			&& str[i] != ' ')
 			return (1);
+		if (str[i] == ' ')
+			count++;
 		i++;
 	}
+	if (count == 0 && ft_occur(str, ' ') > 0)
+		return (1);
 	return (0);
 }
 
 int	export_error(char *str)
 {
-	if (ft_occur(str, '=') != 1)
+	if (ft_occur(str, '=') > 1)
 		return (1);
 	if (bad_id(str))
 		return (1);
@@ -72,8 +76,12 @@ int	ft_export(t_pars *pars, t_envp **env)
 	{
 		if (!str[i] || !str[i][0] || export_error(str[i]))
 			return (ft_putstr_fd("mkshell export bad assignment\n", 2), 1);
-		if (!add_envplast(env, str[i]))
-			return (-1);
+		if (ft_occur(str[i], '=') > 0)
+			if (!add_envplast(env, str[i]))
+				return (-1);
+		if (ft_occur(str[i], '=') == 0)
+			if (!add_envplast_null(env, str[i]))
+				return (-1);
 		i++;
 	}
 	return (0);

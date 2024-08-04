@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 19:13:02 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:56:56 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,24 @@ typedef enum s_type_redir
 	REDIR_OUT_S,
 	HEREDOC,
 	REDIR_OUT_D,
-}		t_type_redir;
+}					t_type_redir;
 
 typedef struct s_redir
 {
-	t_type_redir				type;
-	char						*filename;
-	int							fd;
-	FILE*						f;
-	struct s_redir				*next;
-}	t_redir;
+	t_type_redir	type;
+	char			*filename;
+	int				fd;
+	FILE			*f;
+	struct s_redir	*next;
+}					t_redir;
 
 typedef struct s_pars
 {
-	char					*command;
-	char					**arguments;
-	t_redir					*redirections;
-	struct s_pars			*next;
-}	t_pars;
+	char			*command;
+	char			**arguments;
+	t_redir			*redirections;
+	struct s_pars	*next;
+}					t_pars;
 
 typedef struct s_envp
 {
@@ -179,8 +179,8 @@ int					ft_export(t_pars *pars, t_envp **env);
 int					ft_pwd(void);
 int					ft_unset(t_envp **lst, t_pars *pars);
 int					ft_env(t_envp **lst);
-void				check_exit_code(t_pars **commands,
-						int exit_code, t_envp **lst);
+void				check_exit_code(t_pars **commands, int exit_code,
+						t_envp **lst);
 int					convert_code(int num);
 int					ch_err(int num, int cpy_stdin_out[]);
 int					reset_stdin_out(int copy_stdin_out[]);
@@ -196,21 +196,22 @@ char				*rep_ex_sig(char *str, char *ptr);
 int					all_toge(t_ori *ori);
 
 int					parsing_command(t_pars *c, t_envp **lst);
-int					check_exec_status(char *command,
-						int status, char *check, int o_status);
+int					check_exec_status(char *command, int status, char *check,
+						int o_status);
 int					oper_redir_in(t_pars *c, int stdin_save);
 int					oper_redir_out(t_pars *c, int stdout_save);
 int					oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
 int					read_heredoc(char *end_str, char *flag, t_envp **lst);
 int					exec_heredoc(int flag);
 int					oper_redir_app(t_pars *c, int stdout_save);
-int					redirec_main(t_pars	*command, t_envp **lst);
+int					redirec_main(t_pars *command, t_envp **lst);
 int					parsing_command(t_pars *c, t_envp **lst);
 int					execute_parsing(t_pars *c, int std_s[], t_envp **lst);
 int					close_file(t_redir *redirections);
 int					reset_stdin_out(int copy_stdin_out[]);
-int					pipe_main(t_pars	**commands, t_envp **list);
+int					pipe_main(t_pars **commands, t_envp **list);
 int					count_pipes(t_pars **commands);
+t_envp				**add_envplast_null(t_envp **ret, char *str);
 
 extern int			g_exit_code;
 

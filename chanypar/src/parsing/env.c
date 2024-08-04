@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 20:19:16 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:27:34 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:56:46 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ dessus et l actualiser au fil des commandes
 
 t_envp	**lst_env(char **env)
 {
-	t_envp		**head;
-	int			i;
+	t_envp	**head;
+	int		i;
 
 	i = 0;
 	if (!env)
@@ -65,6 +65,34 @@ t_envp	**add_envplast(t_envp **ret, char *str)
 		return (NULL);
 	new->name = ft_strlimdup(str, ft_pos_c(str, '='));
 	new->value = ft_strdup(str + ft_pos_c(str, '=') + 1);
+	new->next = NULL;
+	new->prev = NULL;
+	new->unset = 0;
+	if (!*ret)
+	{
+		*ret = new;
+		return (ret);
+	}
+	current = *ret;
+	while (current->next)
+		current = current->next;
+	current->next = new;
+	new->prev = current;
+	return (ret);
+}
+
+t_envp	**add_envplast_null(t_envp **ret, char *str)
+{
+	t_envp	*current;
+	t_envp	*new;
+
+	if (!ret || !str)
+		return (NULL);
+	new = malloc(sizeof(t_envp));
+	if (!new)
+		return (NULL);
+	new->name = ft_strdup(str);
+	new->value = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	new->unset = 0;
