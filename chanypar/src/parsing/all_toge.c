@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_toge.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 17:55:17 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:59:14 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	free_ori(t_ori *ori)
 
 int	all_toge(t_ori *ori)
 {
+	ori->parsee = NULL;
 	ori->cmds = split_token(ori->request);
 	if (!ori->cmds)
 		return (free_ori(ori), 1);
@@ -98,6 +99,8 @@ int	all_toge(t_ori *ori)
 		return (0);
 	}
 	ori->parsee = parser(ori->cmds);
+	if (!ori->parsee)
+		return (free_ori(ori), 1);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pro_pars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:03:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 17:59:40 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:55:11 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,19 @@ static void	pars_0(t_pars *new)
 	new->redirections = NULL;
 }
 
+t_cmds	*pars_state(t_pars *new, t_cmds *current, t_pars **ret)
+{
+	while (current && current->code_id != PIPE_N)
+	{
+		if (keep_pars(new, current))
+			return (free_pars_ls(ret), NULL);
+		if (current->code_id != WORD)
+			current = current->next;
+		current = current->next;
+	}
+	return (current);
+}
+
 t_pars	**parser(t_cmds **cmds)
 {
 	t_cmds	*current;
@@ -50,14 +63,7 @@ t_pars	**parser(t_cmds **cmds)
 		if (!new)
 			return (free_pars_ls(ret), NULL);
 		pars_0(new);
-		while (current && current->code_id != PIPE_N)
-		{
-			if (keep_pars(new, current))
-				return (free_pars_ls(ret), NULL);
-			if (current->code_id != WORD)
-				current = current->next;
-			current = current->next;
-		}
+		current = pars_state(new, current, ret);
 		add_last_par(ret, new);
 		if (current)
 			current = current->next;
