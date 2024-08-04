@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 17:54:39 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 19:13:02 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int					reset_stdin_out(int copy_stdin_out[]);
 char				*expanding_hd(char *str, t_envp **envp);
 char				*free_ret_nul(char *str);
 void				cp_exp_beg(char **str, char **ret, int *j);
-void				init_1(int *i, int *j, t_cmds **ret);
+void				init_1(int *i, int *j, t_cmds ***ret);
 char				**freee_error(char **tab);
 int					free_ori(t_ori *ori);
 void				free_pars_ls(t_pars **parsee);

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 16:26:54 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:12:33 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_cmds	**split_token(char *request)
 	int		j;
 	t_cmds	**ret;
 
-	init_1(&i, &j, ret);
+	init_1(&i, &j, &ret);
 	if (!ret)
 		return (NULL);
 	*ret = NULL;

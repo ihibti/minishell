@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 19:07:38 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 19:10:59 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,14 @@ char	*ft_readline(t_status *status)
 	return (cpy);
 }
 
+void	init_ori(t_ori *ori)
+{
+	ori->cmds = NULL;
+	ori->cmds = NULL;
+	ori->parsee = NULL;
+	ori->request = NULL;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_status	*status;
@@ -89,6 +97,7 @@ int	main(int ac, char **av, char **env)
 	int			i;
 
 	set_param(ac, av, &status);
+	init_ori(&ori);
 	ori.envs = lst_env(env);
 	while (1)
 	{
@@ -97,7 +106,7 @@ int	main(int ac, char **av, char **env)
 			return (free_ori(&ori), 1);
 		if (!ori.parsee)
 			continue ;
-		if (ori.parsee)
+		else
 		{
 			g_exit_code = convert_code(pipe_main(ori.parsee, ori.envs));
 			check_exit_code(ori.parsee, g_exit_code, ori.envs);
