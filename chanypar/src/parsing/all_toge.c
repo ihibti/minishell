@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   all_toge.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 16:07:43 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 17:55:17 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,30 @@ int	free_ori(t_ori *ori)
 		free_pars_ls(ori->parsee);
 	if (ori->request)
 		free(ori->request);
+	return (0);
+}
+
+int	all_toge(t_ori *ori)
+{
+	ori->cmds = split_token(ori->request);
+	if (!ori->cmds)
+		return (free_ori(ori), 1);
+	if (!*(ori->cmds))
+		return (free_tcmd(ori->cmds), 0);
+	code_attr(ori->cmds);
+	expanding(ori->cmds, ori->envs);
+	if (!ori->cmds)
+		return (free_ori(ori), 1);
+	ori->cmds = pptreatment(ori->cmds);
+	if (!*ori->cmds)
+		return (free_tcmd(ori->cmds), ori->parsee = NULL, 0);
+	if (!init_state(*(ori->cmds)))
+	{
+		free_tcmd(ori->cmds);
+		ori->parsee = NULL;
+		return (0);
+	}
+	ori->parsee = parser(ori->cmds);
 	return (0);
 }
 

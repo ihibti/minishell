@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 16:27:55 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/04 18:44:44 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,30 +82,6 @@ char	*ft_readline(t_status *status)
 	return (cpy);
 }
 
-int	all_toge(t_ori *ori)
-{
-	ori->cmds = split_token(ori->request);
-	if (!ori->cmds)
-		return (free_ori(ori), 1);
-	if (!*(ori->cmds))
-		return (free_tcmd(ori->cmds), 0);
-	code_attr(ori->cmds);
-	expanding(ori->cmds, ori->envs);
-	if (!ori->cmds)
-		return (free_ori(ori), 1);
-	ori->cmds = pptreatment(ori->cmds);
-	if (!*ori->cmds)
-		return (free_tcmd(ori->cmds), ori->parsee = NULL, 0);
-	if (!init_state(*(ori->cmds)))
-	{
-		free_tcmd(ori->cmds);
-		ori->parsee = NULL;
-		return (0);
-	}
-	ori->parsee = parser(ori->cmds);
-	return (0);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_status	*status;
@@ -124,6 +100,7 @@ int	main(int ac, char **av, char **env)
 			g_exit_code = convert_code(pipe_main(ori.parsee, ori.envs));
 			check_exit_code(ori.parsee, g_exit_code, ori.envs);
 		}
+		free_ori(&ori);
 	}
 	return (0);
 }

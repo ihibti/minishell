@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_hd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 18:03:08 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 15:02:45 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 17:47:49 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-char	*rep_ex_sig_hd(char *str, char *ptr);
 
 char	*nomatch_hd(char *ptr, char *str)
 {

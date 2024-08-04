@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pro_pars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:03:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 16:15:30 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/03 17:59:40 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_redir	*new_redir(e_type_redir type, char *filename)
+t_redir	*new_redir(t_type_redir type, char *filename)
 {
 	t_redir	*res;
 
