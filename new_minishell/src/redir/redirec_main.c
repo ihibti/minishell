@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:36:27 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 13:29:42 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:49:53 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst)
 	}
 	if (read_heredoc(c->redirections->filename, flag, lst) == -1)
 		return (-1);
-	return (exec_heredoc(stdin_save));
+	return (exec_heredoc(stdin_save, c->redirections));
 }
 
 int	oper_redir_app(t_pars *c, int stdout_save)
@@ -103,7 +103,9 @@ int	redirec_main(t_pars	*command, t_envp **lst)
 {
 	int			return_value;
 	int			cpy_stdin_out[2];
+	t_redir		*save;
 
+	save = command->redirections;
 	if (!command->redirections)
 		return (parsing_command(command, lst));
 	cpy_stdin_out[0] = 0;
@@ -115,6 +117,7 @@ int	redirec_main(t_pars	*command, t_envp **lst)
 		command->redirections = command->redirections->next;
 	}
 	return_value = parsing_command(command, lst);
+	command->redirections = save;
 	if (close_file(command->redirections) == -1)
 		return (reset_stdin_out(cpy_stdin_out), -1);
 	if (reset_stdin_out(cpy_stdin_out) == -1)

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 20:18:45 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:51:52 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ int					oper_redir_in(t_pars *c, int stdin_save);
 int					oper_redir_out(t_pars *c, int stdout_save);
 int					oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
 int					read_heredoc(char *end_str, char *flag, t_envp **lst);
-int					exec_heredoc(int flag);
+int					exec_heredoc(int flag, t_redir *redirections);
 int					oper_redir_app(t_pars *c, int stdout_save);
 int					redirec_main(t_pars	*command, t_envp **lst);
 int					parsing_command(t_pars *c, t_envp **lst);

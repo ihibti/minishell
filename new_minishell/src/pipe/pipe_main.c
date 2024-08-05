@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 15:02:54 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 22:23:09 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ int	execute_pipe(t_pars *c, int i, t_pipe *pipe, t_envp **lst)
 int	pipe_main(t_pars	**commands, t_envp **lst)
 {
 	t_pipe		pipe;
+	t_pars		*save;
 	int			i;
 
+	save = *commands;
 	pipe.num_pipes = count_pipes(commands);
 	if (!pipe.num_pipes)
 		return (redirec_main(*commands, lst));
@@ -114,5 +116,6 @@ int	pipe_main(t_pars	**commands, t_envp **lst)
 		close(pipe.fds[i][0]);
 		close(pipe.fds[i][1]);
 	}
+	*commands = save;
 	return (free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
 }

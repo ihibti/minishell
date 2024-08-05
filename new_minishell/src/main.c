@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 20:31:57 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:36:38 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	set_param(int ac, char **av)
 	g_exit_code = 0;
 }
 
-char	*ft_readline(void)
+char	*ft_readline(t_envp **lst)
 {
 	char	*cpy;
 
@@ -69,6 +69,8 @@ char	*ft_readline(void)
 	}
 	if (!cpy)
 	{
+		free_envp(lst);
+		free(lst);
 		rl_clear_history();
 		free(cpy);
 		exit(0);
@@ -95,7 +97,7 @@ int	main(int ac, char **av, char **env)
 	ori.envs = lst_env(env);
 	while (1)
 	{
-		ori.request = ft_readline();
+		ori.request = ft_readline(ori.envs);
 		if (all_toge(&ori))
 			return (free_ori(&ori), 1);
 		if (!ori.parsee)

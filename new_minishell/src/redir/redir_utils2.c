@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:15:00 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 12:06:37 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:45:00 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	close_file(t_redir *redirections)
 {
-	if (access(TEMP, F_OK))
-		unlink(TEMP);
 	while (redirections)
 	{
 		if (redirections->f)
@@ -30,6 +28,8 @@ int	close_file(t_redir *redirections)
 		}
 		redirections = redirections->next;
 	}
+	if (access(TEMP, F_OK))
+		unlink(TEMP);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 18:43:05 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/04 22:24:28 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ int	print_buff(char *buffer, int filenum)
 	ft_putchar_fd('\n', filenum);
 	free(buffer);
 	return (0);
+}
+void clear_stdin_buffer() {
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
 int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
@@ -35,7 +39,6 @@ int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 			ft_putchar_fd('\n', 1);
 			ft_putstr_fd("MINI: warning: ", 2);
 			ft_putstr_fd("heredoc delimited by end-of-file (wanted `end')", 2);
-			ft_putstr_fd(end_str, 2);
 			ft_putstr_fd("\n", 2);
 			exit(fclose(temp));
 		}
@@ -54,6 +57,7 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 	int		pid;
 	int		status;
 
+	// clear_stdin_buffer();
 	if (access(TEMP, F_OK) == 0 && unlink(TEMP) != 0)
 		return (-1);
 	pid = fork();
@@ -75,7 +79,7 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 	return (0);
 }
 
-int	exec_heredoc(int flag)
+int	exec_heredoc(int flag, t_redir	*redirections)
 {
 	FILE	*temp;
 	int		stdin_save;
@@ -84,6 +88,7 @@ int	exec_heredoc(int flag)
 	temp = fopen(TEMP, "r");
 	if (!temp)
 		return (-1);
+	redirections->f = temp;
 	fd = fileno(temp);
 	if (fd == -1)
 		return (-1);
