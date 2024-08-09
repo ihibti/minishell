@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:34:48 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 22:24:28 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:29:10 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ int	print_buff(char *buffer, int filenum)
 	free(buffer);
 	return (0);
 }
+// TODO: fonction interdite : getchar
 void clear_stdin_buffer() {
     int ch;
     while ((ch = getchar()) != '\n' && ch != EOF);
 }
 
+// TODO: fonction interdite fclose
 int	put_heredoc(t_envp **env, char *end_str, FILE *temp)
 {
 	char	*buffer;
@@ -79,6 +81,7 @@ int	read_heredoc(char *end_str, char *flag, t_envp **lst)
 	return (0);
 }
 
+// TODO : fopen interdit
 int	exec_heredoc(int flag, t_redir	*redirections)
 {
 	FILE	*temp;
