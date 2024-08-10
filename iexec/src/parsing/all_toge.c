@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 14:16:35 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 17:06:44 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	free_ori(t_ori *ori)
 int	all_toge(t_ori *ori)
 {
 	ori->parsee = NULL;
+	ori->fraude = 1;
 	ori->cmds = split_token(ori->request);
 	if (!ori->cmds)
 		return (free_ori(ori), 1);

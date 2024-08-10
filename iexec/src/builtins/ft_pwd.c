@@ -6,19 +6,24 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:43:52 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/30 15:56:04 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:02:40 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_ori *ori, t_pars *pars)
 {
 	char	pwd[2048];
 
+	(void)ori;
+	(void)pars;
 	if (!getcwd(pwd, 2048))
-		printf("PWD error : %s\n", strerror(errno));
-	if (ft_strlen(pwd) + 1 > printf("%s\n", pwd))
-		return (printf("error writing\n"), 1);
+	{
+		ft_putstr_fd("PWD error", 2);
+		ft_putendl_fd(strerror(errno), 2);
+	}
+	ft_putstr_fd(pwd, ori->fraude);
+	ft_putstr_fd("\n", ori->fraude);
 	return (0);
 }

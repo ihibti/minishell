@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/10 14:21:48 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:16:29 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@
 # define E_ENV "env: "
 # define E_FORK "fork error\n"
 # define E_OPEN "error opening file\n"
+# define FRAUDE 77
+# define LEGIT 44
 
 typedef struct s_cmds
 {
@@ -134,8 +136,13 @@ typedef struct s_ori
 	t_pars			**parsee;
 	char			*request;
 	int				nb_heredoc;
+	int				fraude;
+	int				fraude_in;
 }					t_ori;
 
+void				safe_close(int fd);
+void				sigint_handler_here_doc(int useless);
+void				sigint_handler_child(int useless);
 void				close_fd(int fd, int i);
 void				close_all_fd(int pipe_fd[2], int c_fd, int i,
 						bool close_fd_0);
@@ -145,7 +152,7 @@ void				do_dup(int c_fd, int pipe_fd[2], int i, t_ori *ori);
 int					ft_heredoc(t_redir *redir, char *modified, t_ori *ori);
 int					loop_here(t_ori *ori);
 int					wait_for_child(pid_t pid);
-int					brexit(t_ori *ori, char *msg);
+int					brexit(t_ori *ori, char *msg, int exitc);
 int					pipex(t_ori *ori);
 char				*pathfinder(char *cmd, char **path_t);
 char				**env_trans(t_envp **lst);
@@ -200,14 +207,14 @@ void				free_tcmd(t_cmds **cmds);
 t_cmds				**pptreatment(t_cmds **cmds);
 int					replace_quote(t_cmds *cmds);
 int					update_env(t_envp **lst, char *key, char *n_value);
-int					ft_cd(t_pars *pars, t_envp **lst);
-int					ft_echo(t_pars *cmd);
-int					ft_env(t_envp **lst);
-int					ft_exit(t_pars *cmd);
-int					ft_export(t_pars *pars, t_envp **env);
-int					ft_pwd(void);
-int					ft_unset(t_envp **lst, t_pars *pars);
-int					ft_env(t_envp **lst);
+int					ft_cd(t_ori *ori, t_pars *pars);
+int					ft_echo(t_ori *ori, t_pars *pars);
+int					ft_env(t_ori *ori, t_pars *pars);
+int					ft_exit(t_ori *ori, t_pars *pars);
+int					ft_export(t_ori *ori, t_pars *pars);
+int					ft_pwd(t_ori *ori, t_pars *pars);
+int					ft_unset(t_ori *ori, t_pars *pars);
+int					ft_env(t_ori *ori, t_pars *pars);
 void				check_exit_code(t_pars **commands, int exit_code,
 						t_envp **lst, t_ori *ori);
 int					convert_code(int num);
@@ -241,6 +248,7 @@ int					reset_stdin_out(int copy_stdin_out[]);
 int					pipe_main(t_pars **commands, t_envp **list);
 int					count_pipes(t_pars **commands);
 void				free_tori(t_ori *ori);
+void				built_ex(t_ori *ori);
 
 extern int			g_exit_code;
 

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 15:01:31 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:37:28 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	check_numeric(char	*arg)
+int	check_numeric(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i])
@@ -33,7 +33,7 @@ int	check_numeric(char	*arg)
 
 int	check_arg(char *arg)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (ft_atoi(arg) == -1 || check_numeric(arg))
@@ -41,8 +41,8 @@ int	check_arg(char *arg)
 		ft_putstr_fd("exit: numeric argument required\n", 2);
 		return (2);
 	}
-	while (arg[i] && ((arg[i] >= '0' && arg[i] <= '9')
-			|| (arg[0] == '+' || arg[0] == '-')))
+	while (arg[i] && ((arg[i] >= '0' && arg[i] <= '9') || (arg[0] == '+'
+				|| arg[0] == '-')))
 		i++;
 	if (!arg[i])
 	{
@@ -55,21 +55,21 @@ int	check_arg(char *arg)
 	return (i);
 }
 
-int	ft_exit(t_pars *cmd)
+int	ft_exit(t_ori *ori, t_pars *pars)
 {
-	int			rv;
+	int	rv;
 
 	rv = 0;
-	if (cmd->arguments && cmd->arguments[0] && !cmd->arguments[1])
-		return (0);
-	else if (cmd->arguments && cmd->arguments[0] && cmd->arguments[1])
+	if (pars->arguments && pars->arguments[0] && !pars->arguments[1])
+		return (brexit(ori, NULL, 0));
+	else if (pars->arguments && pars->arguments[0] && pars->arguments[1])
 	{
-		if (cmd->arguments[2])
+		if (pars->arguments[1])
 		{
 			ft_putstr_fd("exit: too many arguments", 2);
 			return (-1);
 		}
-		rv = check_arg(cmd->arguments[1]);
+		rv = check_arg(pars->arguments[1]);
 		if (rv)
 			return (rv);
 	}

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:04:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 14:22:32 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 14:55:41 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	redir_out2(int pipe_fd[2], t_redir *redir, t_ori *ori)
 	{
 		perror(redir->filename);
 		(close(pipe_fd[0]), close(pipe_fd[1]));
-		brexit(ori, E_OPEN);
+		brexit(ori, E_OPEN,1);
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
 		perror("dup2(fd_out)");
 		(close(pipe_fd[0]), close(pipe_fd[1])), close(fd_out);
-		brexit(ori, "error dup\n");
+		brexit(ori, "error dup\n",1);
 	}
 	close(fd_out);
 }
@@ -55,7 +55,7 @@ void	redir_out(int pipe_fd[2], int flag[4], t_redir *redir, t_ori *ori)
 		{
 			perror("dup2(pipe_fd[1])");
 			(close(pipe_fd[0]), close(pipe_fd[1]));
-			brexit(ori, "error dup\n");
+			brexit(ori, "error dup\n",1);
 		}
 	}
 }
@@ -66,7 +66,7 @@ void	redir_in2(int pipe_fd[2], int c_fd, t_ori *ori)
 	{
 		perror("dup2(c_fd)");
 		(close(pipe_fd[0]), close(pipe_fd[1]), close(c_fd));
-		brexit(ori, "error dup\n");
+		brexit(ori, "error dup\n",1);
 	}
 }
 
@@ -81,14 +81,14 @@ void	redir_in(int pipe_fd[2], int flag[4], t_redir *redir, t_ori *ori)
 		{
 			perror(redir->filename);
 			(close(pipe_fd[0]), close(pipe_fd[1]), close(flag[3]));
-			brexit(ori, E_OPEN);
+			brexit(ori, E_OPEN,1);
 		}
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 		{
 			perror("dup2(fd_in)");
 			(close(pipe_fd[0]), close(pipe_fd[1]), close(flag[3]),
 				close(fd_in));
-			brexit(ori, E_OPEN);
+			brexit(ori, E_OPEN,1);
 		}
 		close(fd_in);
 	}

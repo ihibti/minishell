@@ -6,15 +6,21 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:46:55 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 14:18:24 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:16:22 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
+void	safe_close(int fd)
+{
+	if (fd > 1)
+		close(fd);
+}
+
 void	close_fd(int fd, int i)
 {
-	if (i != 0)
+	if (i > 1)
 		close(fd);
 }
 
@@ -28,7 +34,7 @@ void	close_all_fd(int pipe_fd[2], int c_fd, int i, bool close_fd_0)
 
 // TODO : changer pour avoir en parametres le __msg___
 
-int	brexit(t_ori *ori, char *msg)
+int	brexit(t_ori *ori, char *msg, int exitc)
 {
 	if (msg)
 	{
@@ -36,7 +42,7 @@ int	brexit(t_ori *ori, char *msg)
 		printf("%s\n", msg);
 	}
 	free_ori(ori);
-	exit(g_exit_code);
+	exit(exitc);
 }
 
 int	nb_pipes(t_pars *current)
@@ -123,8 +129,8 @@ void	child(t_ori *ori, int fd[2], int i, int flag)
 	int		j;
 	char	**env;
 
+	signal(SIGINT, &sigint_handler_child);
 	j = 0;
-	signal(SIGQUIT, SIG_DFL);
 	current = *ori->parsee;
 	while (j < i && current)
 	{
@@ -134,7 +140,7 @@ void	child(t_ori *ori, int fd[2], int i, int flag)
 	do_dup(flag, fd, i, ori);
 	env = env_trans(ori->envs);
 	if (!env)
-		brexit(ori, E_MALLOC);
+		brexit(ori, E_MALLOC, 1);
 	ft_exec(current->arguments, env, ori);
 }
 
@@ -250,17 +256,19 @@ int	pipex(t_ori *ori)
 		if (i != 0)
 			flag = fd[0];
 		if (pipe(fd) == -1)
-			return (close_all_fd(fd, flag, i, true), brexit(ori, E_PIPE), -1);
+			return (close_all_fd(fd, flag, i, true), brexit(ori, E_PIPE, 1),
+				-1);
 		pid = fork();
 		if (pid == -1)
-			return (close_all_fd(fd, flag, i, true), brexit(ori, E_FORK), -1);
+			return (close_all_fd(fd, flag, i, true), brexit(ori, E_FORK, 1),
+				-1);
 		if (pid == 0)
 			child(ori, fd, i, flag);
 		close_all_fd(fd, flag, i, false);
 		i++;
 		current = current->next;
 	}
-    close_all_fd(fd, flag, i, true);
+	close_all_fd(fd, flag, i, true);
 	g_exit_code = wait_for_child(pid);
 	return (0);
 }

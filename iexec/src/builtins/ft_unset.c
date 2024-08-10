@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 19:51:14 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 11:39:19 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:18:32 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ void	free_one_env(t_envp *env, t_envp **lst)
 	free(env);
 }
 
-int	ft_unset(t_envp **lst, t_pars *pars)
+int	ft_unset(t_ori *ori, t_pars *pars)
 {
 	char	**str;
 	t_envp	*current;
+	t_envp	**lst;
 	int		i;
 
+	lst = ori->envs;
 	if (!lst || !pars)
 		return (1);
 	str = pars->arguments;

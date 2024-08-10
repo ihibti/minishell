@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:38:35 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/03 14:27:55 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/10 18:17:52 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,30 +65,30 @@
 // 	return (0);
 // }
 
-int	ft_echo(t_pars *cmd)
+int	ft_echo(t_ori *ori, t_pars *pars)
 {
-	int		flag;
-	int		i;
+	int	flag;
+	int	i;
 
-	if (!cmd)
+	if (!pars)
 		return (1);
 	i = 1;
-	if (cmd->arguments && cmd->arguments[1]
-		&& !ft_strcmp(cmd->arguments[1], "-n"))
+	if (pars->arguments && pars->arguments[1] && !ft_strncmp(pars->arguments[1],
+			"-n",2))
 	{
 		flag = 0;
 		i++;
 	}
 	else
 		flag = 1;
-	while (cmd && cmd->arguments && cmd->arguments[i])
+	while (pars && pars->arguments && pars->arguments[i])
 	{
-		printf("%s", cmd->arguments[i]);
-		if (cmd->arguments[i] && cmd->arguments[i + 1])
-			printf(" ");
+		ft_putstr_fd(pars->arguments[i], ori->fraude);
+		if (pars->arguments[i] && pars->arguments[i + 1])
+			ft_putstr_fd(" ", ori->fraude);
 		i++;
 	}
 	if (flag == 1)
-		printf("\n");
+		ft_putstr_fd("\n", ori->fraude);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 14:06:45 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:11:50 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,31 @@ int		g_exit_code = 0;
 
 void	sigint_handler(int sig)
 {
-	char	*cwd;
-
 	(void)sig;
-	if (g_exit_code != -2)
-		printf("\n%s", "MINI:");
-	else
-		printf("\n");
+	g_exit_code = 130;
+	rl_on_new_line();
+	if (isatty(0))
+		ft_putstr_fd("\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	sigint_handler_child(int useless)
+{
+	(void)useless;
+}
+
+void	set_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	sigint_handler_here_doc(int useless)
+{
+	(void)useless;
+	close(0);
+	g_exit_code = -999;
 }
 
 void	history(char *str)
@@ -57,9 +75,7 @@ char	*ft_readline(t_ori *ori)
 {
 	char	*cpy;
 
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
+	set_signals();
 	cpy = NULL;
 	cpy = readline("MINI:");
 	while (cpy && !*cpy)
@@ -84,6 +100,8 @@ void	init_ori(t_ori *ori)
 	ori->parsee = NULL;
 	ori->request = NULL;
 	ori->nb_heredoc = 0;
+	ori->fraude = 1;
+	ori->fraude_in = 0;
 }
 
 // TODO : changer le brexit et les exit status
@@ -113,7 +131,7 @@ int	main(int ac, char **av, char **env)
 				free_tori(&ori);
 				continue ;
 			}
-			pipex(&ori);
+			built_ex(&ori);
 		}
 		free_tori(&ori);
 		ori.nb_heredoc = 0;
