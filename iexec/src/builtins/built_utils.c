@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 20:21:39 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:20:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:42:30 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,6 @@ void	built_ex(t_ori *ori)
 		g_exit_code = do_built(ori, FRAUDE, *ori->parsee);
 	else
 		pipex(ori);
+	if (ori->need_exit)
+		brexit(ori, NULL, g_exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:46:55 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:16:22 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:22:58 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,11 @@ void	child(t_ori *ori, int fd[2], int i, int flag)
 		j++;
 	}
 	do_dup(flag, fd, i, ori);
+	if (get_built_func(*ori->parsee))
+	{
+		g_exit_code = do_built(ori, LEGIT, *ori->parsee);
+		brexit(ori, NULL, g_exit_code);
+	}
 	env = env_trans(ori->envs);
 	if (!env)
 		brexit(ori, E_MALLOC, 1);

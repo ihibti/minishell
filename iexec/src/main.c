@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:11:50 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:41:43 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	init_ori(t_ori *ori)
 	ori->nb_heredoc = 0;
 	ori->fraude = 1;
 	ori->fraude_in = 0;
+	ori->need_exit = 0;
 }
 
 // TODO : changer le brexit et les exit status

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 20:41:41 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 16:37:28 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:44:18 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_arg(char *arg)
 	if (ft_atoi(arg) == -1 || check_numeric(arg))
 	{
 		ft_putstr_fd("exit: numeric argument required\n", 2);
-		return (2);
+		return (0);
 	}
 	while (arg[i] && ((arg[i] >= '0' && arg[i] <= '9') || (arg[0] == '+'
 				|| arg[0] == '-')))
@@ -61,17 +61,17 @@ int	ft_exit(t_ori *ori, t_pars *pars)
 
 	rv = 0;
 	if (pars->arguments && pars->arguments[0] && !pars->arguments[1])
-		return (brexit(ori, NULL, 0));
+		return (ori->need_exit = 1, 0);
 	else if (pars->arguments && pars->arguments[0] && pars->arguments[1])
 	{
-		if (pars->arguments[1])
+		if (pars->arguments[1] && pars->arguments[2])
 		{
 			ft_putstr_fd("exit: too many arguments", 2);
 			return (-1);
 		}
 		rv = check_arg(pars->arguments[1]);
 		if (rv)
-			return (rv);
+			return (ori->need_exit = 1, rv);
 	}
 	return (0);
 }

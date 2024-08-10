@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/10 18:16:29 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/10 18:37:34 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,11 @@ typedef struct s_ori
 	int				nb_heredoc;
 	int				fraude;
 	int				fraude_in;
+	int				need_exit;
+
 }					t_ori;
 
+int					do_built(t_ori *ori, int soul, t_pars *current);
 void				safe_close(int fd);
 void				sigint_handler_here_doc(int useless);
 void				sigint_handler_child(int useless);
@@ -218,8 +221,6 @@ int					ft_env(t_ori *ori, t_pars *pars);
 void				check_exit_code(t_pars **commands, int exit_code,
 						t_envp **lst, t_ori *ori);
 int					convert_code(int num);
-int					ch_err(int num, int cpy_stdin_out[]);
-int					reset_stdin_out(int copy_stdin_out[]);
 char				*expanding_hd(char *str, t_envp **envp);
 char				*free_ret_nul(char *str);
 void				cp_exp_beg(char **str, char **ret, int *j);
@@ -230,25 +231,12 @@ void				free_pars_ls(t_pars **parsee);
 char				*rep_ex_sig_hd(char *str, char *ptr);
 char				*rep_ex_sig(char *str, char *ptr);
 int					all_toge(t_ori *ori);
-
-int					parsing_command(t_pars *c, t_envp **lst);
 int					check_exec_status(char *command, int status, char *check,
 						int o_status);
-int					oper_redir_in(t_pars *c, int stdin_save);
-int					oper_redir_out(t_pars *c, int stdout_save);
-int					oper_heredoc_in(t_pars *c, int stdin_save, t_envp **lst);
-int					read_heredoc(char *end_str, char *flag, t_envp **lst);
-int					exec_heredoc(int flag, t_redir *redirections);
-int					oper_redir_app(t_pars *c, int stdout_save);
-int					redirec_main(t_pars *command, t_envp **lst);
-int					parsing_command(t_pars *c, t_envp **lst);
-int					execute_parsing(t_pars *c, int std_s[], t_envp **lst);
-int					close_file(t_redir *redirections);
-int					reset_stdin_out(int copy_stdin_out[]);
-int					pipe_main(t_pars **commands, t_envp **list);
 int					count_pipes(t_pars **commands);
 void				free_tori(t_ori *ori);
 void				built_ex(t_ori *ori);
+void				*get_built_func(t_pars *current);
 
 extern int			g_exit_code;
 
