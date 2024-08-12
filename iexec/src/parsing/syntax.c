@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/06/26 16:16:35 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:14:58 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int	tok_acc(char *str)
 		{
 			while (str[i] && is_token(str + i))
 			{
+				if (str[i] == '|' && j > 0)
+					return (1);
 				j++;
 				i++;
 			}
