@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 22:51:01 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 22:23:09 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:51:14 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	pipe_main(t_pars	**commands, t_envp **lst)
 	t_pipe		pipe;
 	t_pars		*save;
 	int			i;
+	int			checker;
 
 	save = *commands;
 	pipe.num_pipes = count_pipes(commands);
@@ -103,6 +104,34 @@ int	pipe_main(t_pars	**commands, t_envp **lst)
 		return (redirec_main(*commands, lst));
 	if (malloc_pipe(&pipe) == -1)
 		return (-1);
+	i = 0;
+	checker = check_heredoc(commands);
+	if (checker != -1)
+	{
+		while (i < checker)
+		{
+			(*commands) = (*commands)->next;
+			i++;
+		}
+		read_heredoc((*commands)->redirections->filename, "wr", lst);
+		if (checker == 0) //  first is heredoc
+		{
+			(*commands) = (*commands)->next;
+			pipe.num_pipes -= 1;
+		}
+		else if (check_place(commands, checker))
+			return(free_finish(pipe.num_pipes, pipe.pids, pipe.fds));
+		else
+		{
+			while (checker > 1)
+			{
+				*commands = (*commands)->next;
+				checker--;
+			}
+			pipe.num_pipes -= checker;
+			(*commands)->redirections->type = 0;
+		}
+	}
 	i = -1;
 	while (*commands && ++i <= pipe.num_pipes)
 	{

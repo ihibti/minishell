@@ -6,7 +6,7 @@
 /*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/04 20:51:52 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:21:05 by chanypar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,9 @@ int					reset_stdin_out(int copy_stdin_out[]);
 int					pipe_main(t_pars	**commands, t_envp **list);
 int					count_pipes(t_pars **commands);
 void				free_tori(t_ori *ori);
+int					print_buff(char *buffer, int filenum);
+int					check_heredoc(t_pars **commands);
+int					check_place(t_pars **commands, int place);
 
 extern int			g_exit_code;
 
