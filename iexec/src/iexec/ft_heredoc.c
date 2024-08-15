@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:13:09 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 14:47:13 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 16:35:29 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,46 @@ int	fork_hd(t_redir *redir, t_ori *ori, char *modified)
 	return (g_exit_code);
 }
 
+int	loop_here2(t_ori *ori, t_redir *redir)
+{
+	char	*nb;
+	char	*f_name;
+
+	while (redir)
+	{
+		if (redir->type == HEREDOC)
+		{
+			nb = ft_itoa(ori->nb_heredoc++);
+			if (!nb)
+				brexit(ori, E_MALLOC, 1);
+			f_name = ft_strjoin(HD, nb);
+			if (!f_name)
+				(free(nb), brexit(ori, E_MALLOC, 1));
+			free(nb);
+			if (fork_hd(redir, ori, f_name))
+				return (-1);
+		}
+		redir = redir->next;
+	}
+	return (0);
+}
+
 int	loop_here(t_ori *ori)
 {
 	char	*nb;
 	char	*f_name;
 	t_redir	*redir;
 	t_pars	*pars;
+	int		ret;
 
 	pars = *ori->parsee;
 	signal(SIGINT, sigint_handler_child);
 	while (pars)
 	{
 		redir = pars->redirections;
-		while (redir)
-		{
-			if (redir->type == HEREDOC)
-			{
-				nb = ft_itoa(ori->nb_heredoc++);
-				if (!nb)
-					brexit(ori, E_MALLOC, 1);
-				f_name = ft_strjoin(HD, nb);
-				if (!f_name)
-					(free(nb), brexit(ori, E_MALLOC, 1));
-				free(nb);
-				if (fork_hd(redir, ori, f_name))
-					return (-1);
-			}
-			redir = redir->next;
-		}
+		ret = loop_here2(ori, redir);
+		if (ret)
+			return (ret);
 		pars = pars->next;
 	}
 	return (0);
@@ -103,8 +115,8 @@ int	read_hd(t_ori *ori, t_redir *redir, char *mod, int fd)
 
 int	ft_heredoc(t_redir *redir, char *modified, t_ori *ori)
 {
-	int fd;
-	char *eof;
+	int		fd;
+	char	*eof;
 
 	fd = open(modified, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)

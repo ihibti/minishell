@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/15 14:49:39 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 17:08:19 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,16 @@ typedef struct s_ori
 
 }					t_ori;
 
+char				*nomatch_hd(char *ptr, char *str);
+char				*rep_ex_sig_hd(char *str, char *ptr);
+int					exp_exception_hd(char *str);
+int					nb_expand_hd(char *str);
+char				*new_expanded_hd(char *str, char *ptr, t_envp *match);
+void				set_signals(void);
+void				exec_loop(t_ori *ori);
+t_pars				*init_pipex(t_ori *ori, int *i, int *flag);
+t_redir				*init_dodup(t_ori *ori, int i);
+int					is_dir(char *cmd);
 int					unlink_hd(t_ori *ori);
 int					do_built(t_ori *ori, int soul, t_pars *current);
 void				safe_close(int fd);

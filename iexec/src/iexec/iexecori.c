@@ -6,66 +6,11 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:46:55 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 14:59:33 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 16:55:43 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	safe_close(int fd)
-{
-	if (fd > 1)
-		close(fd);
-}
-
-void	close_fd(int fd, int i)
-{
-	if (fd > -1)
-		close(fd);
-}
-
-void	close_all_fd(int pipe_fd[2], int c_fd, int i, bool close_fd_0)
-{
-	if (close_fd_0 == true)
-		close(pipe_fd[0]);
-	close_fd(c_fd, i);
-	close(pipe_fd[1]);
-}
-
-// TODO : changer pour avoir en parametres le __msg___
-
-int	brexit(t_ori *ori, char *msg, int exitc)
-{
-	if (msg)
-	{
-		printf("error lign %d, in file%s\n", __LINE__, __FILE__);
-		printf("%s\n", msg);
-	}
-	free_ori(ori);
-	exit(exitc);
-}
-
-int	nb_pipes(t_pars *current)
-{
-	int	i;
-
-	i = 0;
-	while (current)
-	{
-		current = current->next;
-		i++;
-	}
-	return (i);
-}
-
-int	is_dir(char *cmd)
-{
-	struct stat	statbuf;
-
-	if (lstat(cmd, &statbuf) != 0)
-		return (0);
-	return (S_ISDIR(statbuf.st_mode));
-}
 
 void	error_msg(char *path, char **cmd, char **env, t_ori *ori)
 {
@@ -144,8 +89,8 @@ void	child(t_ori *ori, int fd[2], int i, int flag)
 		g_exit_code = do_built(ori, LEGIT, current);
 		brexit(ori, NULL, g_exit_code);
 	}
-    if (!current->arguments)
-        brexit(ori,NULL,0);
+	if (!current->arguments)
+		brexit(ori, NULL, 0);
 	env = env_trans(ori->envs);
 	if (!env)
 		brexit(ori, E_MALLOC, 1);
@@ -178,76 +123,6 @@ int	wait_for_child(pid_t pid)
 	return (0);
 }
 
-int	count_node_env(t_envp **env)
-{
-	int		i;
-	t_envp	*current;
-
-	i = 0;
-	current = *env;
-	while (current)
-	{
-		i++;
-		current = current->next;
-	}
-	return (i);
-}
-
-char	*ft_strjoin_env(char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*ret;
-
-	if (s1 == NULL)
-		return (NULL);
-	if (!s2)
-		return (ft_strdup(s1));
-	ret = malloc((ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1)
-			* sizeof(char));
-	if (!ret)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s1[i])
-	{
-		ret[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-		ret[i++] = s2[j++];
-	ret[i] = '\0';
-	return (ret);
-}
-
-char	**env_trans(t_envp **lst)
-{
-	char	**result;
-	int		i;
-	char	*pre;
-	t_envp	*env;
-
-	env = *lst;
-	result = malloc(sizeof(char *) * (count_node_env(lst) + 1));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		pre = ft_strjoin_env("=", env->value);
-		if (!pre)
-			return (freee_error(result), NULL);
-		result[i] = ft_strjoin_env(env->name, pre);
-		if (!result[i])
-			return (freee_error(result), free(pre), NULL);
-		free(pre);
-		i++;
-		env = env->next;
-	}
-	result[i] = NULL;
-	return (result);
-}
-
 int	pipex(t_ori *ori)
 {
 	int		fd[2];
@@ -256,27 +131,22 @@ int	pipex(t_ori *ori)
 	t_pars	*current;
 	int		i;
 
-	i = 0;
-	flag = -1;
-	current = *ori->parsee;
+	current = init_pipex(ori, &i, &flag);
 	while (current)
 	{
 		if (i != 0)
 			flag = fd[0];
 		if (pipe(fd) == -1)
-			return (close_all_fd(fd, flag, i, true), brexit(ori, E_PIPE, 1),
-				-1);
+			return (close_all_fd(fd, flag, i, true), brexit(ori, E_PIPE, 1));
 		pid = fork();
 		if (pid == -1)
-			return (close_all_fd(fd, flag, i, true), brexit(ori, E_FORK, 1),
-				-1);
+			return (close_all_fd(fd, flag, i, true), brexit(ori, E_FORK, 1));
 		if (pid == 0)
 			child(ori, fd, i, flag);
 		close_all_fd(fd, flag, i, false);
 		i++;
 		current = current->next;
 	}
-	close_all_fd(fd, flag, i, true);
-	g_exit_code = wait_for_child(pid);
+	(close_all_fd(fd, flag, i, true), g_exit_code = wait_for_child(pid));
 	return (0);
 }

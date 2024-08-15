@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:04:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/13 17:24:05 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 16:51:06 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	redir_out2(int pipe_fd[2], t_redir *redir, t_ori *ori)
 	{
 		perror(redir->filename);
 		(close(pipe_fd[0]), close(pipe_fd[1]));
-		brexit(ori, E_OPEN,1);
+		brexit(ori, E_OPEN, 1);
 	}
 	if (dup2(fd_out, STDOUT_FILENO) == -1)
 	{
 		perror("dup2(fd_out)");
 		(close(pipe_fd[0]), close(pipe_fd[1])), close(fd_out);
-		brexit(ori, "error dup\n",1);
+		brexit(ori, "error dup\n", 1);
 	}
 	close(fd_out);
 }
@@ -55,7 +55,7 @@ void	redir_out(int pipe_fd[2], int flag[4], t_redir *redir, t_ori *ori)
 		{
 			perror("dup2(pipe_fd[1])");
 			(close(pipe_fd[0]), close(pipe_fd[1]));
-			brexit(ori, "error dup\n",1);
+			brexit(ori, "error dup\n", 1);
 		}
 	}
 }
@@ -66,7 +66,7 @@ void	redir_in2(int pipe_fd[2], int c_fd, t_ori *ori)
 	{
 		perror("dup2(c_fd)");
 		(close(pipe_fd[0]), close(pipe_fd[1]), close(c_fd));
-		brexit(ori, "error dup\n",1);
+		brexit(ori, "error dup\n", 1);
 	}
 }
 
@@ -81,14 +81,14 @@ void	redir_in(int pipe_fd[2], int flag[4], t_redir *redir, t_ori *ori)
 		{
 			perror(redir->filename);
 			(close(pipe_fd[0]), close(pipe_fd[1]), close(flag[3]));
-			brexit(ori, E_OPEN,1);
+			brexit(ori, E_OPEN, 1);
 		}
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 		{
 			perror("dup2(fd_in)");
 			(close(pipe_fd[0]), close(pipe_fd[1]), close(flag[3]),
 				close(fd_in));
-			brexit(ori, E_OPEN,1);
+			brexit(ori, E_OPEN, 1);
 		}
 		close(fd_in);
 	}
@@ -99,22 +99,13 @@ void	redir_in(int pipe_fd[2], int flag[4], t_redir *redir, t_ori *ori)
 void	do_dup(int c_fd, int pipe_fd[2], int i, t_ori *ori)
 {
 	int		flag[4];
-	t_pars	*current;
 	t_redir	*redir;
-	int		j;
 
-	j = 0;
-	current = *ori->parsee;
-	while (j < i)
-	{
-		current = current->next;
-		j++;
-	}
-	redir = current->redirections;
 	flag[0] = 1;
 	flag[1] = 1;
 	flag[2] = i;
 	flag[3] = c_fd;
+	redir = (init_dodup(ori, i));
 	while (redir)
 	{
 		if (redir->type == REDIR_IN_S || redir->type == HEREDOC)
@@ -131,5 +122,4 @@ void	do_dup(int c_fd, int pipe_fd[2], int i, t_ori *ori)
 	}
 	redir_in(pipe_fd, flag, redir, ori);
 	redir_out(pipe_fd, flag, redir, ori);
-	// close_all_fd(pipe_fd, c_fd, i, true);
 }

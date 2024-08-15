@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 14:08:36 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 15:54:43 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,9 @@ int	go_last_lex(char *str, int i, int j)
 int	is_token(char *str)
 {
 	if (!str)
-		return (-1);
+		return (0);
 	if (!*str)
-		return (-1);
-	if (ft_strncmp("<<", str, 2) == 0 || ft_strncmp(">>", str, 2) == 0)
-		return (1);
+		return (0);
 	if (ft_strncmp("<", str, 1) == 0 || ft_strncmp(">", str, 1) == 0)
 		return (1);
 	if (ft_strncmp("|", str, 1) == 0)

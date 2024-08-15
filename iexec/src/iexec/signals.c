@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 20:43:52 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 15:25:49 by ihibti           ###   ########.fr       */
+/*   Created: 2024/08/15 17:04:57 by ihibti            #+#    #+#             */
+/*   Updated: 2024/08/15 17:10:04 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_pwd(t_ori *ori, t_pars *pars)
+void	sigint_handler(int sig)
 {
-	char	pwd[2048];
+	(void)sig;
+	g_exit_code = 130;
+	rl_on_new_line();
+	if (isatty(0))
+		ft_putstr_fd("\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
-	(void)ori;
-	(void)pars;
-	if (!getcwd(pwd, 2048))
-	{
-		ft_putstr_fd("PWD error :", 2);
-		ft_putendl_fd(strerror(errno), 2);
-		return (1);
-	}
-	ft_putstr_fd(pwd, ori->fraude);
-	ft_putstr_fd("\n", ori->fraude);
-	return (0);
+void	sigint_handler_child(int useless)
+{
+	(void)useless;
+}
+
+void	set_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	sigint_handler_here_doc(int useless)
+{
+	(void)useless;
+	close(0);
+	g_exit_code = -999;
 }

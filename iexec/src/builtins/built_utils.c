@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 20:21:39 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:42:30 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 15:11:31 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,8 @@ void	*get_built_func(t_pars *current)
 	return (NULL);
 }
 
-int	do_built(t_ori *ori, int soul, t_pars *current)
+int	do_built2(t_redir *redir, t_ori *ori)
 {
-	t_redir	*redir;
-	int		(*fnct_ptr)(t_ori * ori, t_pars * pars);
-
-	fnct_ptr = (int (*)(t_ori * ori, t_pars
-				* pars)) get_built_func(*ori->parsee);
-	if (soul == LEGIT || !current->redirections)
-	{
-		ori->fraude = 1;
-		return (fnct_ptr(ori, *ori->parsee));
-	}
-	redir = current->redirections;
 	while (redir)
 	{
 		if (redir->type == REDIR_IN_S || redir->type == HEREDOC)
@@ -92,13 +81,31 @@ int	do_built(t_ori *ori, int soul, t_pars *current)
 		}
 		redir = redir->next;
 	}
+	return (0);
+}
+
+int	do_built(t_ori *ori, int soul, t_pars *current)
+{
+	t_redir	*redir;
+	int		(*fnct_ptr)(t_ori * ori, t_pars * pars);
+
+	fnct_ptr = (int (*)(t_ori * ori, t_pars
+				* pars)) get_built_func(*ori->parsee);
+	if (soul == LEGIT || !current->redirections)
+	{
+		ori->fraude = 1;
+		return (fnct_ptr(ori, *ori->parsee));
+	}
+	redir = current->redirections;
+	if (do_built2(redir, ori))
+		return (1);
 	g_exit_code = fnct_ptr(ori, current);
 	return (safe_close(ori->fraude), g_exit_code);
 }
 
 void	built_ex(t_ori *ori)
 {
-	t_pars *current;
+	t_pars	*current;
 
 	if (count_pipes(ori->parsee) == 0 && get_built_func(*ori->parsee))
 		g_exit_code = do_built(ori, FRAUDE, *ori->parsee);

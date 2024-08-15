@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/12 16:14:58 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 15:59:57 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,8 @@ int	tok_acc(char *str)
 	{
 		if (str[i] == '\'' || str[i] == '"')
 		{
-			quote = str[i];
-			i++;
-			while ((str[i] != quote) && str[i])
+			quote = str[i++];
+			while (str[i] && (str[i] != quote))
 				i++;
 		}
 		if (is_token(str + i) == 1)
@@ -117,7 +116,7 @@ int	tok_acc(char *str)
 			}
 			if (j > 2)
 				return (1);
-			j = 0;
+			(j = 0, i--);
 		}
 		i++;
 	}

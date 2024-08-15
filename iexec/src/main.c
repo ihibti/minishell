@@ -6,42 +6,13 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 14:49:58 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 17:05:19 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 int		g_exit_code = 0;
-
-void	sigint_handler(int sig)
-{
-	(void)sig;
-	g_exit_code = 130;
-	rl_on_new_line();
-	if (isatty(0))
-		ft_putstr_fd("\n", 1);
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	sigint_handler_child(int useless)
-{
-	(void)useless;
-}
-
-void	set_signals(void)
-{
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	sigint_handler_here_doc(int useless)
-{
-	(void)useless;
-	close(0);
-	g_exit_code = -999;
-}
 
 void	history(char *str)
 {
@@ -93,7 +64,7 @@ char	*ft_readline(t_ori *ori)
 	return (cpy);
 }
 
-void	init_ori(t_ori *ori)
+void	init_ori(t_ori *ori, char **env)
 {
 	ori->cmds = NULL;
 	ori->cmds = NULL;
@@ -103,6 +74,9 @@ void	init_ori(t_ori *ori)
 	ori->fraude = 1;
 	ori->fraude_in = 0;
 	ori->need_exit = 0;
+	ori->envs = lst_env(env);
+	if (!ori->envs)
+		brexit(ori, E_MALLOC, 1);
 }
 
 // TODO : changer le brexit et les exit status
@@ -113,8 +87,7 @@ int	main(int ac, char **av, char **env)
 	int		i;
 
 	set_param(ac, av);
-	init_ori(&ori);
-	ori.envs = lst_env(env);
+	init_ori(&ori, env);
 	while (1)
 	{
 		ori.request = ft_readline(&ori);
@@ -126,14 +99,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		else
-		{
-			if (loop_here(&ori))
-			{
-				free_tori(&ori);
-				continue ;
-			}
-			built_ex(&ori);
-		}
+			exec_loop(&ori);
 		unlink_hd(&ori);
 		free_tori(&ori);
 		ori.nb_heredoc = 0;
