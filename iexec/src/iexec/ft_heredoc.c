@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:13:09 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 15:19:55 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 14:47:13 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,20 @@ int	fork_hd(t_redir *redir, t_ori *ori, char *modified)
 	if (pid == 0)
 	{
 		signal(SIGINT, sigint_handler_here_doc);
+		g_exit_code = 0;
 		g_exit_code = ft_heredoc(redir, modified, ori);
 		if (g_exit_code == -999)
-			(g_exit_code = 130);
-		brexit(ori, NULL, 1);
+		{
+			g_exit_code = 130;
+			unlink(modified);
+		}
+		brexit(ori, NULL, g_exit_code);
 	}
 	tmp = redir->filename;
 	redir->filename = modified;
 	free(tmp);
 	g_exit_code = wait_for_child(pid);
-	if (g_exit_code)
-		return (unlink(redir->filename), -1);
-	return (0);
+	return (g_exit_code);
 }
 
 int	loop_here(t_ori *ori)
@@ -56,7 +58,7 @@ int	loop_here(t_ori *ori)
 				nb = ft_itoa(ori->nb_heredoc++);
 				if (!nb)
 					brexit(ori, E_MALLOC, 1);
-				f_name = ft_strjoin("/tmp/heredoc", nb);
+				f_name = ft_strjoin(HD, nb);
 				if (!f_name)
 					(free(nb), brexit(ori, E_MALLOC, 1));
 				free(nb);
@@ -82,7 +84,7 @@ int	read_hd(t_ori *ori, t_redir *redir, char *mod, int fd)
 			ft_putstr_fd("heredoc > ", 1);
 		line = get_next_line(0);
 		if (g_exit_code == -999)
-			return (free_ret_nul(line), free(mod),close(fd), g_exit_code);
+			return (free_ret_nul(line), free(mod), close(fd), g_exit_code);
 		if (!line || ft_strncmp(line, mod, ft_strlen(line)) == 0)
 		{
 			if (!line)

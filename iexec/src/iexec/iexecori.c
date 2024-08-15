@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 13:46:55 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:22:58 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 14:59:33 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	safe_close(int fd)
 
 void	close_fd(int fd, int i)
 {
-	if (i > 1)
+	if (fd > -1)
 		close(fd);
 }
 
@@ -138,11 +138,14 @@ void	child(t_ori *ori, int fd[2], int i, int flag)
 		j++;
 	}
 	do_dup(flag, fd, i, ori);
-	if (get_built_func(*ori->parsee))
+	close_all_fd(fd, flag, i, true);
+	if (get_built_func(current))
 	{
-		g_exit_code = do_built(ori, LEGIT, *ori->parsee);
+		g_exit_code = do_built(ori, LEGIT, current);
 		brexit(ori, NULL, g_exit_code);
 	}
+    if (!current->arguments)
+        brexit(ori,NULL,0);
 	env = env_trans(ori->envs);
 	if (!env)
 		brexit(ori, E_MALLOC, 1);

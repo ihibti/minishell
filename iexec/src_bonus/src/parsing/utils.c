@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 15:02:56 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/12 16:05:44 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/12 16:16:21 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ int	is_token(char *str)
 		return (-1);
 	if (!*str)
 		return (-1);
+	if (ft_strncmp("||", str, 2) == 0 || ft_strncmp("&&", str, 2) == 0)
+		return (1);
 	if (ft_strncmp("<<", str, 2) == 0 || ft_strncmp(">>", str, 2) == 0)
 		return (1);
 	if (ft_strncmp("<", str, 1) == 0 || ft_strncmp(">", str, 1) == 0)

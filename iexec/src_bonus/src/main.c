@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:41:43 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/13 17:04:32 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,7 @@ int	main(int ac, char **av, char **env)
 		if (all_toge(&ori))
 			return (free_ori(&ori), 1);
 		if (!ori.parsee)
-		{
-			free_tori(&ori);
 			continue ;
-		}
 		else
 		{
 			if (loop_here(&ori))

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 10:28:59 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/10 14:06:17 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 14:54:50 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,29 @@ void	free_tori(t_ori *ori)
 	ori->nb_heredoc = 0;
 	ori->parsee = NULL;
 	ori->request = NULL;
+}
+
+int	unlink_hd(t_ori *ori)
+{
+	char	*free_ptr;
+	char	*nb;
+
+	if (!ori)
+		return (1);
+	if (ori->nb_heredoc)
+	{
+		while (ori->nb_heredoc > 0)
+		{
+			nb = ft_itoa(ori->nb_heredoc - 1);
+			if (!nb)
+				return (brexit(ori, E_MALLOC, 1), 1);
+			free_ptr = ft_strjoin(HD, nb);
+			if (!free_ptr)
+				return (free(nb), brexit(ori, E_MALLOC, 1), 1);
+			unlink(free_ptr);
+			(free(free_ptr), free(nb));
+			ori->nb_heredoc--;
+		}
+	}
+	return (0);
 }

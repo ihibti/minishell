@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/10 18:37:34 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 14:49:39 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@
 # define E_OPEN "error opening file\n"
 # define FRAUDE 77
 # define LEGIT 44
+# define HD "heredoc"
 
 typedef struct s_cmds
 {
@@ -142,6 +143,7 @@ typedef struct s_ori
 
 }					t_ori;
 
+int					unlink_hd(t_ori *ori);
 int					do_built(t_ori *ori, int soul, t_pars *current);
 void				safe_close(int fd);
 void				sigint_handler_here_doc(int useless);

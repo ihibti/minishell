@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:03:59 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/02 15:50:46 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:18:48 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ int	is_not_word(char *str)
 
 int	meta_type(char *str)
 {
+    if (ft_strncmp("||", str, 2) == 0 && ft_strlen(str) == 2)
+		return (OR_T);
+    if (ft_strncmp("&&", str, 2) == 0 && ft_strlen(str) == 2)
+		return (AND_T);
 	if (ft_strncmp(str, "|", 1) == 0 && ft_strlen(str) == 1)
 		return (PIPE_N);
 	if (ft_strncmp(str, "<", 1) == 0 && ft_strlen(str) == 1)

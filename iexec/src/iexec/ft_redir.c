@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 17:04:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 14:55:41 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/13 17:24:05 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,5 @@ void	do_dup(int c_fd, int pipe_fd[2], int i, t_ori *ori)
 	}
 	redir_in(pipe_fd, flag, redir, ori);
 	redir_out(pipe_fd, flag, redir, ori);
-	close_all_fd(pipe_fd, c_fd, i, true);
+	// close_all_fd(pipe_fd, c_fd, i, true);
 }

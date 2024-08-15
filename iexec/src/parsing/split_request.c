@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 12:19:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 19:12:33 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/13 17:07:03 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmds	**split_token(char *request)
 		return (NULL);
 	*ret = NULL;
 	if (syn_err(request) == 1 || !ret)
-		return (ret);
+		return (ft_putendl_fd("syn error\n", 2), ret);
 	while (request[i])
 	{
 		if (skip_spcaes(&i, request) == -1)

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/10 18:41:43 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/15 14:49:58 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int	main(int ac, char **av, char **env)
 			}
 			built_ex(&ori);
 		}
+		unlink_hd(&ori);
 		free_tori(&ori);
 		ori.nb_heredoc = 0;
 	}

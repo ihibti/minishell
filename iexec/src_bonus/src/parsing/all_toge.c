@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 15:58:06 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/12 16:06:18 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/13 16:46:44 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,7 @@ int	all_toge(t_ori *ori)
 	if (!*ori->cmds)
 		return (free_tcmd(ori->cmds), ori->cmds = NULL, ori->parsee = NULL, 0);
 	if (!init_state(*(ori->cmds)))
-	{
-		free_tcmd(ori->cmds);
-		ori->parsee = NULL;
-		return (0);
-	}
+		return (free_tcmd(ori->cmds), ori->parsee = NULL, 0);
 	ori->parsee = parser(ori->cmds);
 	if (!ori->parsee)
 		return (free_ori(ori), 1);
