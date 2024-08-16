@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:28:08 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/15 17:08:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 14:43:00 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,12 @@ typedef struct s_ori
 
 }					t_ori;
 
+void				reset_syn(int *i, int *j);
+void				advance(char *str, int *i);
+static void			pars_0(t_pars *new);
+t_redir				*new_redir(t_type_redir type, char *filename);
+int					add_last_redir(t_redir *new, t_pars *pars);
+int					cond_helper(char *str, int i);
 char				*nomatch_hd(char *ptr, char *str);
 char				*rep_ex_sig_hd(char *str, char *ptr);
 int					exp_exception_hd(char *str);

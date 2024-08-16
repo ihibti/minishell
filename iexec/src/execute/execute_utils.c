@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanypar <chanypar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 21:13:30 by chanypar          #+#    #+#             */
-/*   Updated: 2024/08/03 13:11:28 by chanypar         ###   ########.fr       */
+/*   Updated: 2024/08/16 14:56:23 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ int	check_exec_status(char *command, int status, char *check, int o_status)
 	}
 	return (status);
 }
-

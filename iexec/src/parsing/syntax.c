@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 15:59:57 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 14:50:19 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +89,31 @@ int	open_quote(char *str)
 	return (flag);
 }
 
+void	advance(char *str, int *i)
+{
+	int		j;
+	char	quote;
+
+	j = *i;
+	if (str[j] == '\'' || str[j] == '"')
+	{
+		quote = str[j++];
+		while (str[j] && (str[j] != quote))
+			j++;
+	}
+	*i = j;
+}
+
 int	tok_acc(char *str)
 {
 	int		i;
 	int		j;
 	char	quote;
 
-	i = 0;
-	j = 0;
+	init_0(&i, &j);
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '"')
-		{
-			quote = str[i++];
-			while (str[i] && (str[i] != quote))
-				i++;
-		}
+		advance(str, &i);
 		if (is_token(str + i) == 1)
 		{
 			while (str[i] && is_token(str + i))
@@ -116,7 +125,7 @@ int	tok_acc(char *str)
 			}
 			if (j > 2)
 				return (1);
-			(j = 0, i--);
+			reset_syn(&i, &j);
 		}
 		i++;
 	}

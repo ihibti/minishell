@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/15 16:57:38 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 17:10:33 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 14:58:36 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ char	*replace_exp_hd(char **stri, t_envp **lst)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] == '$' && ((is_lim_exp(str[i + 1]) == 0) || (str[i
-					+ 1] == '?')))
+		if (str[i] == '$' && cond_helper(str, i))
 			return (new_expanded_hd(str, str + i, env_match(str + i + 1, lst)));
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 20:21:39 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 15:11:31 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 14:56:50 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,12 @@ int	do_built(t_ori *ori, int soul, t_pars *current)
 	t_redir	*redir;
 	int		(*fnct_ptr)(t_ori * ori, t_pars * pars);
 
-	fnct_ptr = (int (*)(t_ori * ori, t_pars
-				* pars)) get_built_func(*ori->parsee);
+	fnct_ptr = get_built_func(current);
 	if (soul == LEGIT || !current->redirections)
 	{
 		ori->fraude = 1;
-		return (fnct_ptr(ori, *ori->parsee));
+		g_exit_code = fnct_ptr(ori, current);
+		return (g_exit_code);
 	}
 	redir = current->redirections;
 	if (do_built2(redir, ori))

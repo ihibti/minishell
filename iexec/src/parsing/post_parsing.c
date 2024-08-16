@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:39:20 by ihibti            #+#    #+#             */
-/*   Updated: 2024/07/20 17:16:30 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 14:30:44 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int	replace_quote(t_cmds *cmds)
 	char	c;
 	char	*str;
 
-	i = 0;
-	j = 0;
+	init_0(&i, &j);
 	if (!cmds || !cmds->name)
 		return (0);
 	str = cmds->name;
@@ -83,6 +82,5 @@ int	replace_quote(t_cmds *cmds)
 		if (!str[i])
 			return (str[j] = 0, 0);
 	}
-	str[j] = 0;
-	return (0);
+	return (str[j] = 0, 0);
 }

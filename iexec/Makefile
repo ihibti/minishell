@@ -12,7 +12,8 @@ SRC = src/parsing/env.c src/parsing/expands.c src/parsing/expands_utils.c src/pa
 	src/main.c src/main_utils.c src/iexec/helpers.c  \
 	src/pipe/pipe_utils.c src/pipe/pipe_main.c src/parsing/pro_pars.c src/iexec/iexecori.c src/iexec/ft_heredoc.c \
 	src/iexec/ft_redir.c  src/iexec/iexec_utils1.c src/iexec/iexec_utils2.c src/iexec/iexec_utils3.c \
-	src/iexec/signals.c
+	src/iexec/signals.c   src/parsing/expands_1.c  src/parsing/propars_1.c src/parsing/utils2.c \
+	src/parsing/utils3.c
 
 OBJ = $(SRC:.c=.o)
 

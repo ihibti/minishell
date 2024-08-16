@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 13:58:17 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/04 19:12:43 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 14:31:31 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,6 @@ t_envp	*env_match(char *str, t_envp **lst)
 		current = current->next;
 	}
 	return (NULL);
-}
-
-void	init_0(int *i, int *j)
-{
-	*i = 0;
-	if (j)
-		*j = 0;
 }
 
 int	interpret(char *str, char *ptr)
