@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:29:25 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/16 15:43:47 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 16:29:38 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exp_exception(char *str)
 	{
 		if (str[i] == '$' && cond_helper(str, i))
 			count++;
-		if (str[i] == '\'')
+		if (str[i] == '\'' && interpret(str, str + i) == 1)
 		{
 			i++;
 			while (str[i] != '\'' && str[i])
@@ -114,7 +114,7 @@ void	cp_exp_beg(char **str, char **ret, int *j)
 	rret = *ret;
 	while (sstr[i] && sstr[i] != '$')
 	{
-		if (sstr[i] == '\'')
+		if (sstr[i] == '\'' && interpret(sstr, sstr + i) == 1)
 		{
 			rret[i] = sstr[i];
 			i++;

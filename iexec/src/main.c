@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:32:27 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 17:05:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 16:20:08 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ void	history(char *str)
 	}
 }
 
-void	set_param(int ac, char **av)
+int	set_param(int ac, char **av, char **env)
 {
-	(void)ac;
+	if (ac != 1)
+		return (ft_putstr_fd("no arguments needed\n", 2), 1);
+	(void)env;
 	(void)av;
 	using_history();
 	g_exit_code = 0;
+	return (0);
 }
 
 char	*ft_readline(t_ori *ori)
@@ -84,9 +87,9 @@ void	init_ori(t_ori *ori, char **env)
 int	main(int ac, char **av, char **env)
 {
 	t_ori	ori;
-	int		i;
 
-	set_param(ac, av);
+	if (set_param(ac, av, env))
+		return (0);
 	init_ori(&ori, env);
 	while (1)
 	{

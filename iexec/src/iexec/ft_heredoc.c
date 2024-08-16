@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 15:13:09 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/15 16:35:29 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 16:17:35 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ int	loop_here2(t_ori *ori, t_redir *redir)
 
 int	loop_here(t_ori *ori)
 {
-	char	*nb;
-	char	*f_name;
 	t_redir	*redir;
 	t_pars	*pars;
 	int		ret;
@@ -84,7 +82,7 @@ int	loop_here(t_ori *ori)
 	return (0);
 }
 
-int	read_hd(t_ori *ori, t_redir *redir, char *mod, int fd)
+int	read_hd(t_ori *ori, char *mod, int fd)
 {
 	char	*line;
 	char	*mark;
@@ -125,5 +123,5 @@ int	ft_heredoc(t_redir *redir, char *modified, t_ori *ori)
 	eof = ft_strjoin(redir->filename, "\n");
 	if (!eof)
 		return (close(fd), brexit(ori, E_MALLOC, 1));
-	return (read_hd(ori, redir, eof, fd));
+	return (read_hd(ori, eof, fd));
 }

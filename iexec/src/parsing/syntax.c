@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:35:10 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/16 14:50:19 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 16:13:48 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	tok_acc(char *str)
 {
 	int		i;
 	int		j;
-	char	quote;
 
 	init_0(&i, &j);
 	while (str[i])

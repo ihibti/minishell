@@ -6,7 +6,7 @@
 /*   By: ihibti <ihibti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 20:21:39 by ihibti            #+#    #+#             */
-/*   Updated: 2024/08/16 14:56:50 by ihibti           ###   ########.fr       */
+/*   Updated: 2024/08/16 16:14:40 by ihibti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int	do_built(t_ori *ori, int soul, t_pars *current)
 
 void	built_ex(t_ori *ori)
 {
-	t_pars	*current;
-
 	if (count_pipes(ori->parsee) == 0 && get_built_func(*ori->parsee))
 		g_exit_code = do_built(ori, FRAUDE, *ori->parsee);
 	else
